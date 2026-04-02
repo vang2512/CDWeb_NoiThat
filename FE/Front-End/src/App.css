@@ -1,0 +1,136 @@
+/* =========================================
+   1. MẶC ĐỊNH CỦA REACT APP
+   ========================================= */
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================
+   2. ĐỊNH NGHĨA BIẾN MÀU (VARIABLES)
+   ========================================= */
+/* =========================================
+   1. CẤU TRÚC CHUNG & MẶC ĐỊNH
+   ========================================= */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #202124;
+  --header-bg: #ffffff;
+  --card-bg: #ffffff;
+  --border-color: #eeeeee;
+}
+
+body.dark-mode {
+  --bg-color: #1c1e21;      /* Xám đen trung tính */
+  --text-color: #e4e6eb;
+  --header-bg: #242526;
+  --card-bg: #242526;
+  --border-color: #3e4042;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+  font-family: Arial, sans-serif;
+}
+
+/* SỬA LỖI QUAN TRỌNG: Không dùng flex ở App-header để tránh kéo trang chủ vào giữa */
+.App-header {
+  min-height: 100vh;
+  display: block;
+}
+
+main {
+  display: block !important;
+  text-align: left !important;
+  width: 100% !important;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Chỉ khi ở trang Login/Register mới kích hoạt căn giữa */
+.auth-page {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 80vh;
+  width: 100%;
+  background-color: var(--bg-color);
+}
+/* =========================================
+   3. DARK MODE FIX (ÉP MÀU TOÀN TRANG)
+   ========================================= */
+body.dark-mode,
+body.dark-mode main,
+body.dark-mode .app-container {
+  background-color: #1c1e21 !important;
+  color: #e4e6eb !important;
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+  color: #e4e6eb !important;
+}
+/* App.css */
+
+/* Đảm bảo toàn bộ ứng dụng không bị flex-center hóa */
+.App {
+  text-align: left !important;
+}
+
+/* Sửa lỗi header bị mất vị trí */
+header {
+  width: 100% !important;
+  position: relative !important;
+  z-index: 1000;
+}
+
+/* Ép Main luôn dàn trái sát lề */
+main {
+  display: block !important;
+  width: 100% !important;
+  text-align: left !important;
+  padding: 0 !important; /* Để Header sát lề */
+}
+
+/* Chỉ riêng trang Login/Register được phép căn giữa */
+.auth-page {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 80vh;
+  width: 100% !important;
+  margin: 0 auto;
+}

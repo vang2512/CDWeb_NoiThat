@@ -1,0 +1,185 @@
+/* Container chính */
+.latest-news {
+    max-width: 900px; /* Giới hạn độ rộng để đọc tin không bị mỏi mắt */
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* Tiêu đề chuyên mục */
+.latest-title {
+    font-size: 1.2rem;
+    color: #2d88ff; /* Màu xanh đặc trưng của bạn */
+    text-transform: uppercase;
+    font-weight: bold;
+    border-left: 4px solid #2d88ff;
+    padding-left: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+
+/* Bạn có thể thêm style riêng cho dấu mũi tên ">" nếu muốn */
+.latest-title span {
+    margin: 0 10px;
+    color: #888;
+    font-weight: normal;
+}
+/* Từng item tin tức */
+.latest-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 25px 0;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.latest-item:last-child {
+    border-bottom: none;
+}
+
+/* Hiệu ứng khi di chuột vào cả vùng tin */
+.latest-item:hover {
+    background-color: #fafafa;
+    padding-left: 10px; /* Đẩy nhẹ nội dung sang phải */
+    padding-right: 10px;
+    border-radius: 8px;
+}
+
+/* Phần chữ bên trái */
+.latest-left {
+    flex: 1;
+}
+
+.latest-time {
+    display: block;
+    color: #888;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.latest-item-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 5px 0 12px 0;
+    line-height: 1.4;
+    color: #1a1a1a;
+    transition: color 0.2s ease;
+}
+
+/* Đổi màu tiêu đề khi hover vào item hoặc link */
+.latest-item:hover .latest-item-title {
+    color: #007bff;
+}
+
+.latest-desc {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+    display: -webkit-box; /* Giới hạn mô tả trong 3 dòng */
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Phần ảnh bên phải */
+.latest-right {
+    flex-shrink: 0; /* Không cho ảnh bị co lại */
+}
+
+.latest-right img {
+    width: 260px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.4s ease;
+}
+
+/* Hiệu ứng zoom ảnh nhẹ khi hover */
+.latest-item:hover .latest-right img {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Responsive cho điện thoại */
+@media (max-width: 768px) {
+    .latest-item {
+        flex-direction: column-reverse; /* Ảnh lên trên, chữ xuống dưới trên Mobile */
+        gap: 15px;
+    }
+
+    .latest-right img {
+        width: 100%;
+        height: 200px;
+    }
+
+    .latest-item-title {
+        font-size: 18px;
+    }
+}
+
+/* Phân trang */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.page-node {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.page-node:hover:not(:disabled) {
+    background-color: #f0f7ff;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.page-node.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.page-node:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    border-color: #eee;
+}
+
+.prev-next {
+    min-width: 80px;
+}
+
+/* Hiệu ứng mượt cho danh sách khi chuyển trang */
+.latest-list {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.latest-list {
+    min-height: 600px; /* Đảm bảo trang không bị co lại quá mức khi đang load hoặc ít tin */
+    display: flex;
+    flex-direction: column;
+}
+
+.no-data {
+    text-align: center;
+    padding: 50px;
+    color: #888;
+}

@@ -1,0 +1,200 @@
+{
+  "search_placeholder": "What are you looking for...",
+  "cart": "Cart",
+  "login": "Login",
+  "location": "Ho Chi Minh City",
+
+  "login_title": "Login",
+  "email": "Email",
+  "password": "Password",
+  "enter_email": "Enter email",
+  "enter_password": "Enter password",
+  "forgot_password": "Forgot password?",
+  "login_button": "Login",
+  "no_account": "Don't have an account?",
+  "register_now": "Register now",
+  "login_google": "Login with Google",
+  "login_facebook": "Login with Facebook",
+
+  "error_required": "Please fill in all fields!",
+  "error_email": "Invalid email!",
+  "login_success": "Login successful!",
+  "server_error": "Server error!",
+
+  "register_title": "Register",
+  "full_name": "Full name",
+  "enter_full_name": "Enter full name",
+  "phone": "Phone number",
+  "enter_phone": "Enter phone number",
+  "confirm_password": "Confirm password",
+  "enter_confirm_password": "Re-enter password",
+  "register_button": "Register",
+  "have_account": "Already have an account?",
+  "login_now": "Login now",
+
+  "otp_sent": "OTP has been sent to your email!",
+  "send_otp_error": "Failed to send OTP!",
+  "register_success": "Registration successful",
+  "register_fail": "Registration failed!",
+
+  "error_required": "Please fill in all fields!",
+  "error_email": "Invalid email!",
+  "error_password_length": "Password must be at least 6 characters!",
+  "error_password_match": "Passwords do not match!",
+   
+  "otp_title": "Enter OTP",
+  "otp_expired": "OTP has expired",
+  "otp_remaining": "Remaining",
+  "otp_placeholder": "----",
+  "otp_confirm": "Confirm",
+  "otp_close": "Close",
+
+  "otp_required": "Enter OTP!",
+  "otp_invalid": "Invalid OTP!",
+  "otp_verify_error": "Verification error!",
+
+  "forgot_title": "Forgot Password",
+  "enter_email": "Enter email",
+  "send_otp": "Send OTP",
+  "sending": "Sending...",
+  "back": "Back?",
+  "back_login": "Login",
+
+  "error_email_required": "Please enter your email!",
+  "error_email_invalid": "Invalid email!",
+  "error_email_not_exist": "Email does not exist!",
+  "otp_sent": "OTP has been sent to your email!",
+  "server_error": "Server error!",
+
+  "reset_title": "Reset Password",
+  "new_password": "New password",
+  "confirm_password": "Confirm password",
+  "confirm": "Confirm",
+
+  "error_required": "Please fill in all fields!",
+  "error_password_length": "Password must be at least 6 characters!",
+  "error_password_match": "Passwords do not match!",
+  "reset_fail": "Reset password failed!",
+
+  "home_title": "Home",
+  "best_selling_titile": "BEST SELLING PRODUCTS",
+  "news": "NEWS",
+  "view_more_news": "View more news",
+  "add_cart_success": "Added to cart successfully!",
+
+  "news_1": "Modern minimalist living space",
+  "news_2": "Interior design trends 2025",
+  "news_3": "Tips for luxury living room decor",
+
+  "home": "Home",
+  "product_detail": "Product Detail",
+  "sold": "Sold",
+  "spec": "Specification",
+  "commit": "Our Commitment",
+  "policy_1": "Clear product origin",
+  "policy_2": "Free installation",
+  "policy_3": "Fast return policy",
+  "spec_detail": "Technical Specifications",
+  "review": "Reviews",
+  "dimension": "Dimensions",
+  "material": "Material",
+  "origin": "Origin",
+  "standard": "Standard",
+  "promotion": "Promotion",
+  "promo_1": "Attractive discounts",
+  "promo_2": "Seasonal vouchers",
+  "add_to_cart": "Add to Cart",
+  "buy_now": "Buy Now",
+  "view_store": "View Store",
+  "loading": "Loading...",
+
+  "review_title": "Reviews",
+  "filter_review": "Filter Reviews",
+  "all": "All",
+  "no_review": "No matching reviews found.",
+  "add_review": "Add Your Review",
+  "your_rating": "Your rating:",
+  "review_content": "Review content:",
+  "enter_content": "Enter content...",
+  "send": "Send",
+  "fill_all": "Please fill all fields!",
+  "fill_all_user": "Please log in first!",
+  "submit_success": "Submitted successfully!",
+
+  "account": "Account",
+  "my_account": "My Account",
+  "personal_info": "Personal Information",
+  "order_history": "Order History",
+  "contact": "Contact",
+  "logout": "Logout",
+
+  "full_name": "Full Name",
+  "email": "Email",
+  "phone": "Phone",
+  "address": "Address",
+  "dob": "Date of Birth",
+
+  "update_info": "Update Information",
+  "update_success": "Updated successfully!",
+  "update_error": "Update failed!",
+
+  "delivered": "Delivered",
+  "processing": "Processing",
+
+  "support_contact": "Support Contact",
+  "hotline": "Hotline",
+
+   "all_products": "All Products",
+  "category": "Category",
+  "loading": "Loading...",
+
+  "sort_by": "Sort by",
+  "featured": "Featured",
+  "best_selling": "Best Selling",
+  "discount": "Discount",
+  "price_high_low": "High to Low",
+  "price_low_high": "Low to High",
+
+  "price_range": "Price Range",
+  "origin": "Origin",
+  "select": "Please select",
+
+  "under_5m": "Under 5 million",
+  "from_5_10m": "5 - 10 million",
+
+  "vietnam": "Vietnam",
+  "japan": "Japan",
+
+  "cart": "Cart",
+  "your_cart": "Your Cart",
+
+  "cart_count": "You have {{count}} items in your cart",
+
+  "select_all": "Select all",
+  "delete": "Delete",
+
+  "order_info": "Order Summary",
+  "total": "Total",
+
+  "shipping_note": "Shipping fee will be calculated at checkout",
+
+  "checkout": "CHECKOUT",
+
+  "store": {
+  "title": "Store Information",
+  "system": "Store System",
+  "name": "Baya Furniture",
+  "address": "Address",
+  "home": "Home",
+  "openTime": "Opening Hours",
+  "phone": "Phone",
+  "features": {
+    "f1": "✔ Friendly staff welcoming customers at the entrance.",
+    "f2": "✔ 100% genuine products, always updated with latest trends.",
+    "f3": "✔ Experienced consultants with dedicated service.",
+    "f4": "✔ Best prices in the area with many promotions.",
+    "f5": "✔ Spacious parking area with security support.",
+    "f6": "✔ Customer-centric approach, providing suitable products and excellent service."
+  }
+}
+}
