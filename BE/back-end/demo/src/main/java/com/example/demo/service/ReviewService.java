@@ -15,7 +15,8 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    // Load danh sách review
+    // Load danh sách review cua nguoi dung
+    // Load danh sách review cua nguoi dung
     public List<Review> getAllReviews() {
         return reviewRepository.findAllWithUserAndFood();
     }
