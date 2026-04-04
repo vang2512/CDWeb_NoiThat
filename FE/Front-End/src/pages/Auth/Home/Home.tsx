@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Home.css";
 import { Category } from "../../../model/Category";
 import { Product } from "../../../model/Product";
@@ -7,7 +7,7 @@ import slide4 from "../../../assets/images/slide_1_img.jpeg";
 import authApi from "../../../api/Auth/Auth_Api";
 import { useCart } from "../CartContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Image as ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -32,7 +32,9 @@ const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { addToCart } = useCart();
   const [openChat, setOpenChat] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [image, setImage] = useState<string | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
 
@@ -109,44 +111,53 @@ const Home = () => {
   }, []);
 
   // chat bot
-const sendMessage = async () => {
-  if (!input.trim()) return;
+  const sendMessage = async () => {
+    if (!input.trim() && !image) return;
 
-  const text = input; // lưu lại trước
-  setInput(""); // clear ngay cho mượt
+    const text = input;
+    setInput("");
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-  // thêm message user
-  setMessages(prev => [
-    ...prev,
-    { type: "user", text }
-  ]);
+    const newMessage: any = {
+      type: "user",
+      text
+    };
 
-  try {
-    const res = await authApi.chatbot(text, user.id || 0);
+    // 👉 thêm ảnh nếu có
+    if (image) {
+      newMessage.image = image;
+    }
 
-    setMessages(prev => [
-      ...prev,
-      {
-        type: "bot",
-        text: res.data.reply,
-        product: res.data.product
+    setMessages(prev => [...prev, newMessage]);
+
+    setImage(null); // clear preview
+
+    // 👉 chỉ gọi API nếu có text
+    if (text.trim()) {
+      try {
+        const res = await authApi.chatbot(text, user.id || 0);
+
+        setMessages(prev => [
+          ...prev,
+          {
+            type: "bot",
+            text: res.data.reply,
+            product: res.data.product
+          }
+        ]);
+      } catch (err) {
+        setMessages(prev => [
+          ...prev,
+          {
+            type: "bot",
+            text: "Có lỗi xảy ra 😥 thử lại nhé!"
+          }
+        ]);
       }
-    ]);
+    }
+  };
 
-  } catch (err) {
-    console.error(err);
-
-    setMessages(prev => [
-      ...prev,
-      {
-        type: "bot",
-        text: "Có lỗi xảy ra 😥 thử lại nhé!"
-      }
-    ]);
-  }
-};
 
   useEffect(() => {
     if (openChat && messages.length === 0) {
@@ -429,6 +440,10 @@ const sendMessage = async () => {
                   {/* TEXT */}
                   <div className="text">{msg.text}</div>
 
+                  {msg.image && (
+                    <img src={msg.image} className="chat_image" />
+                  )}
+
                   {/* PRODUCT CARD */}
                   {msg.product && (
                     <div
@@ -448,15 +463,64 @@ const sendMessage = async () => {
                 </div>
               ))}
             </div>
-
             <div className="chatbox_input">
+
+              {/* PREVIEW IMAGE */}
+              {image && (
+                <div className="preview_image">
+                  <img src={image} alt="preview" />
+
+                  {/* NÚT XOÁ */}
+                  <span
+                    className="remove_image"
+                    onClick={() => setImage(null)}
+                  >
+                    ✕
+                  </span>
+                </div>
+              )}
+
+              {/* INPUT FILE ẨN */}
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      setImage(reader.result as string);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+
+                  e.target.value = ""; // 👉 fix bug chọn lại ảnh
+                }}
+              />
+
+              {/* Ô NHẬP TEXT */}
+              <button
+                className="btn_image"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <ImageIcon size={20} />
+              </button>
+
+              {/* INPUT */}
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 placeholder="Nhập tin nhắn..."
               />
-              <button onClick={sendMessage}>➤</button>
+
+              {/* NÚT GỬI */}
+              <button className="btn_send" onClick={sendMessage}>
+                ➤
+              </button>
+
             </div>
 
           </div>
