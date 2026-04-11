@@ -1,13 +1,13 @@
-package com.example.SVMarket;
+package com.example.NoiThat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SvMarketApplication {
+public class NoiThatApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SvMarketApplication.class, args);
+		SpringApplication.run(NoiThatApplication.class, args);
 	}
 
 }
