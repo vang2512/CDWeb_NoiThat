@@ -1,4 +1,4 @@
-package com.example.SVMarket.config;
+package com.example.NoiThat.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
