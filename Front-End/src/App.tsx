@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import Home from "./pages/Auth/Home/Home";
@@ -18,16 +18,21 @@ import ForgotPassword from "./pages/Auth/ForgotPass/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPass/ResetPassword";
 import StoreAddress from "./pages/Auth/StoreAddress/StoreAddress";
 import { Toaster } from "react-hot-toast";
+import { Navigate } from "react-router-dom";
+
 import "./i18n";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 
 function App() {
   const location = useLocation();
-
+  const isAdminRoute = location.pathname.startsWith("/admin");
   const hideFooter =
     location.pathname === "/login" ||
     location.pathname === "/forgot-password" ||
     location.pathname === "/order-success" ||
-    location.pathname === "/register";
+    location.pathname === "/register" ||
+    isAdminRoute;
   return (
     <>
       <Toaster
@@ -64,30 +69,35 @@ function App() {
 
 
       {/* // Các trang */}
-      <Header />
-<CartProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/store" element={<StoreAddress />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/check-out" element={<Checkout/>} />
-        <Route path="/payment" element={<Payment/>} />
-        <Route path="/order-success" element={<OrderSuccess/>} />
-        <Route path="/product-detail/:id" element={<ProductDetail />} />
-        <Route path="/product-review/:id" element={<Productreview />} />
-        <Route path="/all-product/:id" element={<AllProductPage />} />
-        <Route path="/order-detail/:id" element={<OrderDetail />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-</CartProvider>
+      {!isAdminRoute && <Header />}
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/store" element={<StoreAddress />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/product-detail/:id" element={<ProductDetail />} />
+          <Route path="/product-review/:id" element={<Productreview />} />
+          <Route path="/all-product/:id" element={<AllProductPage />} />
+          <Route path="/order-detail/:id" element={<OrderDetail />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
+      </CartProvider>
 
       {!hideFooter && <Footer />}
     </>
   );
 }
+
 
 export default App;
