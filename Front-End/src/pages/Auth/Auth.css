@@ -1,0 +1,375 @@
+/* =========================================
+   1. LỚP NỀN MỜ (OVERLAY) - ĐÃ SỬA CHỐNG CHÓI
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* Đổi sang MÀU ĐEN MỜ (60%) -> Giúp mắt tập trung, không bị lóa */
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    /* Hiệu ứng làm mờ trang web phía sau */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    animation: fadeIn 0.3s ease;
+}
+
+/* =========================================
+   2. KHUNG CHỨA FORM (MODAL CONTENT)
+   ========================================= */
+.auth-container {
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.auth-form {
+    /* NỀN XÁM NHẠT (Dịu mắt hơn màu trắng tinh) */
+    background: #f0f2f5;
+
+    padding: 35px;
+    border-radius: 20px;
+
+    /* Viền sáng mỏng để tách biệt với nền tối */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    /* Đổ bóng đậm đà */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    color: #333;
+}
+
+/* Nút đóng (X) */
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.close-modal-btn:hover {
+    opacity: 1;
+    color: #000;
+}
+
+/* =========================================
+   3. CHI TIẾT INPUT (LUÔN TRẮNG ĐỂ NỔI BẬT)
+   ========================================= */
+.auth-form input {
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 15px;
+
+    /* QUAN TRỌNG: Ép cứng màu trắng và chữ đen (Nổi trên nền xám) */
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ccc !important;
+
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+/* Hiệu ứng khi bấm vào */
+.auth-form input:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+}
+
+/* --- FIX LỖI TRÌNH DUYỆT TỰ ĐỔ MÀU (AUTOFILL) --- */
+.auth-form input:-webkit-autofill,
+.auth-form input:-webkit-autofill:hover,
+.auth-form input:-webkit-autofill:focus,
+.auth-form input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #000 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Button & Text Styles */
+.auth-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: transform 0.1s, background 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.auth-form button:hover {
+    background-color: #0062cc;
+    transform: translateY(-1px);
+}
+
+.auth-form button:active {
+    transform: translateY(1px);
+}
+
+.auth-form h2 {
+    margin-bottom: 25px;
+    color: #1a1a1a;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.auth-form p {
+    margin-top: 20px;
+    color: #65676b;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-form p span {
+    color: #007bff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.auth-form p span:hover { text-decoration: underline; }
+
+/* =========================================
+   4. DARK MODE (CHẾ ĐỘ TỐI)
+   ========================================= */
+/* Khi body có class dark-mode */
+
+body.dark-mode .modal-overlay {
+    /* Nền sau tối hơn nữa */
+    background: rgba(0, 0, 0, 0.85);
+}
+
+body.dark-mode .auth-form {
+    background: #242526; /* Form chuyển màu xám đậm */
+    border: 1px solid #3e4042;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .auth-form h2 { color: #e4e6eb; }
+body.dark-mode .close-modal-btn { color: #b0b3b8; }
+body.dark-mode .auth-form p { color: #b0b3b8; }
+
+/* QUAN TRỌNG: Ngay cả khi Dark Mode, vẫn giữ INPUT MÀU TRẮNG cho dễ nhìn */
+body.dark-mode .auth-form input {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ccc !important;
+}
+
+/* Đổi màu chữ placeholder */
+::placeholder {
+    color: #888 !important;
+    opacity: 1;
+}
+
+/* =========================================
+   5. HIỆU ỨNG ANIMATION
+   ========================================= */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+/* =========================================
+   STYLE CHO SOCIAL LOGIN (GOOGLE)
+   ========================================= */
+
+/* Phân đoạn "Hoặc đăng ký bằng" */
+.social-section {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.social-section p {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Các icon nhỏ xếp hàng ngang */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Khoảng cách giữa các icon */
+}
+
+.icon-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.icon-item img {
+    width: 22px;
+    height: 22px;
+}
+
+.icon-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: #007bff;
+}
+
+/* Dark Mode cho Icon */
+body.dark-mode .icon-item {
+    background: #3a3b3c;
+    border-color: #4e4f50;
+}
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: all 0.2s;
+}
+.submit-btn:hover { background-color: #0062cc; transform: translateY(-1px); }
+
+/* Phần Icon bên dưới */
+.social-section { margin-top: 25px; text-align: center; }
+.social-section p { font-size: 13px; color: #888; margin-bottom: 15px; }
+
+.social-icons { display: flex; justify-content: center; gap: 20px; }
+
+.icon-item {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ddd;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.icon-item:hover { transform: translateY(-3px); border-color: #007bff; }
+/* Spinner loading đơn giản */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.account-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.account-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 1px solid transparent;
+}
+
+.account-item:hover {
+    background-color: #f5f7f9;
+    border-color: #e1e3e6;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #8e44ad; /* Màu tím giả lập avatar */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+/* Fix màu cho avatar thứ 2 (cho nó khác bọt) */
+.account-item:nth-child(2) .avatar-circle {
+    background-color: #16a085;
+}
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* Canh lề trái cho tên và email */
+}
+
+.acc-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #202124;
+}
+
+.acc-email {
+    font-size: 13px;
+    color: #5f6368;
+}
+
+/* Nút quay lại */
+.back-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* DARK MODE CHO LIST GOOGLE */
+body.dark-mode .account-item:hover {
+    background-color: #303134;
+    border-color: #5f6368;
+}
+body.dark-mode .acc-name { color: #e8eaed; }
+body.dark-mode .acc-email { color: #bdc1c6; }
