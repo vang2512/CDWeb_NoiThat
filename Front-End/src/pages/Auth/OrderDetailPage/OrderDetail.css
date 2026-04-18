@@ -1,0 +1,380 @@
+.order_detail_page {
+  width: 1200px;
+  margin: 100px auto;
+  position: relative;
+  border-radius: 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.order_detail_container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.back_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 8px 0;
+}
+
+.back_btn:hover {
+    color: #111;
+    gap: 12px;
+}
+
+/* Status Timeline - Phiên bản đẹp hơn */
+.status_timeline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    padding: 24px 0;
+    position: relative;
+    background: #fafbfc;
+    border-radius: 24px;
+}
+
+.timeline_step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step_icon {
+    width: 48px;
+    height: 48px;
+    background: #f0f2f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #8b8f9e;
+}
+
+.timeline_step.active .step_icon {
+    background: #0a6b4c;
+    color: white;
+    box-shadow: 0 4px 12px rgba(10, 107, 76, 0.25);
+    transform: scale(1.05);
+}
+
+.step_label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c6f7b;
+    letter-spacing: -0.01em;
+}
+
+.timeline_step.active .step_label {
+    color: #0a6b4c;
+    font-weight: 600;
+}
+
+.step_line {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: #e4e6eb;
+    z-index: -1;
+    transition: background 0.3s ease;
+}
+
+.timeline_step:last-child .step_line {
+    display: none;
+}
+
+.timeline_step.active + .timeline_step .step_line {
+    background: #0a6b4c;
+}
+
+/* Canceled Status */
+.canceled_status {
+    text-align: center;
+    padding: 48px;
+    background: #fff5f5;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    border: 1px solid #fee2e2;
+}
+
+.canceled_status svg {
+    color: #dc2626;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+.canceled_status h3 {
+    color: #991b1b;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Info Sections */
+.order_info_section,
+.shipping_section,
+.products_section {
+    margin-bottom: 24px;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #edf2f7;
+}
+
+.order_info_section h3,
+.shipping_section h3,
+.products_section h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1f36;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order_info_section h3::before,
+.shipping_section h3::before,
+.products_section h3::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: #0a6b4c;
+    border-radius: 2px;
+}
+
+.info_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.info_item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.info_item:last-child {
+    border-bottom: none;
+}
+
+.info_item span {
+    color: #6c6f7b;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info_item strong {
+    color: #1a1f36;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.status_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.status_badge.xử_lý,
+.status_badge.processing {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.status_badge.đang_giao,
+.status_badge.shipping {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.status_badge.đã_giao,
+.status_badge.delivered {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.status_badge.hủy,
+.status_badge.cancelled {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.shipping_info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.shipping_info p {
+    margin: 0;
+    color: #4a4f62;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.shipping_info strong {
+    color: #1a1f36;
+    margin-right: 12px;
+    font-weight: 600;
+}
+
+/* Products Table - Đẹp hơn */
+.products_table {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #edf2f7;
+}
+
+.table_header {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    background: #f8fafc;
+    padding: 14px 20px;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.table_body {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.product_row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.product_row:hover {
+    background: #fafcff;
+}
+
+.product_info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.product_info img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+}
+
+.product_info span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    line-height: 1.4;
+}
+
+.product_price,
+.product_quantity,
+.product_total {
+    font-size: 14px;
+    color: #475569;
+}
+
+.product_quantity {
+    color: #64748b;
+}
+
+.product_total {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.table_footer {
+    padding: 18px 20px;
+    background: #fefefe;
+    border-top: 1px solid #e2e8f0;
+}
+
+.total_amount {
+    text-align: right;
+    font-size: 16px;
+}
+
+.total_amount span {
+    color: #475569;
+    margin-right: 12px;
+    font-weight: 500;
+}
+
+.total_amount strong {
+    color: #e53935;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Scrollbar đẹp hơn */
+.table_body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table_body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.table_body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.table_body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Loading state */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    font-size: 14px;
+    color: #64748b;
+}
+
