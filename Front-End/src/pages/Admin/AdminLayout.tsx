@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom'; // Thêm useLocation
 import './AdminLayout.css';
-import { 
-  MenuFoldOutlined, 
+import Dashboard from './Dashboard/Dashboard';
+
+import {
+  MenuFoldOutlined,
   MenuUnfoldOutlined,
   DashboardOutlined,
   ShoppingOutlined,
@@ -22,13 +25,15 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+  const navigate = useNavigate();
   const menuItems = [
-    { key: 'dashboard', icon: <DashboardOutlined />, label: 'Tổng quan', path: '/admin' },
+    {
+      key: 'dashboard', icon: <DashboardOutlined />, label: 'Tổng quan', path: '/admin/dashboard'
+    },
     { key: 'products', icon: <ShoppingOutlined />, label: 'Sản phẩm', path: '/admin/products' },
     { key: 'orders', icon: <ContainerOutlined />, label: 'Đơn hàng', path: '/admin/orders', badge: 12 },
     { key: 'categories', icon: <TagOutlined />, label: 'Danh mục', path: '/admin/categories' },
@@ -67,8 +72,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <div
               key={item.key}
               className={`nav-item ${activeMenu === item.key ? 'active' : ''}`}
-              onClick={() => setActiveMenu(item.key)}
-            >
+              onClick={() => {
+                setActiveMenu(item.key);
+                navigate(item.path);
+              }}            >
               <span className="nav-icon">{item.icon}</span>
               {!collapsed && (
                 <>
@@ -101,7 +108,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         {/* TOP BAR */}
         <header className="top-bar">
           <div className="top-bar-left">
-            <button 
+            <button
               className="toggle-btn"
               onClick={() => setCollapsed(!collapsed)}
             >
@@ -117,7 +124,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <SearchOutlined className="search-icon" />
               <input type="text" placeholder="Tìm kiếm..." />
             </div>
-            
+
             <div className="notifications">
               <BellOutlined />
               <span className="notification-badge">3</span>
@@ -139,7 +146,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
         {/* PAGE CONTENT */}
         <main className="main-content">
-          {children}
+          {<Outlet />}
         </main>
       </div>
     </div>
