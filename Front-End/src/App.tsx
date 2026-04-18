@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import Home from "./pages/Auth/Home/Home";
@@ -19,15 +19,17 @@ import ResetPassword from "./pages/Auth/ResetPass/ResetPassword";
 import StoreAddress from "./pages/Auth/StoreAddress/StoreAddress";
 import { Toaster } from "react-hot-toast";
 import "./i18n";
+import AdminLayout from "./pages/Admin/AdminLayout";
 
 function App() {
   const location = useLocation();
-
+  const isAdminRoute = location.pathname.startsWith("/admin");
   const hideFooter =
     location.pathname === "/login" ||
     location.pathname === "/forgot-password" ||
     location.pathname === "/order-success" ||
-    location.pathname === "/register";
+    location.pathname === "/register" ||
+    isAdminRoute;
   return (
     <>
       <Toaster
@@ -64,7 +66,7 @@ function App() {
 
 
       {/* // Các trang */}
-      <Header />
+      {!isAdminRoute && <Header />}
 <CartProvider>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -82,6 +84,7 @@ function App() {
         <Route path="/all-product/:id" element={<AllProductPage />} />
         <Route path="/order-detail/:id" element={<OrderDetail />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin/*" element={<AdminLayout><Outlet /></AdminLayout>} />
       </Routes>
 </CartProvider>
 
