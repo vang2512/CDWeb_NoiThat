@@ -1,95 +1,187 @@
-.register-container{
-  min-height:93vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#f5f6fa;
-  padding-top:80px;
+.register-container {
+  min-height: 93vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fa;
+  padding-top: 120px;
   font-family: "Inter", sans-serif;
 }
 
-.register-box{
-  width:420px;
-  background:white;
-  padding:40px;
-  border-radius:10px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-.forgot{
-  text-align:right;
-  font-size:14px;
-  margin-bottom:20px;
-  cursor:pointer;
-  color:#2f7ed8
+.register-box {
+  width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.register-logo{
-  display:flex;
-  justify-content:center;
-  margin-bottom:10px;
+.forgot {
+  text-align: right;
+  font-size: 14px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #2f7ed8;
 }
 
-.register-logo img{
-  height:90px;
+.register-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
-.register-box h2{
-  text-align:center;
-  margin-bottom:25px;
+.register-logo img {
+  height: 90px;
 }
 
-.form-group{
-  margin-bottom:18px;
+.register-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.form-group label{
-  display:block;
-  margin-bottom:6px;
+.form-group {
+  margin-bottom: 18px;
 }
 
-.input-box{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-  padding:10px;
-  border-radius:6px;
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
 }
 
-.input-box input{
-  border:none;
-  outline:none;
-  flex:1;
-  margin-left:8px;
+.input-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.3s ease;
 }
 
-.eye-icon{
-  cursor:pointer;
-  margin-left:8px;
-  display:flex;
-  align-items:center;
+.input-box:focus-within {
+  border-color: #107dea;
+  box-shadow: 0 0 0 2px rgba(16, 125, 234, 0.1);
 }
 
-.register-btn{
-  width:100%;
-  padding:12px;
-  background:#107dea;
-  border:none;
-  color:white;
-  font-size:16px;
-  border-radius:6px;
-  cursor:pointer;
+.input-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  margin-left: 8px;
+  font-size: 14px;
 }
 
-.register-btn:hover{
-  background:#1f6fd0;
+.input-box input::placeholder {
+  color: #999;
 }
 
-.login-link{
-  text-align:center;
-  margin-top:15px;
+.eye-icon {
+  cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  color: #666;
 }
 
-.login-link span{
-  color:#2f7ed8;
-  cursor:pointer;
+.eye-icon:hover {
+  color: #107dea;
+}
+
+/* SỬA LỖI HIỂN THỊ THÔNG BÁO - QUAN TRỌNG */
+.error {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  padding-left: 0; /* Bỏ padding-left vì đã nằm ngoài input-box */
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Hiệu ứng xuất hiện */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Style khi input có lỗi */
+.form-group.has-error .input-box {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 12px;
+  background: #107dea;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover:not(:disabled) {
+  background: #1f6fd0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 125, 234, 0.3);
+}
+
+.register-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-link span {
+  color: #2f7ed8;
+  cursor: pointer;
+}
+
+.register {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.register span {
+  color: #107dea;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.register span:hover {
+  text-decoration: underline;
+}
+.input-box {
+  position: relative;
+}
+
+.checking-email {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: spin 1s linear infinite;
+  color: #107dea;
 }

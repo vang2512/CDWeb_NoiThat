@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import authApi from "../../api/Auth/Auth_Api";
 import "./Header.css";
 import logo from "../../assets/images/logo.png";
@@ -8,7 +8,6 @@ import { Search, ShoppingCart, User, MapPinCheck, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Header: React.FC = () => {
-
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -16,6 +15,7 @@ const Header: React.FC = () => {
   const [results, setResults] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false); // Thêm state này
 
   // USER
   const [user, setUser] = useState(() => {
@@ -26,11 +26,42 @@ const Header: React.FC = () => {
   // LANGUAGE
   const [lang, setLang] = useState(localStorage.getItem("lang") || "vi");
 
+  // Refs
+  const searchBoxRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   const handleChangeLang = (value: string) => {
     setLang(value);
     localStorage.setItem("lang", value);
     i18n.changeLanguage(value);
   };
+
+  // Toggle search trên mobile
+  const toggleSearch = () => {
+    setIsSearchActive(!isSearchActive);
+    if (!isSearchActive) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 100);
+    } else {
+      setKeyword("");
+      setResults([]);
+      setShowDropdown(false);
+    }
+  };
+
+  // Click outside để đóng search trên mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node)) {
+        setIsSearchActive(false);
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Api tìm tên 
   useEffect(() => {
@@ -39,6 +70,7 @@ const Header: React.FC = () => {
         handleSearch(keyword);
       } else {
         setResults([]);
+        setShowDropdown(false);
       }
     }, 300);
 
@@ -61,28 +93,26 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header-container">
-
         {/* LOGO */}
         <div className="logo" onClick={() => navigate("/")}>
           <img src={logo} alt="logo" />
         </div>
 
         {/* SEARCH */}
-        <div className="search-box">
-          <Search className="search-icon" size={18} />
+        <div className={`search-boxx ${isSearchActive ? "active" : ""}`} ref={searchBoxRef}>
+          <Search className="search-icon" onClick={toggleSearch} size={18} />
           <input
+            ref={searchInputRef}
             type="text"
-            placeholder={t("search_placeholder")}
+            placeholder={t("search_placeholder") as string}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onFocus={() => setShowDropdown(true)}
-            onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           />
 
           {/* DROPDOWN */}
           {showDropdown && (
             <div className="search-dropdown">
-
               {loading && <div className="search-loading">Đang tìm...</div>}
 
               {!loading && results.length === 0 && keyword && (
@@ -98,18 +128,18 @@ const Header: React.FC = () => {
                     setKeyword("");
                     setResults([]);
                     setShowDropdown(false);
-                  }}  >
+                    setIsSearchActive(false);
+                  }}
+                >
                   {item.name}
                 </div>
               ))}
-
             </div>
           )}
         </div>
 
         {/* RIGHT MENU */}
         <div className="header-right">
-
           {/* CART */}
           <div className="menu-item" onClick={() => navigate("/cart")}>
             <ShoppingCart size={18} />
@@ -133,6 +163,7 @@ const Header: React.FC = () => {
           {/* LANGUAGE */}
           <div className="menu-item language">
             <Globe size={18} />
+            <span>{t("language")}</span>
             <select
               value={lang}
               onChange={(e) => handleChangeLang(e.target.value)}
@@ -147,9 +178,7 @@ const Header: React.FC = () => {
             <MapPinCheck size={18} />
             <span>{t("location")}</span>
           </div>
-
         </div>
-
       </div>
     </header>
   );
