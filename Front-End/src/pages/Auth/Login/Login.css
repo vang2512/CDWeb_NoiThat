@@ -1,130 +1,339 @@
-.login-container{
-  height:93vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#f5f6fa;
-  padding-top:80px;
+.login-container {
+  min-height: 93vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fa;
+  padding: 120px 20px 20px 20px;
   font-family: "Inter", sans-serif;
 }
 
-.login-box{
-  width:420px;
-  background:white;
-  padding:40px;
-  border-radius:10px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.login-logo{
-  display:flex;
-  justify-content:center;
-  margin-bottom:10px;
-}
-
-.login-logo img{
-  height:90px;
-}
-
-.login-box h2{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.form-group{
-  margin-bottom:18px;
-}
-
-.form-group label{
-  display:block;
-  margin-bottom:6px;
-}
-.eye-icon{
-  cursor:pointer;
-  margin-left:8px;
-  display:flex;
-  align-items:center;
-}
-.input-box{
-  display:flex;
-  align-items:center;
-  border:1px solid #ddd;
-  padding:10px;
-  border-radius:6px;
-}
-
-.input-box input{
-  border:none;
-  outline:none;
-  flex:1;
-  margin-left:8px;
-}
-
-.forgot{
-  text-align:right;
-  font-size:14px;
-  margin-bottom:20px;
-  cursor:pointer;
-  color:#2f7ed8
-}
-
-.login-btn{
-  width:100%;
-  padding:12px;
-  background:#107dea;
-  border:none;
-  color:white;
-  font-size:16px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.login-btn:hover{
-  background:#1f6fd0;
-}
-
-.register{
-  text-align:center;
-  margin-top:15px;
-}
-
-.register span{
-  color:#2f7ed8;
-  cursor:pointer;
-}
-
-.divider{
-  height:1px;
-  background:#ddd;
-  margin:25px 0;
-}
-
-.social-login{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-}
-
-.social-login button{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid #ddd;
-  padding:10px 14px;
-  border-radius:6px;
-  background:white;
-  cursor:pointer;
-}
-
-.social-login img{
-  width:18px;
-}
-.captcha-box {
-  margin-top: 15px;
+.login-logo {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
+.login-logo img {
+  height: 90px;
+  object-fit: contain;
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Input box container */
+.input-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.input-box:focus-within {
+  border-color: #107dea;
+  box-shadow: 0 0 0 2px rgba(16, 125, 234, 0.1);
+}
+
+.input-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  margin-left: 8px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.input-box input::placeholder {
+  color: #999;
+}
+
+/* Eye icon */
+.eye-icon {
+  cursor: pointer;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #107dea;
+}
+
+/* Checking email indicator */
+.checking-email {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: spin 1s linear infinite;
+  color: #107dea;
+}
+
+@keyframes spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Error styles */
+.form-group.has-error .input-box {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  padding-left: 0;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+.checking-text {
+  color: #107dea;
+  font-size: 12px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  padding-left: 0;
+  font-style: italic;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Forgot password */
+.forgot {
+  text-align: right;
+  font-size: 13px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #2f7ed8;
+  transition: color 0.3s ease;
+}
+
+.forgot:hover {
+  color: #107dea;
+  text-decoration: underline;
+}
+
+/* Login button */
 .login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #107dea;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   margin-top: 10px;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: #1f6fd0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 125, 234, 0.3);
+}
+
+.login-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Captcha box */
+.captcha-box {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  transform: scale(0.95);
+}
+
+/* Register link */
+.register {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.register span {
+  color: #2f7ed8;
+  cursor: pointer;
+  font-weight: 500;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.register span:hover {
+  color: #107dea;
+  text-decoration: underline;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #ddd, transparent);
+  margin: 25px 0;
+}
+
+/* Social login */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-login button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  color: #555;
+}
+
+/* Nút Google - màu đỏ đặc trưng */
+.social-login button.google-btn {
+  border-color: #db4437;
+  color: #db4437;
+}
+
+.social-login button.google-btn:hover {
+  background: #db4437;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(219, 68, 55, 0.3);
+  border-color: #db4437;
+}
+
+.social-login button.google-btn:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Nút Facebook - màu xanh đặc trưng */
+.social-login button.facebook-btn {
+  border-color: #4267b2;
+  color: #4267b2;
+}
+
+.social-login button.facebook-btn:hover {
+  background: #4267b2;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(66, 103, 178, 0.3);
+  border-color: #4267b2;
+}
+
+.social-login button.facebook-btn:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Hiệu ứng chung cho social buttons */
+.social-login button:active {
+  transform: translateY(0);
+}
+
+.social-login img {
+  width: 18px;
+  height: 18px;
+  transition: filter 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 100px 15px 20px 15px;
+  }
+  
+  .login-box {
+    padding: 30px 20px;
+  }
+  
+  .login-box h2 {
+    font-size: 22px;
+  }
+  
+  .social-login button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  
+  .captcha-box {
+    transform: scale(0.85);
+  }
+  
+  .error, .checking-text {
+    font-size: 11px;
+  }
+}
+
+.input-box input:focus {
+  background: transparent;
+}
+
+/* Style cho autofill */
+.input-box input:-webkit-autofill,
+.input-box input:-webkit-autofill:hover,
+.input-box input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 5000s ease-in-out 0s;
 }

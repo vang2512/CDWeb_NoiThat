@@ -31,13 +31,13 @@
 
 /* search */
 
-.search-box {
+.search-boxx {
   position: relative;
   width: 320px;
   margin-right: -50px;
 }
 
-.search-box input {
+.search-boxx input {
   width: 100%;
   padding: 12px 15px 12px 40px;
   border-radius: 25px;
@@ -145,14 +145,14 @@
   }
 
   /* ===== SEARCH BOX DẠNG NHẤN ICON MỚI HIỆN ===== */
-  .search-box {
+  .search-boxx {
     width: auto;
     margin: 0;
     position: relative;
   }
 
   /* Icon tìm kiếm - luôn hiển thị */
-  .search-box .search-icon {
+  .search-boxx .search-icon {
     position: relative;
     left: 0;
     top: 0;
@@ -170,12 +170,12 @@
     transition: all 0.2s ease;
   }
 
-  .search-box .search-icon:hover {
+  .search-boxx .search-icon:hover {
     background: rgba(255, 255, 255, 0.3);
   }
 
   /* Ô input - ẩn mặc định, hiện khi có class active */
-  .search-box input {
+  .search-boxx input {
     position: absolute;
     top: 100%;
     right: 0;
@@ -204,7 +204,7 @@
   }
 
   /* Khi input hiện, icon đổi màu nền cho dễ nhìn */
-  .search-box.active .search-icon {
+  .search-boxx.active .search-icon {
     background: rgba(255, 255, 255, 0.4);
   }
 
@@ -281,13 +281,13 @@
     height: 28px;
   }
 
-  .search-box .search-icon {
+  .search-boxx .search-icon {
     width: 32px;
     height: 32px;
     font-size: 18px;
   }
 
-  .search-box input {
+  .search-boxx input {
     width: 220px;
     font-size: 13px;
     padding: 8px 12px 8px 34px;
@@ -315,7 +315,7 @@
   }
 }
 
-.search-box input {
+.search-boxx input {
   width: 100%;
   padding: 10px 12px 10px 35px;
   border-radius: 20px;

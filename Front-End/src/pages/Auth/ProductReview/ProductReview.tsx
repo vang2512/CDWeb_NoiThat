@@ -209,7 +209,7 @@ const ProductReviewPage = () => {
               <p>{t("review_content")}</p>
 
               <textarea
-                placeholder={t("enter_content")}
+                placeholder={t("enter_content") as string}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />

@@ -87,7 +87,7 @@ const OtpModal: React.FC<OtpModalProps> = ({
           value={otp}
           maxLength={4}
           onChange={(e) => setOtp(e.target.value)}
-          placeholder={t("otp_placeholder")}
+          placeholder={t("otp_placeholder") as string}
         />
 
         <div className="otp-actions">
