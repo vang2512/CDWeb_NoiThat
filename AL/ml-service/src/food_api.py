@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from pydantic import BaseModel
 from typing import List, Optional
 import joblib
@@ -7,6 +7,12 @@ import numpy as np
 import sys
 import os
 import uvicorn
+
+from PIL import Image
+import io
+import torch
+
+from src.image_vectorizer import ImageVectorizer
 # Import modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.food_recommender import FoodRecommender
@@ -14,8 +20,13 @@ from src.food_recommender import FoodRecommender
 app = FastAPI(
     title="Food Recommendation API",
     version="1.0",
-    description="API cung cấp gợi ý món ăn"
+    description="API cung cấp gợi ý sản phẩm"
 )
+def safe_float(x):
+    return float(x) if x is not None and not pd.isna(x) else 0.0
+
+def safe_str(x):
+    return str(x) if x is not None and not pd.isna(x) else ""
 
 # Load model
 MODEL_PATH = "models/food_recommender_v1.joblib"
@@ -29,6 +40,15 @@ try:
 except Exception as e:
     print(f" Failed to load model: {e}")
     model = None
+
+# Load Image Vectorizer (CLIP + FAISS)
+try:
+    vectorizer = ImageVectorizer()
+    vectorizer.load_index()
+    print(" Image search model loaded")
+except Exception as e:
+    print(f" Failed to load image search: {e}")
+    vectorizer = None
 
 # Helper function để lấy ảnh mặc định
 def get_default_category_image(category_name: str) -> str:
@@ -249,6 +269,59 @@ def debug_food(food_id: int):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+#  Search image product recommand   
+@app.post("/search-image")
+async def search_image(file: UploadFile = File(...)):
+    if vectorizer is None:
+        raise HTTPException(status_code=500, detail="Image model not loaded")
 
+    try:
+        contents = await file.read()
+
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
+        image_input = vectorizer.preprocess(image).unsqueeze(0)
+
+        with torch.no_grad():
+            features = vectorizer.model.encode_image(image_input)
+            features = features / features.norm(dim=-1, keepdim=True)
+
+        query_vector = features.numpy().astype("float32")
+
+        # search FAISS
+        k = 5
+        distances, indices = vectorizer.index.search(query_vector, k)
+
+        results = []
+
+        for i in range(len(indices[0])):
+            idx = indices[0][i]
+
+            if idx in vectorizer.id_map:
+                food_id = vectorizer.id_map[idx]
+
+                # LẤY FULL INFO từ foods_df
+                food_info = model.foods_df[model.foods_df['food_id'] == food_id]
+
+                if not food_info.empty:
+                    food = food_info.iloc[0]
+
+                    results.append({
+                        "food_id": int(food_id),
+                        "name": str(food['food_name']),
+                        "price": float(food['price']),
+                        "image_url": str(food['img']),
+                        "score": float(distances[0][i])
+                    })
+
+        return {
+            "success": True,
+            "total": len(results),
+            "foods": results
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 if __name__ == "__main__":
      uvicorn.run("src.food_api:app", host="0.0.0.0", port=8000, reload=True)

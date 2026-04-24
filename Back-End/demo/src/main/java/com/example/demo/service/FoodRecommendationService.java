@@ -35,7 +35,7 @@ public class FoodRecommendationService {
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("user_id", userId);
-            requestBody.put("limit", limit != null ? limit : 10);
+            requestBody.put("limit", limit != null ? limit : 8);
             requestBody.put("include_food_info", true);
 
             HttpEntity<Map<String, Object>> requestEntity =

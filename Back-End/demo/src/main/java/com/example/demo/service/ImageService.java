@@ -53,7 +53,7 @@ public class ImageService {
         }
 
         List<Map<String, Object>> products =
-                (List<Map<String, Object>>) response.getBody().get("products");
+                (List<Map<String, Object>>) response.getBody().get("foods");
 
         List<Product> resultFoods = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class ImageService {
         // 👉 giữ thứ tự ưu tiên từ AI
         for (Map<String, Object> p : products) {
 
-            int productId = ((Number) p.get("productId")).intValue();
+            int productId = ((Number) p.get("food_id")).intValue();
             double score = ((Number) p.get("score")).doubleValue();
 
             Optional<Product> foodOpt = foodRepository.findById(productId);

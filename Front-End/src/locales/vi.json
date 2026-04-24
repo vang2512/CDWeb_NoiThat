@@ -15,12 +15,13 @@
   "register_now": "Đăng ký ngay",
   "login_google": "Đăng nhập Google",
   "login_facebook": "Đăng nhập Facebook",
-
+  "recommended_products": "SẢN PHẨM GỢI Ý",
   "error_required": "Vui lòng nhập đầy đủ thông tin!",
   "error_email": "Email không hợp lệ!",
   "login_success": "Đăng nhập thành công!",
   "server_error": "Lỗi server!",
-
+  "language": "Ngôn ngữ",
+  
   "register_title": "Đăng ký",
   "full_name": "Họ và tên",
   "enter_full_name": "Nhập họ tên",

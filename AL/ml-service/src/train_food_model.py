@@ -2,8 +2,8 @@ import sys
 import os
 # sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from food_database import FoodDatabase
-from food_recommender import FoodRecommender
+from src.food_database import FoodDatabase
+from src.food_recommender import FoodRecommender
 
 def main():
     print("=" * 60)
@@ -21,7 +21,7 @@ def main():
     db.close()
     
     print(f"\n Data Summary:")
-    print(f"• Foods: {len(data['foods'])} items")
+    print(f"• Foods: {len(data['products'])} items")
     print(f"• Orders: {data['orders']['user_id'].nunique()} users, {len(data['orders'])} items")
     print(f"• Reviews: {len(data['reviews'])} ratings")
     print(f"• Users: {len(data['users'])} total users")
@@ -29,7 +29,7 @@ def main():
     # 2. Train model
     print("\n Training hybrid recommendation model...")
     recommender = FoodRecommender(
-        foods_df=data['foods'],
+        foods_df=data['products'],
         orders_df=data['orders'],
         reviews_df=data['reviews']
     )
@@ -51,9 +51,9 @@ def main():
             if recs:
                 print(f"   Recommendations (food_id, score):")
                 for food_id, score in recs:
-                    food_name = data['foods'][data['foods']['food_id'] == food_id]['food_name'].values
+                    food_name = data['products'][data['products']['food_id'] == food_id]['food_name'].values
                     food_name = food_name[0] if len(food_name) > 0 else "Unknown"
-                    price = data['foods'][data['foods']['food_id'] == food_id]['price'].values
+                    price = data['products'][data['products']['food_id'] == food_id]['price'].values
                     price = price[0] if len(price) > 0 else 0
                     print(f"   • {food_id}: {food_name} (${price:,}) - score: {score:.3f}")
             else:

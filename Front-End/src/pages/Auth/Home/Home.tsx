@@ -38,6 +38,12 @@ const Home = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [input, setInput] = useState("");
+  const [recommendedFoods, setRecommendedFoods] = useState<Product[]>([]);
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [productsSale, setProductsSale] = useState<Product[]>([]);
+  const [productsSelling, setProductsSelling] = useState<Product[]>([]);
+  const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,10 +56,6 @@ const Home = () => {
   const getSalePrice = (price: number = 0, discount: number = 0) => {
     return price - (price * discount) / 100;
   };
-
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [productsSale, setProductsSale] = useState<Product[]>([]);
-  const [productsSelling, setProductsSelling] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -90,6 +92,20 @@ const Home = () => {
     };
     fetchTopSelling();
   }, []);
+  // Gợi ý sp
+  useEffect(() => {
+    const fetchRecommended = async () => {
+      try {
+        const userId = storedUser.id;
+        const res = await authApi.getRecommendedFoods(userId, 8);
+        setRecommendedFoods(res.data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchRecommended();
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -113,57 +129,82 @@ const Home = () => {
 
   // chat bot
   const sendMessage = async () => {
-    if (!input.trim() && !image) return;
+    if (!input.trim() && !image && !selectedFile) return;
 
     const text = input;
-    setInput("");
 
-    const file = fileInputRef.current?.files?.[0];
+    let newMessage: any = { type: "user" };
 
-    // Tạo message user chứa cả text và ảnh nếu có
-    const newMessage: any = { type: "user" };
-    if (text.trim()) newMessage.text = text;
-    if (image) newMessage.image = image;
+    if (text.trim()) {
+      newMessage.text = text;
+    }
+
+    if (image) {
+      newMessage.image = image;
+    }
 
     setMessages(prev => [...prev, newMessage]);
+
+    setInput("");
+
+    const currentFile = selectedFile;
+
     setImage(null);
+    setSelectedFile(null);
 
     try {
-      if (file) {
-        // Gửi API ảnh
-        const res = await authApi.searchImage(file);
-        const products = res.data.products;
+      if (currentFile) {
+        const res = await authApi.searchImage(currentFile);
 
-        // Chatbot trả về kết quả, vẫn giữ text
+        console.log("API searchImage response:", res.data);
+
+        const products = res.data || [];
+
+        let botText = "";
+
+        if (products.length > 0) {
+          botText = "Mình tìm thấy được một số sản phẩm tương tự nè:";
+        } else {
+          botText = "Không tìm thấy sản phẩm phù hợp. Vui lòng thử ảnh khác.";
+        }
+
+        if (text.trim()) {
+          botText = `"${text.trim()}"\n\n${botText}`;
+        }
+
         setMessages(prev => [
           ...prev,
           {
             type: "bot",
-            text: "🔍 Mình tìm thấy sản phẩm giống nè:",
+            text: botText,
             products
           }
         ]);
+
+        return;
       }
 
-      if (text.trim()) {
-        // Gửi API text
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        const res = await authApi.chatbot(text, user.id || 0);
+if (text.trim()) {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const res = await authApi.chatbot(text, user.id || 0);
 
-        setMessages(prev => [
-          ...prev,
-          {
-            type: "bot",
-            text: res.data.reply,
-            product: res.data.product
-          }
-        ]);
-      }
+  const data = res.data;
+
+  setMessages(prev => [
+    ...prev,
+    {
+      type: "bot",
+      text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé 😊",
+      product: data.product
+    }
+  ]);
+}
 
     } catch (err) {
+      console.error("Chat error:", err);
       setMessages(prev => [
         ...prev,
-        { type: "bot", text: "Có lỗi xảy ra 😥 thử lại nhé!" }
+        { type: "bot", text: "Có lỗi xảy ra. Vui lòng thử lại." }
       ]);
     }
   };
@@ -243,7 +284,6 @@ const Home = () => {
           </div>
 
           <div className="product_list">
-
             {productsSale.map((item) => {
               const salePrice = getSalePrice(item.price ?? 0, item.discount ?? 0);
               return (
@@ -280,7 +320,6 @@ const Home = () => {
                       className="card_add_cart"
                       onClick={(e) => {
                         e.stopPropagation();
-
                         addToCart({
                           id: item.id,
                           name: item.name,
@@ -296,9 +335,73 @@ const Home = () => {
                 </div>
               );
             })}
-
           </div>
 
+          {/* Recommended - Chỉnh sửa lại title */}
+          <div className="recommended_section">
+            <div className="recommended_title">
+              <div className="recommended_icon">
+                <img
+                  src="https://cdn2.cellphones.com.vn/x/media/wysiwyg/empty230625.png"
+                  alt="best sale" />
+              </div>
+              <h2>{t("recommended_products")}</h2>
+            </div>
+
+            <div className="product_list">
+              {recommendedFoods.map((item) => {
+                const salePrice = getSalePrice(item.price ?? 0, item.discount ?? 0);
+                return (
+                  <div
+                    key={item.id}
+                    className="product_card"
+                    onClick={() => navigate(`/product-detail/${item.id}`)}
+                  >
+                    <div className="card_image">
+                      <img src={item.img} alt="product" />
+                    </div>
+
+                    <div className="card_title">
+                      <h4>{item.name}</h4>
+                    </div>
+
+                    <p className="card_price_show">
+                      {salePrice.toLocaleString()} đ
+                    </p>
+
+                    <div className="card_price_discount">
+                      <p className="card_price_through">
+                        {item.price.toLocaleString()} đ
+                      </p>
+                      <p>-{item.discount}%</p>
+                    </div>
+
+                    <div className="card_bottom">
+                      <div className="card_vote">
+                        ⭐ ({item.quantitySold})
+                      </div>
+
+                      <div
+                        className="card_add_cart"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart({
+                            id: item.id,
+                            name: item.name,
+                            price: salePrice,
+                            img: item.img || "https://via.placeholder.com/150",
+                          });
+                          toast.success(t("add_cart_success"));
+                        }}
+                      >
+                        🛒
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* BEST SELLING */}
@@ -448,8 +551,7 @@ const Home = () => {
                 <div key={index} className={`message ${msg.type}`}>
 
                   {/* TEXT */}
-                  <div className="text">{msg.text}</div>
-
+                  {msg.text && <div className="text">{msg.text}</div>}
                   {msg.image && (
                     <img src={msg.image} className="chat_image" />
                   )}
@@ -513,14 +615,16 @@ const Home = () => {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
+                    setSelectedFile(file); 
+
                     const reader = new FileReader();
                     reader.onload = () => {
-                      setImage(reader.result as string);
+                      setImage(reader.result as string); 
                     };
                     reader.readAsDataURL(file);
                   }
 
-                  e.target.value = "";
+                  e.target.value = ""; 
                 }}
               />
 

@@ -270,6 +270,7 @@
   margin-bottom: 15px;
 }
 
+
 .best_sale_title img {
   width: 58px;
   height: 58px;
@@ -604,7 +605,7 @@
 
 .chat_product .price {
   font-size: 12px;
-  color: #27ae60;
+  color: #c71010;
 }
 
 /* ANIMATION */
@@ -702,18 +703,83 @@
 }
 .chat_products_list {
   display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 5px 0;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 .chat_product {
-  cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100px;
+  gap: 12px;
+
+  padding: 10px;
+  border-radius: 12px;
+
+  background: #ffffff;
+  border: 1px solid #eee;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat_product:hover {
+  background: #f8f8f8;
+  transform: translateY(-2px);
 }
 .chat_product img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+/* RECOMMENDED SECTION - THÊM MỚI */
+.recommended_section {
+  margin-top: 25px;
+  padding-top: 10px;
+}
+
+/* Recommended Title - Chỉnh lại nhỏ hơn */
+.recommended_title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;  /* Giảm từ 8px xuống 4px để gần hơn */
+  margin-bottom: 20px;
+  padding: 4px 12px;  
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 30px;
+  width: fit-content;
+}
+
+/* Icon gợi ý - nhỏ lại */
+.recommended_icon {
+  width: 50px;  
+  height: 50px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recommended_icon img {
   width: 100%;
-  border-radius: 5px;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Title text - nhỏ lại */
+.recommended_title h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.5px;
+  -webkit-text-stroke: 1px rgba(250, 158, 84, 0.6);
+  text-stroke: 1px rgba(249, 157, 81, 0.6);
+  paint-order: stroke fill;
+  line-height: 1.2; 
 }
