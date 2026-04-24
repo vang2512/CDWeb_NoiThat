@@ -40,7 +40,7 @@ public class FoodController {
     @GetMapping("/with-recommendations")
     public ResponseEntity<?> getAllFoodsWithRecommendations(
             @RequestParam(required = false) Integer userId,
-            @RequestParam(defaultValue = "10") Integer limit) {
+            @RequestParam(defaultValue = "8") Integer limit) {
 
         try {
             List<Product> allFoods = foodRepository.findByIsDeletedFalse();

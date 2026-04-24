@@ -7,7 +7,7 @@ import requests
 import io
 import pickle
 
-from food_database import FoodDatabase
+from src.food_database import FoodDatabase
 
 class ImageVectorizer:
     def __init__(self):

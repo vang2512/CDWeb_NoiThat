@@ -151,8 +151,7 @@ public class ChatbotService {
             ));
             return response;
         }
-        response.put("reply",
-                "Mình có thể giúp bạn tìm món ăn hoặc kiểm tra đơn hàng. Bạn thử hỏi lại nhé.");
+        response.put("reply", intent.getReply());
         return response;
     }
 

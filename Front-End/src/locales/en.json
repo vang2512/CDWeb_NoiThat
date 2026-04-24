@@ -75,6 +75,8 @@
   "error_password_length": "Password must be at least 6 characters!",
   "error_password_match": "Passwords do not match!",
   "reset_fail": "Reset password failed!",
+  "recommended_products": "PRODUCT PROPOSOL",
+  "language": "Language",
 
   "home_title": "Home",
   "best_selling_titile": "BEST SELLING PRODUCTS",

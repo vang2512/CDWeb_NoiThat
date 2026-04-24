@@ -121,9 +121,6 @@ class FoodDatabase:
             for row in results:
                 image_url = row["img"]
 
-                # 👉 Nếu là path local thì mở dòng này:
-                # image_url = "http://localhost:8080/" + row["img"]
-
                 products.append({
                     "id": row["id"],
                     "image_url": image_url
