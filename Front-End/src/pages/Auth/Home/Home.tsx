@@ -7,7 +7,7 @@ import slide4 from "../../../assets/images/slide_1_img.jpeg";
 import authApi from "../../../api/Auth/Auth_Api";
 import { useCart } from "../CartContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowUp, Image as ImageIcon } from "lucide-react";
+import { ArrowUp, Image as ImageIcon, ShoppingCart, Star } from "lucide-react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -92,6 +92,7 @@ const Home = () => {
     };
     fetchTopSelling();
   }, []);
+  
   // Gợi ý sp
   useEffect(() => {
     const fetchRecommended = async () => {
@@ -184,21 +185,21 @@ const Home = () => {
         return;
       }
 
-if (text.trim()) {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const res = await authApi.chatbot(text, user.id || 0);
+      if (text.trim()) {
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const res = await authApi.chatbot(text, user.id || 0);
 
-  const data = res.data;
+        const data = res.data;
 
-  setMessages(prev => [
-    ...prev,
-    {
-      type: "bot",
-      text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé 😊",
-      product: data.product
-    }
-  ]);
-}
+        setMessages(prev => [
+          ...prev,
+          {
+            type: "bot",
+            text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
+            product: data.product
+          }
+        ]);
+      }
 
     } catch (err) {
       console.error("Chat error:", err);
@@ -209,13 +210,12 @@ if (text.trim()) {
     }
   };
 
-
   useEffect(() => {
     if (openChat && messages.length === 0) {
       setMessages([
         {
           type: "bot",
-          text: "Xin chào 👋 mình có thể giúp bạn tìm kiếm sản phẩm và kiểm tra đơn hàng !"
+          text: "Xin chào, mình có thể giúp bạn tìm kiếm sản phẩm và kiểm tra đơn hàng !"
         }
       ]);
     }
@@ -313,7 +313,7 @@ if (text.trim()) {
 
                   <div className="card_bottom">
                     <div className="card_vote">
-                      ⭐ ({item.quantitySold})
+                      <Star size={18} fill="#FFD700" color="#FFD700" /> ({item.quantitySold})
                     </div>
 
                     <div
@@ -329,7 +329,7 @@ if (text.trim()) {
                         toast.success(t("add_cart_success"));
                       }}
                     >
-                      🛒
+                      <ShoppingCart size={20} />
                     </div>
                   </div>
                 </div>
@@ -378,7 +378,7 @@ if (text.trim()) {
 
                     <div className="card_bottom">
                       <div className="card_vote">
-                        ⭐ ({item.quantitySold})
+                        <Star size={18} fill="#FFD700" color="#FFD700" /> ({item.quantitySold})
                       </div>
 
                       <div
@@ -394,7 +394,7 @@ if (text.trim()) {
                           toast.success(t("add_cart_success"));
                         }}
                       >
-                        🛒
+                        <ShoppingCart size={20} />
                       </div>
                     </div>
                   </div>
@@ -449,7 +449,7 @@ if (text.trim()) {
 
                   <div className="card_bottom">
                     <div className="card_vote">
-                      ⭐ ({item.quantitySold})
+                      <Star size={18} fill="#FFD700" color="#FFD700" /> ({item.quantitySold})
                     </div>
 
                     <div
@@ -466,7 +466,7 @@ if (text.trim()) {
                         toast.success(t("add_cart_success"));
                       }}
                     >
-                      🛒
+                      <ShoppingCart size={20} />
                     </div>
                   </div>
                 </div>
@@ -522,8 +522,9 @@ if (text.trim()) {
         </div>
 
         <div className="scroll_top" onClick={scrollToTop}>
-          <ArrowUp size={22} />
+          <ArrowUp size={22} /> 
         </div>
+        
         {/* CHATBOT BUTTON */}
         <div
           className="chatbot_button"

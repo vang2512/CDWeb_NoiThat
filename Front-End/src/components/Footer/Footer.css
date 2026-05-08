@@ -1,123 +1,534 @@
-html, body{
-  height:100%;
-  margin:0;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
-body{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-#root{
-  flex:1;
-  display:flex;
-  flex-direction:column;
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.footer{
-  margin-top:-20px;
-  background:#f4f4f4;
-  font-family:"Inter", sans-serif;
+.footer {
+  margin-top: -20px;
+  background: #f4f4f4;
+  font-family: "Inter", sans-serif;
 }
 
 
 
 /* top */
 
-.footer-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:25px 10%;
-  border-bottom:1px solid #ddd;
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 10%;
+  border-bottom: 1px solid #ddd;
 }
 
-.newsletter{
-  display:flex;
-  align-items:center;
-  gap:15px;
+.newsletter {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.newsletter-input{
-  display:flex;
+.newsletter-input {
+  display: flex;
 }
 
-.newsletter-input input{
-  padding:10px 12px;
-  border:1px solid #ddd;
-  border-radius:5px 0 0 5px;
-  outline:none;
+.newsletter-input input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  outline: none;
 }
 
-.newsletter-input button{
-  padding:10px 16px;
-  background:#e53935;
-  border:none;
-  color:white;
-  cursor:pointer;
-  border-radius:0 5px 5px 0;
+.newsletter-input button {
+  padding: 10px 16px;
+  background: #e53935;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
 }
 
-.social{
-  display:flex;
-  align-items:center;
-  gap:15px;
+.social {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.social-icons a{
-  font-size:20px;
-  color:#333;
-  margin-left:10px;
+.social-icons a {
+  font-size: 20px;
+  color: #333;
+  margin-left: 10px;
 }
 
 /* content */
 
-.footer-content{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:40px;
-  padding:40px 10%;
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding: 40px 10%;
 }
 
-.footer-column h3{
-  margin-bottom:15px;
-  font-size:16px;
+.footer-column h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
-.footer-column p{
-  font-size:14px;
-  margin-bottom:10px;
-  color:#444;
+.footer-column p {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #444;
 }
 
-.footer-column ul{
-  list-style:none;
-  padding:0;
+.footer-column ul {
+  list-style: none;
+  padding: 0;
 }
 
-.footer-column li{
-  font-size:14px;
-  margin-bottom:8px;
-  cursor:pointer;
+.footer-column li {
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 
-.footer-column li:hover{
-  color:#e53935;
+.footer-column li:hover {
+  color: #e53935;
 }
 
-.info{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* bottom */
 
-.footer-bottom{
-  text-align:center;
-  padding:15px;
-  border-top:1px solid #ddd;
-  font-size:14px;
-  color:#666;
+.footer-bottom {
+  text-align: center;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  color: #666;
+}
+
+/* ===== RESPONSIVE FOOTER CHUẨN MOBILE ===== */
+
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .footer-top {
+    padding: 25px 5%;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer-content {
+    padding: 40px 5%;
+    gap: 30px;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .footer {
+    margin-top: 0;
+  }
+
+  /* Footer Top */
+  .footer-top {
+    padding: 20px 20px;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .newsletter {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .newsletter span {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .newsletter-input input {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .newsletter-input button {
+    padding: 12px 20px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .social {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social span {
+    font-size: 14px;
+  }
+
+  .social-icons a {
+    font-size: 22px;
+    margin: 0 6px;
+  }
+
+  /* Footer Content - Grid thành column */
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 30px 20px;
+  }
+
+  .footer-column {
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 16px;
+  }
+
+  .footer-column:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .footer-column h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  /* Thêm icon mũi tên cho mobile (có thể toggle) */
+  .footer-column h3::after {
+    content: "▼";
+    font-size: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .footer-column.open h3::after {
+    transform: rotate(180deg);
+  }
+
+  .footer-column p,
+  .footer-column ul,
+  .footer-column .info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .footer-column.open p,
+  .footer-column.open ul,
+  .footer-column.open .info {
+    max-height: 500px;
+  }
+
+  .footer-column p {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .footer-column ul {
+    margin-top: 8px;
+  }
+
+  .footer-column li {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .info {
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Footer Bottom */
+  .footer-bottom {
+    padding: 16px 20px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .footer-top {
+    padding: 16px 16px;
+    gap: 16px;
+  }
+
+  .newsletter-input {
+    max-width: 100%;
+  }
+
+  .newsletter-input input {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .newsletter-input button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .social-icons a {
+    font-size: 20px;
+    margin: 0 5px;
+  }
+
+  .footer-content {
+    padding: 24px 16px;
+    gap: 20px;
+  }
+
+  .footer-column h3 {
+    font-size: 15px;
+  }
+
+  .footer-column p,
+  .footer-column li {
+    font-size: 12px;
+  }
+
+  .footer-bottom {
+    padding: 14px 16px;
+    font-size: 11px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .footer-top {
+    padding: 14px 12px;
+  }
+
+  .newsletter span {
+    font-size: 13px;
+  }
+
+  .newsletter-input input {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .newsletter-input button {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  .social span {
+    font-size: 13px;
+  }
+
+  .social-icons a {
+    font-size: 18px;
+  }
+
+  .footer-content {
+    padding: 20px 12px;
+    gap: 16px;
+  }
+
+  .footer-column h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .footer-column p,
+  .footer-column li {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .info {
+    gap: 8px;
+  }
+
+  .info svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .footer-bottom {
+    padding: 12px;
+    font-size: 10px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .footer-top {
+    padding: 12px 10px;
+  }
+
+  .newsletter-input input {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .newsletter-input button {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .footer-content {
+    padding: 16px 10px;
+    gap: 14px;
+  }
+
+  .footer-column h3 {
+    font-size: 13px;
+  }
+
+  .footer-column p,
+  .footer-column li {
+    font-size: 10px;
+  }
+
+  .footer-bottom {
+    padding: 10px;
+    font-size: 9px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .footer {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+
+  .footer-bottom {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 480px) {
+    .footer-bottom {
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* Animation cho footer khi load */
+@media (max-width: 768px) {
+  .footer {
+    animation: fadeInUp 0.4s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Tối ưu cho màn hình rất rộng */
+@media (min-width: 1440px) {
+  .footer-top {
+    padding: 30px 15%;
+  }
+
+  .footer-content {
+    padding: 50px 15%;
+    gap: 50px;
+  }
+}
+
+/* Touch feedback cho mobile */
+@media (max-width: 768px) {
+
+  .footer-column li,
+  .newsletter-input button,
+  .social-icons a {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-column li:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+
+  .newsletter-input button:active {
+    transform: scale(0.97);
+  }
+
+  .social-icons a:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Style cho footer trên mobile khi có nhiều nội dung */
+@media (max-width: 768px) {
+
+  /* Đảm bảo footer luôn ở dưới cùng */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  #root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer {
+    margin-top: auto;
+  }
+}
+
+/* Hiển thị đẹp hơn cho phần info */
+@media (max-width: 768px) {
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info svg {
+    flex-shrink: 0;
+  }
+}
+
+/* Scrollbar cho các phần tử có overflow */
+@media (max-width: 768px) {
+  .footer-content {
+    max-height: none;
+    overflow: visible;
+  }
 }

@@ -248,6 +248,45 @@
 
 .card_add_cart {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+  width: 36px;
+  height: 36px;
+}
+
+.card_add_cart:hover {
+  background-color: #ff6b6b;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.card_add_cart:hover svg {
+  stroke: white;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.card_add_cart svg {
+  stroke: #ff6b6b;
+  color: #ff6b6b;
+  transition: all 0.3s ease;
+}
+
+.card_add_cart:active {
+  transform: scale(0.95);
+}
+
+.card_vote {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #666;
 }
 
 /* BEST SELLER */
@@ -782,4 +821,740 @@
   text-stroke: 1px rgba(249, 157, 81, 0.6);
   paint-order: stroke fill;
   line-height: 1.2; 
+}
+/* ===== RESPONSIVE HOME PAGE CHUẨN MOBILE ===== */
+
+/* Tablet nhỏ (768px - 1024px) */
+@media (max-width: 1024px) {
+  .home {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 20px;
+  }
+  
+  .product_list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .home {
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .slider_wrapper {
+    border-radius: 16px;
+  }
+  
+  /* ===== CATEGORY - CUỘN NGANG ===== */
+  .block_category {
+    margin: 30px auto;
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding: 10px 8px;
+    border-width: 2px;
+    gap: 0;
+  }
+  
+  .block_category::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .block_category::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .block_category::-webkit-scrollbar-thumb {
+    background: #107dea;
+    border-radius: 10px;
+  }
+  
+  .category_item {
+    display: inline-flex;
+    width: 85px;
+    height: 100px;
+    margin-right: 12px;
+    white-space: normal;
+    vertical-align: top;
+  }
+  
+  .category_item:last-child {
+    margin-right: 0;
+  }
+  
+  .category_item img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .category_item p {
+    font-size: 11px;
+  }
+  
+  .left_bell, .right_bell {
+    width: 50px;
+  }
+  
+  .left_bell {
+    top: -20px;
+    left: -15px;
+  }
+  
+  .right_bell {
+    top: -20px;
+    right: -15px;
+  }
+  
+  .category_img img {
+    width: 50px;
+  }
+  
+  /* Flash Sale */
+  .block_sale {
+    padding: 20px 16px;
+    margin-top: -10px;
+  }
+  
+  .sale_title img {
+    height: 40px;
+    margin-bottom: 15px;
+  }
+  
+  .product_list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .product_card {
+    padding: 8px;
+  }
+  
+  .card_image img {
+    height: 140px;
+  }
+  
+  .card_title {
+    height: 42px;
+  }
+  
+  .card_title h4 {
+    font-size: 13px;
+  }
+  
+  .card_price_show {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  
+  .card_price_through {
+    font-size: 11px;
+  }
+  
+  .card_bottom {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+  
+  .card_add_cart {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+  
+  .card_add_cart svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .card_vote svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  /* Best Seller */
+  .block_best_sale {
+    padding: 20px 16px;
+    margin-top: 20px;
+  }
+  
+  .best_sale_title img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .best_sale_title h2 {
+    font-size: 18px;
+  }
+  
+  /* ===== NEWS SECTION - CUỘN NGANG ===== */
+  .news_section {
+    padding: 20px 0 20px 16px;
+    margin-top: 20px;
+  }
+  
+  .news_header {
+    padding-right: 16px;
+  }
+  
+  .news_header img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .news_header h2 {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  
+  .news_cards {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 16px;
+    scrollbar-width: thin;
+  }
+  
+  .news_cards::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .news_cards::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .news_cards::-webkit-scrollbar-thumb {
+    background: #107dea;
+    border-radius: 10px;
+  }
+  
+  .news_card {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+  }
+  
+  .news_image {
+    height: 160px;
+  }
+  
+  .news_title {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .view_more {
+    margin-top: 16px;
+    margin-right: 16px;
+    text-align: right;
+  }
+  
+  .view_more a {
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  /* Recommended Section */
+  .recommended_section {
+    margin-top: 20px;
+  }
+  
+  .recommended_title {
+    padding: 3px 10px;
+    margin-bottom: 15px;
+  }
+  
+  .recommended_icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .recommended_title h2 {
+    font-size: 16px;
+  }
+  
+  /* Scroll Top & Chatbot */
+  .scroll_top, .chatbot_button {
+    width: 45px;
+    height: 45px;
+    right: 20px;
+    font-size: 20px;
+  }
+  
+  .scroll_top {
+    bottom: 20px;
+  }
+  
+  .chatbot_button {
+    bottom: 80px;
+  }
+  
+  /* Chatbox */
+  .chatbox {
+    width: calc(100% - 40px);
+    max-width: 350px;
+    right: 20px;
+    bottom: 140px;
+    height: 400px;
+  }
+  
+  .chatbox_header {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .chatbox_body {
+    padding: 8px;
+  }
+  
+  .message .text {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  
+  .chat_product {
+    padding: 8px;
+  }
+  
+  .chat_product img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .chat_product .name {
+    font-size: 12px;
+  }
+  
+  .chatbox_input input {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .chatbox_input button {
+    padding: 0 12px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .home {
+    margin: 80px auto 16px;
+    padding: 0 12px;
+  }
+  
+  .product_list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .category_item {
+    width: 75px;
+    height: 90px;
+  }
+  
+  .category_item img {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .card_image img {
+    height: 120px;
+  }
+  
+  .news_card {
+    flex: 0 0 260px;
+  }
+  
+  .news_image {
+    height: 150px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .home {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .slider_wrapper {
+    border-radius: 12px;
+  }
+  
+  /* Category - cuộn ngang */
+  .block_category {
+    margin: 20px auto;
+    padding: 8px 6px;
+  }
+  
+  .category_item {
+    width: 70px;
+    height: 85px;
+    margin-right: 10px;
+  }
+  
+  .category_item img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .category_item p {
+    font-size: 10px;
+  }
+  
+  .left_bell img, .right_bell img {
+    width: 40px;
+  }
+  
+  .left_bell {
+    top: -15px;
+    left: -10px;
+  }
+  
+  .right_bell {
+    top: -15px;
+    right: -10px;
+  }
+  
+  /* Flash Sale */
+  .block_sale {
+    padding: 16px 12px;
+  }
+  
+  .sale_title img {
+    height: 35px;
+  }
+  
+  .product_list {
+    gap: 8px;
+  }
+  
+  .product_card {
+    padding: 6px;
+  }
+  
+  .card_image img {
+    height: 110px;
+  }
+  
+  .card_title {
+    height: 38px;
+  }
+  
+  .card_title h4 {
+    font-size: 12px;
+  }
+  
+  .card_price_show {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+  
+  .card_price_through {
+    font-size: 10px;
+  }
+  
+  .card_bottom {
+    font-size: 10px;
+  }
+  
+  .card_add_cart {
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Best Seller */
+  .block_best_sale {
+    padding: 16px 12px;
+  }
+  
+  .best_sale_title img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .best_sale_title h2 {
+    font-size: 16px;
+  }
+  
+  /* News - cuộn ngang */
+  .news_section {
+    padding: 16px 0 16px 12px;
+  }
+  
+  .news_header {
+    padding-right: 12px;
+  }
+  
+  .news_header img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .news_header h2 {
+    font-size: 16px;
+  }
+  
+  .news_cards {
+    gap: 12px;
+    padding-right: 12px;
+  }
+  
+  .news_card {
+    flex: 0 0 240px;
+  }
+  
+  .news_image {
+    height: 140px;
+  }
+  
+  .news_title {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .view_more {
+    margin-right: 12px;
+  }
+  
+  /* Recommended */
+  .recommended_icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .recommended_title h2 {
+    font-size: 14px;
+  }
+  
+  /* Scroll buttons */
+  .scroll_top, .chatbot_button {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    font-size: 18px;
+  }
+  
+  .scroll_top {
+    bottom: 15px;
+  }
+  
+  .chatbot_button {
+    bottom: 70px;
+  }
+  
+  /* Chatbox */
+  .chatbox {
+    width: calc(100% - 30px);
+    right: 15px;
+    bottom: 120px;
+    height: 380px;
+  }
+  
+  .chat_product {
+    gap: 8px;
+  }
+  
+  .chat_product img {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .home {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .product_list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  
+  .category_item {
+    width: 65px;
+    height: 75px;
+    margin-right: 8px;
+  }
+  
+  .category_item img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 4px;
+  }
+  
+  .card_image img {
+    height: 100px;
+  }
+  
+  .card_title h4 {
+    font-size: 11px;
+  }
+  
+  .card_price_show {
+    font-size: 12px;
+  }
+  
+  .news_card {
+    flex: 0 0 220px;
+  }
+  
+  .news_image {
+    height: 130px;
+  }
+  
+  .scroll_top, .chatbot_button {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    right: 12px;
+  }
+  
+  .chatbox {
+    width: calc(100% - 24px);
+    right: 12px;
+    height: 350px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch (iPhone, Dynamic Island) */
+@supports (padding: max(0px)) {
+  .home {
+    margin-top: max(85px, env(safe-area-inset-top));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 480px) {
+    .home {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target trên mobile */
+@media (max-width: 768px) {
+  .category_item,
+  .product_card,
+  .news_card,
+  .menu-item,
+  .location,
+  .scroll_top,
+  .chatbot_button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .category_item:active,
+  .product_card:active,
+  .news_card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  .card_add_cart:active {
+    transform: scale(0.9);
+  }
+  
+  /* Tăng vùng chạm cho nút */
+  .card_add_cart {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .scroll_top, .chatbot_button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .category_item:hover {
+    background: transparent;
+  }
+  
+  .product_card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .card_add_cart:hover {
+    background-color: #f5f5f5;
+    transform: none;
+  }
+  
+  .card_add_cart:hover svg {
+    stroke: #ff6b6b;
+    color: #ff6b6b;
+  }
+}
+
+/* Animation khi load trang trên mobile */
+@media (max-width: 768px) {
+  .product_card {
+    animation: fadeInScale 0.3s ease forwards;
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  
+  .product_card:nth-child(1) { animation-delay: 0.02s; }
+  .product_card:nth-child(2) { animation-delay: 0.04s; }
+  .product_card:nth-child(3) { animation-delay: 0.06s; }
+  .product_card:nth-child(4) { animation-delay: 0.08s; }
+  .product_card:nth-child(5) { animation-delay: 0.1s; }
+  .product_card:nth-child(6) { animation-delay: 0.12s; }
+  
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* ===== RIÊNG CHO DANH SÁCH SẢN PHẨM DẠNG LƯỚI (GIỮ NGUYÊN) ===== */
+@media (max-width: 768px) {
+  .product_list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    overflow-x: visible !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .block_sale .product_list {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .block_best_sale .product_list {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+  .product_list {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
 }

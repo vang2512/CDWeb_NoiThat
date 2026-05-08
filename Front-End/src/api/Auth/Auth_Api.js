@@ -67,9 +67,9 @@ const authApi = {
 
   // Gợi ý sp
   getRecommendedFoods: (userId, limit = 8) =>
-  axiosClient.get(`/foods/recommended`, {
-    params: { userId, limit }
-  }),
+    axiosClient.get(`/foods/recommended`, {
+      params: { userId, limit }
+    }),
 
   searchImage: (file) => {
     const formData = new FormData();

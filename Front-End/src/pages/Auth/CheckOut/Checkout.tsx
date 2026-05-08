@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import GoogleMapPicker from "../GoogleMapPicker";
 import authApi from "../../../api/Auth/Auth_Api";
-import { Truck, Percent, Tag } from "lucide-react";
+import { Truck, Percent, Tag, ChevronDown, ChevronUp, X, MapPin, Phone, User, FileText, ShoppingBag, CreditCard, ShieldCheck } from "lucide-react";
 import { CartProduct } from "../../../model/CartProduct";
 import { Voucher } from "../../../model/Voucher";
 import toast from "react-hot-toast";
@@ -42,6 +42,7 @@ const Checkout = () => {
   const [selectedShippingVoucher, setSelectedShippingVoucher] = useState<Voucher | null>(null);
   const [selectedOrderVoucher, setSelectedOrderVoucher] = useState<Voucher | null>(null);
   const [voucherError, setVoucherError] = useState("");
+  const [isVoucherOpen, setIsVoucherOpen] = useState(false);
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shippingFee = 30000;
@@ -62,7 +63,7 @@ const Checkout = () => {
     fetchUser();
   }, []);
 
-  // Hàm loard voucher 
+  // Hàm load voucher 
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
@@ -86,7 +87,6 @@ const Checkout = () => {
     checkUser();
   }, []);
 
-
   const shippingVouchers = vouchers.filter((v) => {
     const isFreeShipCode = v.code?.toUpperCase().includes("FREESHIP");
     if (v.discountType === "FREE") {
@@ -100,30 +100,8 @@ const Checkout = () => {
 
   const orderVouchers = vouchers.filter((v) => {
     const isFreeShipCode = v.code?.trim().toUpperCase().includes("FREESHIP");
-
     return !isFreeShipCode;
   });
-
-
-
-  // hàm mở xem ds voucher 
-
-  useEffect(() => {
-    // Đóng dropdown khi click ra ngoài
-    const handleClickOutside = (event: MouseEvent) => {
-      const dropdown = document.querySelector('.voucher_dropdown');
-      const dropdownContent = document.querySelector('.voucher_dropdown_content');
-
-      if (dropdown && !dropdown.contains(event.target as Node)) {
-        dropdownContent?.classList.remove('show');
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   // Handle input form
   const handleInputChange = (
@@ -142,17 +120,13 @@ const Checkout = () => {
   const applyVoucher = (voucher: Voucher) => {
     const isFreeShipCode = voucher.code?.trim().toUpperCase().includes("FREESHIP");
 
-    // FREESHIP (không cần check min order)
     if (isFreeShipCode) {
-      // nếu muốn chặt hơn thì thêm:
-      // if (!isNewUser) return;
-
       setSelectedShippingVoucher(voucher);
       setVoucherError("");
+      setIsVoucherOpen(false);
       return;
     }
 
-    // ORDER VOUCHER → check min order
     if (voucher.minOrderValue && subtotal < voucher.minOrderValue) {
       setVoucherError(
         `Đơn hàng tối thiểu ${voucher.minOrderValue.toLocaleString()}đ`
@@ -160,10 +134,11 @@ const Checkout = () => {
       return;
     }
 
-    // set order voucher
     setSelectedOrderVoucher(voucher);
     setVoucherError("");
+    setIsVoucherOpen(false);
   };
+  
   const calculateDiscount = (): number => {
     let totalDiscount = 0;
 
@@ -223,46 +198,41 @@ const Checkout = () => {
   };
 
   // Handle submit
-// Trong Checkout.jsx, cập nhật hàm handleSubmit
-const handleSubmit = () => {
-  // Kiểm tra các trường bắt buộc
-  if (!userData.fullName?.trim()) {
-    toast.error("Vui lòng nhập họ và tên");
-    return;
-  }
-  if (!userData.phone?.trim()) {
-     toast.error("Vui lòng nhập số điện thoại");
-    return;
-  }
-  if (!userData.address?.trim()) {
-     toast.error("Vui lòng nhập địa chỉ");
-    return;
-  }
+  const handleSubmit = () => {
+    if (!userData.fullName?.trim()) {
+      toast.error("Vui lòng nhập họ và tên");
+      return;
+    }
+    if (!userData.phone?.trim()) {
+      toast.error("Vui lòng nhập số điện thoại");
+      return;
+    }
+    if (!userData.address?.trim()) {
+      toast.error("Vui lòng nhập địa chỉ");
+      return;
+    }
 
-  // Chuẩn bị dữ liệu đơn hàng
-  const orderData = {
-    userData: {
-      fullName: userData.fullName,
-      phone: userData.phone,
-      address: userData.address,
-    },
-    formData: {
-      note: formData.note,
-    },
-    cart: cart,
-    subtotal: subtotal,
-    shippingFee: shippingFee,
-    discount: discount,
-    total: total,
-    shippingVoucher: selectedShippingVoucher,
-    orderVoucher: selectedOrderVoucher,
+    const orderData = {
+      userData: {
+        fullName: userData.fullName,
+        phone: userData.phone,
+        address: userData.address,
+      },
+      formData: {
+        note: formData.note,
+      },
+      cart: cart,
+      subtotal: subtotal,
+      shippingFee: shippingFee,
+      discount: discount,
+      total: total,
+      shippingVoucher: selectedShippingVoucher,
+      orderVoucher: selectedOrderVoucher,
+    };
+
+    localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+    navigate("/payment");
   };
-
-   localStorage.setItem("pendingOrder", JSON.stringify(orderData));
-  // Chuyển sang trang thanh toán
-   navigate("/payment");
-};
-
 
   return (
     <div className="checkout_page">
@@ -276,47 +246,60 @@ const handleSubmit = () => {
       </div>
 
       <div className="checkout_container">
-        {/* LEFT */}
+        {/* LEFT - Thông tin nhận hàng */}
         <div className="checkout_left">
-          <h2>Thông tin nhận hàng</h2>
+          <div className="section_header">
+            <User size={22} />
+            <h2>Thông tin nhận hàng</h2>
+          </div>
+          
           <form className="info_form">
             <div className="form_group">
               <label>
                 Họ và tên <span className="required">*</span>
               </label>
-              <input
-                type="text"
-                name="fullName"
-                value={userData.fullName}
-                onChange={handleInputChange}
-                placeholder="Nhập họ và tên"
-              />
+              <div className="input_wrapper">
+                <User size={18} className="input_icon" />
+                <input
+                  type="text"
+                  name="fullName"
+                  value={userData.fullName}
+                  onChange={handleInputChange}
+                  placeholder="Nhập họ và tên"
+                />
+              </div>
             </div>
 
             <div className="form_group">
               <label>
                 Số điện thoại <span className="required">*</span>
               </label>
-              <input
-                type="tel"
-                name="phone"
-                value={userData.phone}
-                onChange={handleInputChange}
-                placeholder="Nhập số điện thoại"
-              />
+              <div className="input_wrapper">
+                <Phone size={18} className="input_icon" />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={userData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Nhập số điện thoại"
+                />
+              </div>
             </div>
 
             <div className="form_group">
               <label>
                 Địa chỉ <span className="required">*</span>
               </label>
-              <input
-                type="text"
-                name="address"
-                value={userData.address}
-                onChange={handleInputChange}
-                placeholder="Nhập địa chỉ"
-              />
+              <div className="input_wrapper">
+                <MapPin size={18} className="input_icon" />
+                <input
+                  type="text"
+                  name="address"
+                  value={userData.address}
+                  onChange={handleInputChange}
+                  placeholder="Nhập địa chỉ"
+                />
+              </div>
             </div>
 
             <div className="map_container">
@@ -335,20 +318,26 @@ const handleSubmit = () => {
 
             <div className="form_group">
               <label>Ghi chú đơn hàng</label>
-              <textarea
-                name="note"
-                rows={3}
-                value={formData.note}
-                onChange={handleInputChange}
-                placeholder="Nhập ghi chú (nếu có)"
-              />
+              <div className="input_wrapper textarea_wrapper">
+                <FileText size={18} className="input_icon" />
+                <textarea
+                  name="note"
+                  rows={3}
+                  value={formData.note}
+                  onChange={handleInputChange}
+                  placeholder="Nhập ghi chú (nếu có)"
+                />
+              </div>
             </div>
           </form>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT - Đơn hàng của bạn */}
         <div className="checkout_right">
-          <h2>Đơn hàng của bạn</h2>
+          <div className="section_header">
+            <ShoppingBag size={22} />
+            <h2>Đơn hàng của bạn</h2>
+          </div>
 
           <div className="order_items">
             {cart.map((item) => (
@@ -365,14 +354,13 @@ const handleSubmit = () => {
             ))}
           </div>
 
-          {/* VOUCHER SECTION - Thiết kế mới */}
-          {/* VOUCHER SECTION - Dạng dropdown */}
+          {/* VOUCHER SECTION */}
           <div className="voucher_section">
             <div className="voucher_header">
-              <h3>
+              <div className="voucher_title_wrapper">
                 <Tag size={18} />
-                Mã giảm giá
-              </h3>
+                <h3>Mã giảm giá</h3>
+              </div>
 
               {(selectedShippingVoucher || selectedOrderVoucher) && (
                 <button className="remove_voucher_btn" onClick={removeAllVoucher}>
@@ -383,7 +371,7 @@ const handleSubmit = () => {
 
             {voucherError && <p className="voucher_error">{voucherError}</p>}
 
-            {/* 🚚 SHIPPING VOUCHER */}
+            {/* Hiển thị voucher đã chọn */}
             {selectedShippingVoucher && (() => {
               let shippingDiscount = 0;
 
@@ -401,12 +389,14 @@ const handleSubmit = () => {
               }
 
               return (
-                <div className="selected_voucher">
+                <div className="selected_voucher shipping_selected">
+                  <div className="selected_voucher_icon">
+                    <Truck size={16} />
+                  </div>
                   <div className="selected_voucher_info">
                     <span className="selected_voucher_code">
                       {selectedShippingVoucher.code}
                     </span>
-
                     <span className="selected_voucher_name">
                       {selectedShippingVoucher.discountType === "FREE" &&
                         "Miễn phí vận chuyển"}
@@ -418,17 +408,14 @@ const handleSubmit = () => {
                         `Giảm ${selectedShippingVoucher.discountValue}% phí vận chuyển`}
                     </span>
                   </div>
-
                   <span className="selected_voucher_discount">
                     - {shippingDiscount.toLocaleString()}đ
                   </span>
-
-                  <button onClick={removeShippingVoucher}>X</button>
+                  <button className="remove_btn" onClick={removeShippingVoucher}>✕</button>
                 </div>
               );
             })()}
 
-            {/* 💸 ORDER VOUCHER */}
             {selectedOrderVoucher && (() => {
               let orderDiscount = 0;
 
@@ -439,18 +426,19 @@ const handleSubmit = () => {
               if (selectedOrderVoucher.discountType === "PERCENT") {
                 let percent =
                   (subtotal * Number(selectedOrderVoucher.discountValue || 0)) / 100;
-
                 percent = Math.min(percent, 50000);
                 orderDiscount = percent;
               }
 
               return (
-                <div className="selected_voucher">
+                <div className="selected_voucher order_selected">
+                  <div className="selected_voucher_icon">
+                    <Percent size={16} />
+                  </div>
                   <div className="selected_voucher_info">
                     <span className="selected_voucher_code">
                       {selectedOrderVoucher.code}
                     </span>
-
                     <span className="selected_voucher_name">
                       {selectedOrderVoucher.discountType === "FIXED" &&
                         `Giảm ${selectedOrderVoucher.discountValue.toLocaleString()}đ`}
@@ -459,176 +447,135 @@ const handleSubmit = () => {
                         `Giảm ${selectedOrderVoucher.discountValue}%`}
                     </span>
                   </div>
-
-                  {/*  HIỂN THỊ TIỀN GIẢM THỰC */}
                   <span className="selected_voucher_discount">
                     - {orderDiscount.toLocaleString()}đ
                   </span>
-
-                  <button onClick={removeOrderVoucher}>X</button>
+                  <button className="remove_btn" onClick={removeOrderVoucher}>✕</button>
                 </div>
               );
             })()}
 
+            {/* Dropdown chọn voucher */}
             <div className="voucher_dropdown">
               <button
                 className="voucher_dropdown_btn"
-                onClick={() => {
-                  const dropdown = document.querySelector('.voucher_dropdown_content');
-                  dropdown?.classList.toggle('show');
-                }}
+                onClick={() => setIsVoucherOpen(!isVoucherOpen)}
               >
                 <span>Chọn mã giảm giá</span>
-                <svg
-                  className="dropdown_arrow"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" />
-                </svg>
+                {isVoucherOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
               </button>
 
-              <div className="voucher_dropdown_content">
+              {isVoucherOpen && (
+                <div className="voucher_dropdown_content">
+                  {/* SHIPPING VOUCHERS */}
+                  {shippingVouchers.length > 0 && (
+                    <div className="voucher_group">
+                      <div className="voucher_group_title shipping_title">
+                        <Truck size={14} />
+                        <span>Miễn phí vận chuyển</span>
+                      </div>
 
-                {/* 🚚 SHIPPING */}
-                {shippingVouchers.length > 0 && (
-                  <div className="voucher_group shipping_group">
-                    <div className="voucher_group_title shipping_title">
-                      <Truck size={14} />
-                      <span>Miễn phí vận chuyển</span>
-                    </div>
-
-                    <div className="voucher_list">
-                      {shippingVouchers.map((voucher) => {
-                        const isActive = selectedShippingVoucher?.id === voucher.id;
-
-                        return (
-                          <div
-                            key={voucher.id}
-                            className={`voucher_card shipping_card ${isActive ? "active" : ""}`}
-                            onClick={() => {
-                              applyVoucher(voucher);
-                              document.querySelector('.voucher_dropdown_content')?.classList.remove('show');
-                            }}
-                          >
-                            <div className="voucher_card_content">
-
-                              <div className="voucher_icon">
-                                <img
-                                  src="https://cdn-icons-png.flaticon.com/512/3082/3082033.png"
-                                  className="voucher_icon_img"
-                                />
-                              </div>
-
-                              <div className="voucher_card_info">
-                                <div className="voucher_code shipping_code">
-                                  {voucher.code}
+                      <div className="voucher_list">
+                        {shippingVouchers.map((voucher) => {
+                          const isActive = selectedShippingVoucher?.id === voucher.id;
+                          return (
+                            <div
+                              key={voucher.id}
+                              className={`voucher_card shipping_card ${isActive ? "active" : ""}`}
+                              onClick={() => applyVoucher(voucher)}
+                            >
+                              <div className="voucher_card_content">
+                                <div className="voucher_icon">
+                                  <Truck size={24} color="#10b981" />
                                 </div>
-
-                                <div className="voucher_name">
-                                  Miễn phí vận chuyển
+                                <div className="voucher_card_info">
+                                  <div className="voucher_code shipping_code">
+                                    {voucher.code}
+                                  </div>
+                                  <div className="voucher_name">
+                                    {voucher.discountType === "FREE" && "Miễn phí vận chuyển"}
+                                    {voucher.discountType === "FIXED" && `Giảm ${voucher.discountValue?.toLocaleString()}đ phí ship`}
+                                    {voucher.discountType === "PERCENT" && `Giảm ${voucher.discountValue}% phí ship`}
+                                  </div>
+                                  <div className="voucher_desc">
+                                    {voucher.minOrderValue
+                                      ? `Đơn tối thiểu ${voucher.minOrderValue.toLocaleString()}đ`
+                                      : "Áp dụng cho mọi đơn hàng"}
+                                  </div>
                                 </div>
-
-                                <div className="voucher_desc">
-                                  {voucher.minOrderValue
-                                    ? `Đơn tối thiểu ${voucher.minOrderValue.toLocaleString()}đ`
-                                    : "Áp dụng cho mọi đơn hàng"}
+                                <div className="voucher_card_action">
+                                  <button
+                                    className={`apply_btn ${isActive ? "applied" : ""}`}
+                                    disabled={isActive}
+                                  >
+                                    {isActive ? "Đã chọn" : "Chọn"}
+                                  </button>
                                 </div>
                               </div>
-
-                              <div className="voucher_card_action">
-                                <button
-                                  className={`apply_voucher_btn shipping_btn ${isActive ? "applied" : ""}`}
-                                  disabled={isActive}
-                                >
-                                  {isActive ? "Đã chọn" : "Chọn"}
-                                </button>
-                              </div>
-
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* 💸 ORDER */}
-                {orderVouchers.length > 0 && (
-                  <div className="voucher_group order_group">
-                    <div className="voucher_group_title order_title">
-                      <Percent size={14} />
-                      <span>Giảm theo đơn hàng</span>
-                    </div>
+                  {/* ORDER VOUCHERS */}
+                  {orderVouchers.length > 0 && (
+                    <div className="voucher_group">
+                      <div className="voucher_group_title order_title">
+                        <Percent size={14} />
+                        <span>Giảm theo đơn hàng</span>
+                      </div>
 
-                    <div className="voucher_list">
-                      {orderVouchers.map((voucher) => {
-                        const isValid =
-                          !voucher.minOrderValue || subtotal >= voucher.minOrderValue;
+                      <div className="voucher_list">
+                        {orderVouchers.map((voucher) => {
+                          const isValid = !voucher.minOrderValue || subtotal >= voucher.minOrderValue;
+                          const isActive = selectedOrderVoucher?.id === voucher.id;
 
-                        const isActive = selectedOrderVoucher?.id === voucher.id;
-
-                        return (
-                          <div
-                            key={voucher.id}
-                            className={`voucher_card order_card ${isActive ? "active" : ""} ${!isValid ? "disabled" : ""}`}
-                            onClick={() => {
-                              if (isValid) {
-                                applyVoucher(voucher);
-                                document.querySelector('.voucher_dropdown_content')?.classList.remove('show');
-                              }
-                            }}
-                          >
-                            <div className="voucher_card_content">
-
-                              <div className="voucher_icon">
-                                <img
-                                  src="https://cdn-icons-png.flaticon.com/512/2331/2331966.png"
-                                  className="voucher_icon_img"
-                                />
-                              </div>
-
-                              <div className="voucher_card_info">
-                                <div className={`voucher_code ${isValid ? 'order_code' : 'order_code_disabled'}`}>
-                                  {voucher.code}
+                          return (
+                            <div
+                              key={voucher.id}
+                              className={`voucher_card order_card ${isActive ? "active" : ""} ${!isValid ? "disabled" : ""}`}
+                              onClick={() => isValid && applyVoucher(voucher)}
+                            >
+                              <div className="voucher_card_content">
+                                <div className="voucher_icon">
+                                  <Percent size={24} color={isValid ? "#ef4444" : "#9ca3af"} />
                                 </div>
-
-                                <div className="voucher_desc">
-                                  {voucher.minOrderValue && (
-                                    <span className="min_order">
-                                      Đơn tối thiểu {voucher.minOrderValue.toLocaleString()}đ
-                                    </span>
-                                  )}
+                                <div className="voucher_card_info">
+                                  <div className={`voucher_code ${isValid ? "order_code" : "order_code_disabled"}`}>
+                                    {voucher.code}
+                                  </div>
+                                  <div className="voucher_desc">
+                                    {voucher.discountType === "FIXED" && `Giảm ${voucher.discountValue?.toLocaleString()}đ`}
+                                    {voucher.discountType === "PERCENT" && `Giảm ${voucher.discountValue}% (tối đa 50.000đ)`}
+                                    {voucher.minOrderValue && (
+                                      <span className="min_order">
+                                        Đơn tối thiểu {voucher.minOrderValue.toLocaleString()}đ
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="voucher_card_action">
+                                  <button
+                                    className={`apply_btn ${isActive ? "applied" : ""} ${!isValid ? "disabled_btn" : ""}`}
+                                    disabled={isActive || !isValid}
+                                  >
+                                    {isActive ? "Đã chọn" : !isValid ? "Chưa đủ" : "Chọn"}
+                                  </button>
                                 </div>
                               </div>
-
-                              <div className="voucher_card_action">
-                                <button
-                                  className={`apply_voucher_btn order_btn ${isActive ? "applied" : ""} ${!isValid ? "disabled_btn" : ""}`}
-                                  disabled={isActive || !isValid}
-                                >
-                                  {isActive
-                                    ? "Đã chọn"
-                                    : !isValid
-                                      ? "Chưa đủ"
-                                      : "Chọn"}
-                                </button>
-                              </div>
-
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
-
-              </div>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* TOTAL */}
+            {/* TOTALS */}
             <div className="totals">
               <div className="total_row">
                 <span>Tạm tính</span>
@@ -658,8 +605,14 @@ const handleSubmit = () => {
               onClick={handleSubmit}
               disabled={cart.length === 0}
             >
-              Xác nhận đặt hàng
+              <CreditCard size={18} />
+              <span>Xác nhận đặt hàng</span>
             </button>
+
+            <div className="policy_note">
+              <ShieldCheck size={14} />
+              <span>Đơn hàng của bạn được bảo vệ an toàn</span>
+            </div>
           </div>
         </div>
       </div>

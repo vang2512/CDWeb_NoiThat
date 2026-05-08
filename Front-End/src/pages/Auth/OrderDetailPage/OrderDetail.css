@@ -53,6 +53,12 @@
     position: relative;
     z-index: 2;
 }
+.breadcrumb {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #666;
+}
 
 .step_icon {
     width: 48px;
@@ -377,4 +383,636 @@
     font-size: 14px;
     color: #64748b;
 }
+/* ===== RESPONSIVE ORDER DETAIL PAGE CHUẨN MOBILE ===== */
 
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .order_detail_page {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 24px;
+  }
+  
+  .order_detail_container {
+    padding: 28px;
+  }
+  
+  .info_grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  
+  .table_header,
+  .product_row {
+    grid-template-columns: 3fr 1.2fr 1fr 1.2fr;
+    gap: 12px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .order_detail_page {
+    width: 100%;
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .order_detail_container {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+  
+  .back_btn {
+    margin-bottom: 16px;
+    font-size: 13px;
+    padding: 6px 0;
+  }
+  
+  /* Status Timeline */
+  .status_timeline {
+    margin-bottom: 28px;
+    padding: 16px 0;
+    border-radius: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .timeline_step {
+    min-width: 80px;
+  }
+  
+  .step_icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+  }
+  
+  .step_icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .step_label {
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  .step_line {
+    top: 20px;
+  }
+  
+  /* Canceled Status */
+  .canceled_status {
+    padding: 32px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .canceled_status svg {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .canceled_status h3 {
+    font-size: 16px;
+  }
+  
+  /* Info Sections */
+  .order_info_section,
+  .shipping_section,
+  .products_section {
+    padding: 18px 16px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+  }
+  
+  .order_info_section h3,
+  .shipping_section h3,
+  .products_section h3 {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  
+  .info_grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .info_item {
+    padding: 10px 0;
+    gap: 6px;
+  }
+  
+  .info_item span {
+    font-size: 12px;
+  }
+  
+  .info_item strong {
+    font-size: 14px;
+  }
+  
+  .status_badge {
+    padding: 4px 10px;
+    font-size: 12px;
+    display: inline-flex;
+    width: fit-content;
+  }
+  
+  /* Products Table */
+  .products_table {
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+  
+  .table_header {
+    display: none;
+  }
+  
+  .product_row {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    gap: 12px;
+    border-bottom: 1px solid #f0f2f5;
+  }
+  
+  .product_info {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .product_info img {
+    width: 65px;
+    height: 65px;
+    border-radius: 10px;
+  }
+  
+  .product_info span {
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+  }
+  
+  /* Price, Quantity, Total row */
+  .product_price,
+  .product_quantity,
+  .product_total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .product_price::before {
+    content: "💰 Giá:";
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .product_quantity::before {
+    content: "📦 Số lượng:";
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .product_total::before {
+    content: "💵 Thành tiền:";
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .product_total {
+    color: #e53935;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  /* Table Footer */
+  .table_footer {
+    padding: 16px;
+  }
+  
+  .total_amount {
+    text-align: right;
+    font-size: 14px;
+  }
+  
+  .total_amount span {
+    font-size: 14px;
+  }
+  
+  .total_amount strong {
+    font-size: 20px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .order_detail_page {
+    margin: 80px auto 12px;
+    padding: 0 12px;
+  }
+  
+  .order_detail_container {
+    padding: 16px 12px;
+    border-radius: 18px;
+  }
+  
+  .back_btn {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  
+  /* Status Timeline */
+  .status_timeline {
+    padding: 12px 0;
+    margin-bottom: 20px;
+  }
+  
+  .timeline_step {
+    min-width: 70px;
+  }
+  
+  .step_icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .step_icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .step_label {
+    font-size: 10px;
+  }
+  
+  .step_line {
+    top: 18px;
+  }
+  
+  /* Canceled Status */
+  .canceled_status {
+    padding: 24px 16px;
+  }
+  
+  .canceled_status svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .canceled_status h3 {
+    font-size: 15px;
+  }
+  
+  /* Sections */
+  .order_info_section,
+  .shipping_section,
+  .products_section {
+    padding: 14px 12px;
+    margin-bottom: 12px;
+  }
+  
+  .order_info_section h3,
+  .shipping_section h3,
+  .products_section h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .info_item {
+    padding: 8px 0;
+  }
+  
+  .info_item span {
+    font-size: 11px;
+  }
+  
+  .info_item strong {
+    font-size: 13px;
+  }
+  
+  /* Products */
+  .product_info img {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .product_info span {
+    font-size: 13px;
+  }
+  
+  .product_price,
+  .product_quantity,
+  .product_total {
+    font-size: 13px;
+  }
+  
+  .table_footer {
+    padding: 14px;
+  }
+  
+  .total_amount strong {
+    font-size: 18px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .order_detail_page {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .order_detail_container {
+    padding: 14px 10px;
+    border-radius: 16px;
+  }
+  
+  /* Status Timeline */
+  .timeline_step {
+    min-width: 60px;
+  }
+  
+  .step_icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .step_icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .step_label {
+    font-size: 9px;
+  }
+  
+  .step_line {
+    top: 16px;
+  }
+  
+  /* Canceled Status */
+  .canceled_status {
+    padding: 20px 12px;
+  }
+  
+  .canceled_status svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .canceled_status h3 {
+    font-size: 14px;
+  }
+  
+  /* Sections */
+  .order_info_section,
+  .shipping_section,
+  .products_section {
+    padding: 12px 10px;
+  }
+  
+  .info_item {
+    padding: 6px 0;
+  }
+  
+  .info_item strong {
+    font-size: 12px;
+  }
+  
+  /* Products */
+  .product_row {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .product_info img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .product_info span {
+    font-size: 12px;
+  }
+  
+  .product_price,
+  .product_quantity,
+  .product_total {
+    font-size: 12px;
+  }
+  
+  .product_price::before,
+  .product_quantity::before,
+  .product_total::before {
+    font-size: 12px;
+  }
+  
+  .table_footer {
+    padding: 12px;
+  }
+  
+  .total_amount span {
+    font-size: 12px;
+  }
+  
+  .total_amount strong {
+    font-size: 16px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .order_detail_page {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .order_detail_container {
+    padding: 12px 8px;
+  }
+  
+  .timeline_step {
+    min-width: 55px;
+  }
+  
+  .step_icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .step_label {
+    font-size: 8px;
+  }
+  
+  .product_info img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .product_info span {
+    font-size: 11px;
+  }
+  
+  .product_price,
+  .product_quantity,
+  .product_total {
+    font-size: 11px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch (iPhone, Dynamic Island) */
+@supports (padding: max(0px)) {
+  .order_detail_page {
+    margin-top: max(85px, env(safe-area-inset-top));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 480px) {
+    .order_detail_page {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+  
+  @media (max-width: 380px) {
+    .order_detail_page {
+      margin-top: max(70px, env(safe-area-inset-top));
+    }
+  }
+}
+
+/* Cải thiện touch target trên mobile */
+@media (max-width: 768px) {
+  .back_btn,
+  .product_row,
+  .status_badge {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .back_btn:active {
+    transform: scale(0.98);
+    gap: 10px;
+  }
+  
+  .product_row:active {
+    background: #fafcff;
+    transform: scale(0.99);
+  }
+  
+  /* Tăng vùng chạm cho back button */
+  .back_btn {
+    min-height: 44px;
+    display: inline-flex;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .back_btn:hover {
+    gap: 8px;
+    color: #666;
+  }
+  
+  .product_row:hover {
+    background: transparent;
+  }
+}
+
+/* Animation khi load trang trên mobile */
+@media (max-width: 768px) {
+  .order_detail_container {
+    animation: fadeInUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .order_info_section,
+  .shipping_section,
+  .products_section {
+    animation: fadeIn 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .order_info_section { animation-delay: 0.05s; }
+  .shipping_section { animation-delay: 0.1s; }
+  .products_section { animation-delay: 0.15s; }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .order_detail_page {
+    margin: 80px auto 12px;
+  }
+  
+  .status_timeline {
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  
+  .timeline_step {
+    min-width: 70px;
+  }
+  
+  .info_grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .product_row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .product_info {
+    width: 40%;
+  }
+  
+  .product_price,
+  .product_quantity,
+  .product_total {
+    width: auto;
+    flex: 1;
+  }
+  
+  .product_price::before,
+  .product_quantity::before,
+  .product_total::before {
+    display: none;
+  }
+}
+
+/* Loading state responsive */
+@media (max-width: 768px) {
+  .loading {
+    min-height: 300px;
+    font-size: 13px;
+  }
+}
