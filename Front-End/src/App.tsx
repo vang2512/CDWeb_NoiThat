@@ -23,6 +23,7 @@ import { Navigate } from "react-router-dom";
 import "./i18n";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard/Dashboard";
+import ProductAdmin from "./pages/Admin/ProductAdmin/ProductsAdmin";
 
 function App() {
   const location = useLocation();
@@ -90,6 +91,7 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<ProductAdmin />} />
           </Route>
         </Routes>
       </CartProvider>
