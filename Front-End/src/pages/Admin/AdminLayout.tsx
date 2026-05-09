@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'; // Thêm useLocation
+// @ts-ignore: CSS module import without type declarations
 import './AdminLayout.css';
 import Dashboard from './Dashboard/Dashboard';
+import Product from './ProductAdmin/ProductsAdmin';
 
 import {
   MenuFoldOutlined,
