@@ -43,7 +43,7 @@ const Products = () => {
     });
 
     // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/products';
+    const API_BASE = 'http://localhost:8080/api/admin/foods';
     const CATEGORY_API = 'http://localhost:8080/api/categories';
 
     useEffect(() => {

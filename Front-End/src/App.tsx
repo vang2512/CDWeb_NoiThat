@@ -24,6 +24,8 @@ import "./i18n";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import ProductAdmin from "./pages/Admin/ProductAdmin/ProductsAdmin";
+import UsersAdmin from "./pages/Admin/UsersAdmin/UsersAdmin";
+
 
 function App() {
   const location = useLocation();
@@ -92,6 +94,7 @@ function App() {
             <Route index element={<Navigate to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<ProductAdmin />} />
+            <Route path="customers" element={<UsersAdmin />} />
           </Route>
         </Routes>
       </CartProvider>
