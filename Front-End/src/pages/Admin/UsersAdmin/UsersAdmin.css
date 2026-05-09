@@ -154,7 +154,7 @@
 }
 
 .users-table th {
-    padding: 16px;
+    padding: 10px;
     text-align: left;
     color: var(--text-secondary);
     font-weight: 500;
@@ -163,7 +163,7 @@
 }
 
 .users-table td {
-    padding: 16px;
+    padding: 10px;
     border-bottom: 1px solid var(--border-light);
     color: var(--text-primary);
 }
@@ -485,6 +485,7 @@
     flex: 1;
     color: var(--text-primary);
 }
+
 
 @media (max-width: 768px) {
     .form-row {
