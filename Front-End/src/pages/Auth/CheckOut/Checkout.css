@@ -777,31 +777,740 @@
 .policy_note svg {
   color: #10b981;
 }
+/* ===== RESPONSIVE CHECKOUT PAGE CHUẨN MOBILE ===== */
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .checkout_page {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 24px;
+  }
+  
+  .checkout_container {
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+  }
+  
+  .checkout_left {
+    padding: 24px;
+  }
+  
+  .checkout_right {
+    padding: 24px;
+    top: 90px;
+  }
+  
+  .order_item {
+    gap: 12px;
+  }
+  
+  .item_img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .checkout_page {
+    width: 100%;
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 24px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  
+  /* Chuyển thành 1 cột */
   .checkout_container {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-
+  
+  /* LEFT */
+  .checkout_left {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .section_header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+  }
+  
+  .section_header h2 {
+    font-size: 18px;
+  }
+  
+  .info_form {
+    gap: 16px;
+  }
+  
+  .form_group label {
+    font-size: 13px;
+  }
+  
+  .input_wrapper input,
+  .input_wrapper textarea {
+    padding: 11px 11px 11px 40px;
+    font-size: 14px;
+  }
+  
+  /* Google Maps */
+  .google_map {
+    height: 200px;
+    border-radius: 12px;
+  }
+  
+  .map_note {
+    font-size: 11px;
+  }
+  
+  /* RIGHT */
   .checkout_right {
+    padding: 20px;
+    border-radius: 16px;
     position: static;
+    top: auto;
+  }
+  
+  .order_items {
+    max-height: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .order_item {
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .item_img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+  }
+  
+  .item_name {
+    font-size: 13px;
+  }
+  
+  .item_price {
+    font-size: 14px;
+  }
+  
+  /* Voucher */
+  .voucher_section {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+  
+  .voucher_title_wrapper h3 {
+    font-size: 14px;
+  }
+  
+  .voucher_error {
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+  
+  .selected_voucher {
+    padding: 12px;
+  }
+  
+  .selected_voucher_icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .selected_voucher_code {
+    font-size: 12px;
+  }
+  
+  .selected_voucher_discount {
+    font-size: 13px;
+  }
+  
+  .voucher_dropdown_btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .voucher_dropdown_content {
+    max-height: 380px;
+  }
+  
+  .voucher_group {
+    padding: 12px;
+  }
+  
+  .voucher_card_content {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .voucher_icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .voucher_code {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+  
+  .voucher_name {
+    font-size: 12px;
+  }
+  
+  .voucher_desc {
+    font-size: 10px;
+  }
+  
+  .voucher_card_action .apply_btn {
+    padding: 4px 12px;
+    font-size: 10px;
+  }
+  
+  /* Totals */
+  .totals {
+    margin-top: 16px;
+    padding-top: 12px;
+  }
+  
+  .total_row {
+    padding: 8px 0;
+    font-size: 13px;
+  }
+  
+  .grand_total {
+    font-size: 15px;
+    padding-top: 10px;
+    margin-top: 6px;
+  }
+  
+  .grand_total .price {
+    font-size: 18px;
+  }
+  
+  /* Confirm Button */
+  .confirm_btn {
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 16px;
+  }
+  
+  .policy_note {
+    font-size: 10px;
+    margin-top: 12px;
+    padding-top: 10px;
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
   .checkout_page {
-    margin: 80px auto 40px;
-    padding: 0 16px;
+    margin: 80px auto 12px;
+    padding: 0 12px;
   }
+  
+  .breadcrumb {
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+  
+  .checkout_left {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  
+  .section_header {
+    margin-bottom: 16px;
+  }
+  
+  .section_header svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .section_header h2 {
+    font-size: 17px;
+  }
+  
+  .input_wrapper input,
+  .input_wrapper textarea {
+    padding: 10px 10px 10px 38px;
+    font-size: 13px;
+  }
+  
+  .input_icon {
+    left: 12px;
+  }
+  
+  .google_map {
+    height: 180px;
+  }
+  
+  .checkout_right {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  
+  .order_item {
+    gap: 10px;
+  }
+  
+  .item_img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .item_name {
+    font-size: 12px;
+  }
+  
+  .item_quantity {
+    font-size: 11px;
+  }
+  
+  .item_price {
+    font-size: 13px;
+  }
+}
 
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .checkout_page {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .breadcrumb {
+    font-size: 10px;
+    gap: 4px;
+  }
+  
+  .checkout_left {
+    padding: 14px;
+    border-radius: 12px;
+  }
+  
+  .section_header {
+    margin-bottom: 14px;
+    gap: 8px;
+  }
+  
+  .section_header svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .section_header h2 {
+    font-size: 16px;
+  }
+  
+  .form_group {
+    gap: 6px;
+  }
+  
+  .form_group label {
+    font-size: 12px;
+  }
+  
+  .input_wrapper input,
+  .input_wrapper textarea {
+    padding: 9px 9px 9px 36px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  
+  .google_map {
+    height: 160px;
+    border-radius: 10px;
+  }
+  
+  .map_note {
+    font-size: 10px;
+  }
+  
+  .checkout_right {
+    padding: 14px;
+    border-radius: 12px;
+  }
+  
+  .order_items {
+    max-height: 280px;
+  }
+  
+  .order_item {
+    gap: 8px;
+    padding: 10px 0;
+  }
+  
+  .item_img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+  
+  .item_name {
+    font-size: 11px;
+  }
+  
+  .item_quantity {
+    font-size: 10px;
+  }
+  
+  .item_price {
+    font-size: 12px;
+  }
+  
+  /* Voucher */
+  .voucher_title_wrapper svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .voucher_title_wrapper h3 {
+    font-size: 13px;
+  }
+  
+  .remove_voucher_btn {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  
+  .selected_voucher {
+    padding: 10px;
+  }
+  
+  .selected_voucher_icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .selected_voucher_code {
+    font-size: 11px;
+  }
+  
+  .selected_voucher_name {
+    font-size: 10px;
+  }
+  
+  .selected_voucher_discount {
+    font-size: 12px;
+  }
+  
+  .voucher_dropdown_btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .voucher_group_title {
+    font-size: 12px;
+  }
+  
+  .voucher_icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .voucher_code {
+    font-size: 10px;
+  }
+  
+  .voucher_name {
+    font-size: 11px;
+  }
+  
+  /* Totals */
+  .total_row {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  
+  .grand_total {
+    font-size: 14px;
+  }
+  
+  .grand_total .price {
+    font-size: 17px;
+  }
+  
+  .confirm_btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .policy_note {
+    font-size: 9px;
+    gap: 5px;
+  }
+  
+  .policy_note svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .checkout_page {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .breadcrumb {
+    font-size: 9px;
+  }
+  
   .checkout_left,
   .checkout_right {
-    padding: 20px;
+    padding: 12px;
   }
-
+  
   .section_header h2 {
-    font-size: 18px;
+    font-size: 15px;
+  }
+  
+  .google_map {
+    height: 140px;
+  }
+  
+  .item_img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .item_name {
+    font-size: 10px;
+  }
+  
+  .voucher_card_content {
+    gap: 8px;
+  }
+  
+  .voucher_icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .voucher_card_action .apply_btn {
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .checkout_page {
+    margin-top: max(85px, env(safe-area-inset-top));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 768px) {
+    .checkout_page {
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .checkout_page {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target */
+@media (max-width: 768px) {
+  .breadcrumb span,
+  .confirm_btn,
+  .voucher_dropdown_btn,
+  .apply_btn,
+  .remove_voucher_btn,
+  .selected_voucher .remove_btn,
+  .voucher_card {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .breadcrumb span:active {
+    opacity: 0.7;
+  }
+  
+  .confirm_btn:active {
+    transform: scale(0.98);
+  }
+  
+  .voucher_dropdown_btn:active {
+    transform: scale(0.98);
+  }
+  
+  .apply_btn:active {
+    transform: scale(0.96);
+  }
+  
+  .voucher_card:active {
+    transform: scale(0.99);
+  }
+  
+  /* Tăng vùng chạm */
+  .confirm_btn {
+    min-height: 48px;
+  }
+  
+  .voucher_dropdown_btn {
+    min-height: 44px;
+  }
+  
+  .apply_btn {
+    min-height: 36px;
+    min-width: 70px;
+  }
+  
+  .remove_voucher_btn {
+    min-height: 36px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .breadcrumb span:first-child:hover,
+  .breadcrumb span:nth-child(3):hover {
+    color: #6b7280;
+  }
+  
+  .confirm_btn:hover:not(:disabled) {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .voucher_card:hover:not(.disabled) {
+    transform: none;
+  }
+}
+
+/* Animation khi load trang */
+@media (max-width: 768px) {
+  .checkout_page {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .checkout_left {
+    animation: slideUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .checkout_right {
+    animation: slideUp 0.3s ease-out 0.08s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation cho order items */
+  .order_item {
+    animation: fadeInItem 0.2s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .order_item:nth-child(1) { animation-delay: 0.05s; }
+  .order_item:nth-child(2) { animation-delay: 0.1s; }
+  .order_item:nth-child(3) { animation-delay: 0.15s; }
+  .order_item:nth-child(4) { animation-delay: 0.2s; }
+  .order_item:nth-child(5) { animation-delay: 0.25s; }
+  
+  @keyframes fadeInItem {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .checkout_page {
+    margin: 80px auto 12px;
+  }
+  
+  .checkout_container {
+    gap: 16px;
+  }
+  
+  .google_map {
+    height: 160px;
+  }
+  
+  .order_items {
+    max-height: 220px;
+  }
+  
+  .voucher_dropdown_content {
+    max-height: 280px;
+  }
+}
+
+/* Loading state */
+.checkout_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .checkout_loading {
+    min-height: 300px;
+  }
+}
+
+/* Scrollbar cải thiện */
+@media (max-width: 768px) {
+  .order_items::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .voucher_dropdown_content::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Input focus tối ưu cho mobile */
+@media (max-width: 768px) {
+  .input_wrapper input:focus,
+  .input_wrapper textarea:focus {
+    font-size: 16px; /* Tránh zoom iOS */
   }
 }

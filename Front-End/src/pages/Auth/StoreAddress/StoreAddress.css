@@ -69,3 +69,420 @@
   font-size:15px;
   color:#333;
 }
+/* ===== RESPONSIVE STORE PAGE CHUẨN MOBILE ===== */
+
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .store-container {
+    max-width: 100%;
+    padding: 90px 24px 50px;
+  }
+  
+  .store-grid {
+    gap: 20px;
+  }
+  
+  .store-map iframe {
+    height: 380px;
+  }
+  
+  .store-info {
+    padding: 18px;
+  }
+  
+  .store-info h3 {
+    font-size: 18px;
+  }
+  
+  .store-features {
+    padding: 22px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .store-container {
+    max-width: 100%;
+    padding: 85px 16px 40px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .slash {
+    margin: 0 6px;
+  }
+  
+  /* Chuyển thành 1 cột */
+  .store-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  /* Map */
+  .store-map iframe {
+    height: 320px;
+    border-radius: 16px;
+  }
+  
+  /* Store Info */
+  .store-info {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .store-img {
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .store-info h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .store-info p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
+  .store-info a {
+    font-size: 14px;
+  }
+  
+  /* Store Features */
+  .store-features {
+    margin-top: 20px;
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+  
+  .store-features p {
+    margin: 8px 0;
+    font-size: 14px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .store-container {
+    padding: 80px 12px 32px;
+  }
+  
+  .breadcrumb {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+  
+  .store-map iframe {
+    height: 280px;
+    border-radius: 14px;
+  }
+  
+  .store-info {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  
+  .store-info h3 {
+    font-size: 17px;
+  }
+  
+  .store-info p {
+    font-size: 13px;
+  }
+  
+  .store-features {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+  
+  .store-features p {
+    font-size: 13px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .store-container {
+    padding: 75px 10px 28px;
+  }
+  
+  .breadcrumb {
+    font-size: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .slash {
+    margin: 0 4px;
+  }
+  
+  .store-grid {
+    gap: 16px;
+  }
+  
+  .store-map iframe {
+    height: 250px;
+    border-radius: 12px;
+  }
+  
+  .store-info {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .store-img {
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .store-info h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  
+  .store-info p {
+    margin: 4px 0;
+    font-size: 12px;
+  }
+  
+  .store-info a {
+    font-size: 12px;
+  }
+  
+  .store-features {
+    margin-top: 16px;
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+  
+  .store-features p {
+    margin: 6px 0;
+    font-size: 12px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .store-container {
+    padding: 70px 8px 20px;
+  }
+  
+  .breadcrumb {
+    font-size: 10px;
+  }
+  
+  .store-map iframe {
+    height: 220px;
+  }
+  
+  .store-info {
+    padding: 10px;
+  }
+  
+  .store-info h3 {
+    font-size: 15px;
+  }
+  
+  .store-info p {
+    font-size: 11px;
+  }
+  
+  .store-features {
+    padding: 12px 10px;
+  }
+  
+  .store-features p {
+    font-size: 11px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .store-container {
+    padding-top: max(85px, env(safe-area-inset-top));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 768px) {
+    .store-container {
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .store-container {
+      padding-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target */
+@media (max-width: 768px) {
+  .store-info a,
+  .store-features p {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .store-info a:active {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+  
+  /* Tăng vùng chạm cho link */
+  .store-info a {
+    display: inline-block;
+    padding: 4px 0;
+    min-height: 36px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .store-info a:hover {
+    color: #107dea;
+  }
+}
+
+/* Animation khi load trang */
+@media (max-width: 768px) {
+  .store-container {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .store-map {
+    animation: slideUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .store-info {
+    animation: slideUp 0.3s ease-out 0.05s forwards;
+    opacity: 0;
+  }
+  
+  .store-features {
+    animation: slideUp 0.3s ease-out 0.1s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .store-container {
+    padding: 80px 16px 30px;
+  }
+  
+  .store-grid {
+    gap: 16px;
+  }
+  
+  .store-map iframe {
+    height: 260px;
+  }
+  
+  .store-info {
+    padding: 12px;
+  }
+  
+  .store-features {
+    padding: 12px;
+  }
+}
+
+/* Loading state */
+.store-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .store-loading {
+    min-height: 300px;
+  }
+}
+
+/* Tối ưu cho màn hình rất rộng */
+@media (min-width: 1440px) {
+  .store-container {
+    max-width: 1400px;
+  }
+  
+  .store-map iframe {
+    height: 480px;
+  }
+}
+
+/* Style cho map container - đảm bảo responsive */
+.store-map {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .store-map {
+    border-radius: 16px;
+  }
+}
+
+/* Style cho store image responsive */
+.store-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Cải thiện readability trên mobile */
+@media (max-width: 480px) {
+  .store-info p,
+  .store-features p {
+    line-height: 1.5;
+  }
+  
+  .store-info {
+    word-break: break-word;
+  }
+}
+
+/* Thêm hiệu ứng cho store card */
+@media (max-width: 768px) {
+  .store-info,
+  .store-features {
+    transition: all 0.2s ease;
+  }
+  
+  .store-info:active,
+  .store-features:active {
+    transform: scale(0.99);
+  }
+}
