@@ -185,3 +185,334 @@
   animation: spin 1s linear infinite;
   color: #107dea;
 }
+/* ===== RESPONSIVE REGISTER FORM CHUẨN MOBILE ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .register-container {
+    padding-top: 110px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .register-box {
+    width: 100%;
+    max-width: 480px;
+    padding: 38px 35px;
+  }
+}
+
+/* Mobile Lớn (601px - 768px) */
+@media (max-width: 768px) {
+  .register-container {
+    min-height: 100vh;
+    padding: 85px 16px 30px 16px;
+    align-items: flex-start;
+  }
+  
+  .register-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 28px 22px;
+    border-radius: 24px;
+    margin: 0 auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .register-logo img {
+    height: 65px;
+  }
+  
+  .register-box h2 {
+    font-size: 23px;
+    margin-bottom: 22px;
+    color: #1a1a2e;
+  }
+  
+  .form-group {
+    margin-bottom: 18px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .input-box {
+    padding: 11px 14px;
+    border-radius: 12px;
+  }
+  
+  .input-box input {
+    font-size: 16px; /* Tránh zoom iOS */
+    margin-left: 8px;
+  }
+  
+  .eye-icon {
+    padding: 6px;
+  }
+  
+  .forgot {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .register-btn {
+    padding: 13px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+  
+  .error {
+    font-size: 11px;
+  }
+  
+  .login-link {
+    margin-top: 18px;
+    font-size: 13px;
+  }
+  
+  .register {
+    font-size: 13px;
+    margin-top: 18px;
+  }
+}
+
+/* Mobile Nhỏ (481px - 600px) */
+@media (max-width: 600px) {
+  .register-container {
+    padding: 80px 14px 24px 14px;
+  }
+  
+  .register-box {
+    padding: 24px 20px;
+    border-radius: 22px;
+  }
+  
+  .register-logo img {
+    height: 55px;
+  }
+  
+  .register-box h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+  
+  .input-box {
+    padding: 10px 12px;
+  }
+}
+
+/* Mobile Rất Nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 75px 12px 20px 12px;
+  }
+  
+  .register-box {
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+  
+  .register-logo img {
+    height: 50px;
+  }
+  
+  .register-box h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-box {
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+  
+  .input-box input {
+    font-size: 15px;
+  }
+  
+  .register-btn {
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+  
+  .error {
+    font-size: 10px;
+  }
+  
+  .login-link {
+    font-size: 12px;
+  }
+  
+  .register {
+    font-size: 12px;
+  }
+  
+  .checking-email {
+    right: 8px;
+  }
+  
+  .checking-email svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .register-container {
+    padding: 70px 10px 16px 10px;
+  }
+  
+  .register-box {
+    padding: 18px 14px;
+    border-radius: 18px;
+  }
+  
+  .register-logo img {
+    height: 45px;
+  }
+  
+  .register-box h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  
+  .input-box {
+    padding: 8px 10px;
+  }
+  
+  .input-box input {
+    font-size: 14px;
+  }
+  
+  .register-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch (iPhone 14, 15, Dynamic Island) */
+@supports (padding: max(0px)) {
+  .register-container {
+    padding-top: max(85px, env(safe-area-inset-top));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(30px, env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 480px) {
+    .register-container {
+      padding-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+  }
+  
+  @media (max-width: 380px) {
+    .register-container {
+      padding-top: max(70px, env(safe-area-inset-top));
+    }
+  }
+}
+
+/* Cải thiện input trên mobile - chống zoom khi focus */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Tăng kích thước vùng chạm cho các nút */
+  .eye-icon {
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .register-btn:active {
+    transform: scale(0.98);
+  }
+  
+  .login-link span:active,
+  .register span:active {
+    opacity: 0.7;
+  }
+}
+
+/* Hiệu ứng xuất hiện mượt cho form */
+@media (max-width: 768px) {
+  .register-box {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation cho các field */
+  .form-group {
+    animation: fadeInUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .form-group:nth-child(1) { animation-delay: 0.05s; }
+  .form-group:nth-child(2) { animation-delay: 0.1s; }
+  .form-group:nth-child(3) { animation-delay: 0.15s; }
+  .form-group:nth-child(4) { animation-delay: 0.2s; }
+  .form-group:nth-child(5) { animation-delay: 0.25s; }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .register-btn,
+  .login-link,
+  .register {
+    animation: fadeInUp 0.3s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+}
+
+/* Hover chỉ hoạt động trên desktop */
+@media (min-width: 769px) {
+  .register-btn:hover:not(:disabled) {
+    background: #0d6ad1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 125, 234, 0.25);
+  }
+  
+  .login-link span:hover {
+    text-decoration: underline;
+  }
+  
+  .register span:hover {
+    text-decoration: underline;
+  }
+  
+  .forgot:hover {
+    text-decoration: underline;
+  }
+}

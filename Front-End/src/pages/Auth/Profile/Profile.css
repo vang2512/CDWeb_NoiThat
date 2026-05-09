@@ -467,4 +467,732 @@ background:#1c6be0;
 .orders_list::-webkit-scrollbar-thumb:hover {
     background: #818cf8;
 }
+/* ===== RESPONSIVE PROFILE PAGE CHUẨN MOBILE ===== */
 
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .profile_page {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 24px;
+  }
+  
+  .profile_container {
+    gap: 20px;
+  }
+  
+  .profile_sidebar {
+    width: 220px;
+  }
+  
+  .profile_content {
+    padding: 24px;
+  }
+  
+  .profile_title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .profile_page {
+    width: 100%;
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .profile_title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  /* Chuyển sidebar và content thành 1 cột */
+  .profile_container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Sidebar - chuyển thành thanh ngang cuộn */
+  .profile_sidebar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  .profile_sidebar::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .profile_sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .profile_sidebar::-webkit-scrollbar-thumb {
+    background: #2f80ed;
+    border-radius: 10px;
+  }
+  
+  .sidebar_item {
+    flex-direction: column;
+    text-align: center;
+    min-width: 70px;
+    padding: 10px 8px;
+    gap: 6px;
+  }
+  
+  .sidebar_item span {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  
+  .sidebar_item svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Content */
+  .profile_content {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .content_box h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  /* Form */
+  .profile_form {
+    max-width: 100%;
+  }
+  
+  .form_group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  
+  .form_group input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .btn_save {
+    padding: 12px;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  /* Orders */
+  .order_list {
+    gap: 14px;
+  }
+  
+  .order_card {
+    border-radius: 14px;
+  }
+  
+  .order_header {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .order_left {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .order_date {
+    font-size: 12px;
+  }
+  
+  .status {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+  
+  .order_body {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .order_info span {
+    font-size: 12px;
+  }
+  
+  .order_info b {
+    font-size: 14px;
+  }
+  
+  .total_price {
+    font-size: 16px !important;
+  }
+  
+  .order_actions {
+    padding: 10px 16px;
+  }
+  
+  .btn_detail {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  
+  .order_items {
+    padding: 12px;
+  }
+  
+  .order_item_detail {
+    gap: 12px;
+    padding: 10px 0;
+  }
+  
+  .order_item_detail img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .product_name {
+    font-size: 13px;
+  }
+  
+  .quantity {
+    font-size: 12px;
+  }
+  
+  .item_price {
+    font-size: 13px;
+  }
+  
+  .cancel_box {
+    margin-top: 8px;
+  }
+  
+  .btn_cancel {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  /* Orders list styles */
+  .orders_list {
+    max-height: 500px;
+    gap: 10px;
+  }
+  
+  .order_item {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .order_item_left {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .order_icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .order_icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .order_id {
+    font-size: 13px;
+  }
+  
+  .order_total {
+    font-size: 13px;
+  }
+  
+  .order_item_right {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .order_status {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+  
+  .btn_cancel_order {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+  
+  .no_orders {
+    padding: 30px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .profile_page {
+    margin: 80px auto 12px;
+    padding: 0 12px;
+  }
+  
+  .profile_title {
+    font-size: 20px;
+  }
+  
+  .profile_content {
+    padding: 16px;
+  }
+  
+  .content_box h2 {
+    font-size: 17px;
+  }
+  
+  .sidebar_item {
+    min-width: 65px;
+    padding: 8px 6px;
+  }
+  
+  .sidebar_item span {
+    font-size: 10px;
+  }
+  
+  .order_item {
+    padding: 10px 14px;
+  }
+  
+  .order_item_left {
+    gap: 12px;
+  }
+  
+  .order_icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .profile_page {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .breadcrumb {
+    font-size: 11px;
+  }
+  
+  .profile_title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .profile_container {
+    gap: 12px;
+  }
+  
+  .profile_sidebar {
+    padding: 10px;
+    gap: 6px;
+  }
+  
+  .sidebar_item {
+    min-width: 60px;
+    padding: 6px 4px;
+  }
+  
+  .sidebar_item svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .sidebar_item span {
+    font-size: 9px;
+  }
+  
+  .profile_content {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  
+  .content_box h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .form_group {
+    margin-bottom: 12px;
+  }
+  
+  .form_group label {
+    font-size: 12px;
+  }
+  
+  .form_group input {
+    padding: 9px;
+    font-size: 13px;
+  }
+  
+  .btn_save {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  /* Orders */
+  .order_header {
+    padding: 10px 12px;
+  }
+  
+  .order_left {
+    gap: 6px;
+  }
+  
+  .order_date {
+    font-size: 11px;
+  }
+  
+  .status {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+  
+  .order_body {
+    padding: 10px 12px;
+  }
+  
+  .order_info span {
+    font-size: 11px;
+  }
+  
+  .order_info b {
+    font-size: 13px;
+  }
+  
+  .order_actions {
+    padding: 8px 12px;
+  }
+  
+  .btn_detail {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .order_item_detail {
+    gap: 10px;
+    padding: 8px 0;
+  }
+  
+  .order_item_detail img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .product_name {
+    font-size: 12px;
+  }
+  
+  .item_price {
+    font-size: 12px;
+  }
+  
+  /* Orders list */
+  .order_item {
+    padding: 10px 12px;
+  }
+  
+  .order_item_left {
+    gap: 10px;
+  }
+  
+  .order_icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .order_id {
+    font-size: 12px;
+  }
+  
+  .order_total {
+    font-size: 12px;
+  }
+  
+  .btn_cancel_order {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+  
+  .no_orders {
+    padding: 20px;
+    font-size: 13px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .profile_page {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .profile_title {
+    font-size: 16px;
+  }
+  
+  .sidebar_item {
+    min-width: 55px;
+    padding: 5px 3px;
+  }
+  
+  .sidebar_item svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .sidebar_item span {
+    font-size: 8px;
+  }
+  
+  .profile_content {
+    padding: 12px;
+  }
+  
+  .content_box h2 {
+    font-size: 15px;
+  }
+  
+  .order_item_detail img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .order_icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .profile_page {
+    margin-top: max(85px, env(safe-area-inset-top));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 480px) {
+    .profile_page {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target */
+@media (max-width: 768px) {
+  .sidebar_item,
+  .btn_save,
+  .btn_detail,
+  .btn_cancel,
+  .btn_cancel_order,
+  .order_item,
+  .order_card {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .sidebar_item:active {
+    transform: scale(0.96);
+    background: #e8f0ff;
+  }
+  
+  .btn_save:active {
+    transform: scale(0.98);
+  }
+  
+  .btn_detail:active {
+    transform: translateX(2px);
+  }
+  
+  .btn_cancel:active,
+  .btn_cancel_order:active {
+    transform: scale(0.96);
+  }
+  
+  .order_item:active {
+    transform: translateX(2px);
+  }
+  
+  /* Tăng vùng chạm */
+  .sidebar_item {
+    min-height: 60px;
+  }
+  
+  .btn_save {
+    min-height: 44px;
+  }
+  
+  .btn_detail,
+  .btn_cancel,
+  .btn_cancel_order {
+    min-height: 36px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .sidebar_item:hover {
+    background: transparent;
+  }
+  
+  .btn_save:hover {
+    background: #2f80ed;
+  }
+  
+  .order_item:hover {
+    transform: none;
+  }
+  
+  .order_card:hover {
+    transform: none;
+  }
+}
+
+/* Animation khi load trang */
+@media (max-width: 768px) {
+  .profile_page {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .profile_sidebar {
+    animation: slideDown 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .profile_content {
+    animation: slideUp 0.3s ease-out 0.05s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation cho order items */
+  .order_card {
+    animation: fadeInItem 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .order_card:nth-child(1) { animation-delay: 0.05s; }
+  .order_card:nth-child(2) { animation-delay: 0.1s; }
+  .order_card:nth-child(3) { animation-delay: 0.15s; }
+  .order_card:nth-child(4) { animation-delay: 0.2s; }
+  
+  @keyframes fadeInItem {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .profile_page {
+    margin: 80px auto 12px;
+  }
+  
+  .profile_sidebar {
+    flex-wrap: nowrap;
+  }
+  
+  .profile_container {
+    gap: 12px;
+  }
+  
+  .orders_list {
+    max-height: 350px;
+  }
+}
+
+/* Loading state */
+.profile_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .profile_loading {
+    min-height: 300px;
+  }
+}
+
+/* Scrollbar cho orders list */
+@media (max-width: 768px) {
+  .orders_list::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .profile_sidebar::-webkit-scrollbar {
+    height: 3px;
+  }
+}
+
+/* Active state cho sidebar trên mobile */
+@media (max-width: 768px) {
+  .sidebar_item.active {
+    background: #e8f0ff;
+    border-radius: 10px;
+  }
+}

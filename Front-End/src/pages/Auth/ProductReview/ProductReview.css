@@ -220,3 +220,527 @@ textarea:focus {
   font-size: 12px;
   color: #888;
 }
+/* ===== RESPONSIVE REVIEW PAGE CHUẨN MOBILE ===== */
+
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .review_page {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 24px;
+  }
+  
+  .review_box {
+    padding: 20px;
+  }
+  
+  textarea {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .review_page {
+    width: 100%;
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .product_title {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  
+  .product_rating {
+    gap: 12px;
+    font-size: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .review_box {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  /* Filter buttons */
+  .filter_buttons {
+    gap: 8px;
+    margin: 10px 0 16px;
+    flex-wrap: wrap;
+  }
+  
+  .filter_buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .filter_buttons button svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Empty text */
+  .empty {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  /* Review Form */
+  .review_form {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .review_form h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .input_group {
+    margin-bottom: 14px;
+  }
+  
+  .input_group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+  
+  /* Stars */
+  .stars {
+    gap: 4px;
+  }
+  
+  .stars svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Textarea */
+  textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  /* Submit button */
+  .btn_submit {
+    padding: 10px 18px;
+    font-size: 13px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Review List */
+  .review_list {
+    margin-bottom: 20px;
+  }
+  
+  .review_item {
+    padding: 14px 0;
+  }
+  
+  .review_header {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .review_name {
+    font-size: 13px;
+  }
+  
+  .review_stars svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .review_content {
+    font-size: 13px;
+    margin: 5px 0;
+    line-height: 1.5;
+  }
+  
+  .review_date {
+    font-size: 11px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .review_page {
+    margin: 80px auto 12px;
+    padding: 0 12px;
+  }
+  
+  .product_title {
+    font-size: 18px;
+  }
+  
+  .review_box {
+    padding: 14px;
+  }
+  
+  .filter_buttons button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  .stars svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  textarea {
+    height: 90px;
+  }
+  
+  .btn_submit {
+    padding: 9px 16px;
+  }
+  
+  .review_item {
+    padding: 12px 0;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .review_page {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .breadcrumb {
+    font-size: 11px;
+  }
+  
+  .product_title {
+    font-size: 16px;
+  }
+  
+  .product_rating {
+    font-size: 11px;
+    gap: 10px;
+  }
+  
+  .review_box {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  
+  .filter_buttons {
+    gap: 6px;
+    margin: 8px 0 12px;
+  }
+  
+  .filter_buttons button {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .filter_buttons button svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .empty {
+    font-size: 12px;
+  }
+  
+  .review_form {
+    padding: 12px;
+  }
+  
+  .review_form h3 {
+    font-size: 15px;
+  }
+  
+  .input_group label {
+    font-size: 12px;
+  }
+  
+  .stars svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  textarea {
+    height: 80px;
+    padding: 8px;
+    font-size: 12px;
+  }
+  
+  .btn_submit {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  
+  .review_header {
+    gap: 8px;
+  }
+  
+  .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+  
+  .review_name {
+    font-size: 12px;
+  }
+  
+  .review_stars svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .review_content {
+    font-size: 12px;
+  }
+  
+  .review_date {
+    font-size: 10px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .review_page {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .product_title {
+    font-size: 15px;
+  }
+  
+  .review_box {
+    padding: 10px;
+  }
+  
+  .filter_buttons button {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+  
+  .stars svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  textarea {
+    height: 70px;
+  }
+  
+  .review_item {
+    padding: 10px 0;
+  }
+  
+  .avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+  
+  .review_name {
+    font-size: 11px;
+  }
+  
+  .review_content {
+    font-size: 11px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .review_page {
+    margin-top: max(85px, env(safe-area-inset-top));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 480px) {
+    .review_page {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target */
+@media (max-width: 768px) {
+  .filter_buttons button,
+  .btn_submit,
+  .stars svg,
+  .review_item {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .filter_buttons button:active {
+    transform: scale(0.96);
+  }
+  
+  .btn_submit:active {
+    transform: scale(0.97);
+  }
+  
+  .stars svg:active {
+    transform: scale(0.95);
+  }
+  
+  .review_item:active {
+    background: #fafafa;
+    transform: scale(0.99);
+  }
+  
+  /* Tăng vùng chạm */
+  .filter_buttons button {
+    min-height: 36px;
+  }
+  
+  .btn_submit {
+    min-height: 44px;
+  }
+  
+  .stars svg {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .filter_buttons button:hover {
+    border-color: #ddd;
+    color: inherit;
+  }
+  
+  .btn_submit:hover {
+    background: #28a745;
+  }
+  
+  .stars svg:hover {
+    transform: none;
+  }
+}
+
+/* Animation khi load trang */
+@media (max-width: 768px) {
+  .review_page {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .review_box {
+    animation: slideUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .review_form {
+    animation: slideUp 0.3s ease-out 0.05s forwards;
+    opacity: 0;
+  }
+  
+  .review_list {
+    animation: slideUp 0.3s ease-out 0.1s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Loading state */
+.review_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .review_loading {
+    min-height: 150px;
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .review_page {
+    margin: 80px auto 12px;
+  }
+  
+  .review_box {
+    padding: 12px;
+  }
+  
+  .filter_buttons {
+    margin: 8px 0 12px;
+  }
+  
+  textarea {
+    height: 70px;
+  }
+  
+  .review_list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+/* Scrollbar đẹp cho review list */
+@media (max-width: 768px) {
+  .review_list::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .review_list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .review_list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+}
+
+/* Tối ưu cho màn hình rất rộng */
+@media (min-width: 1440px) {
+  .review_page {
+    width: 1300px;
+  }
+}

@@ -164,7 +164,7 @@ const Payment = () => {
   return (
     <div className="payment_page">
       {/* Breadcrumb */}
-      <div className="payment_breadcrumb">
+      <div className="breadcrumb">
         <span onClick={() => navigate("/")}>Trang chủ</span>
         <span className="slash">/</span>
         <span onClick={() => navigate("/cart")}>Giỏ hàng</span>
