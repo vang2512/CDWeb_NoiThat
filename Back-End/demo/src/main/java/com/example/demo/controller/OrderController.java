@@ -21,51 +21,112 @@ public class OrderController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> payload) {
-        try {
-            int userId = (int) payload.get("userId");
-            String note = (String) payload.get("note");
-            String paymentMethod = (String) payload.get("paymentMethod");
-            double totalAmount = ((Number) payload.get("totalAmount")).doubleValue();
 
-            List<Map<String, Object>> items = (List<Map<String, Object>>) payload.get("items");
+        try {
+
+            int userId = (int) payload.get("userId");
+
+            String note = (String) payload.get("note");
+
+            String paymentMethod =
+                    (String) payload.get("paymentMethod");
+
+            double totalAmount =
+                    ((Number) payload.get("totalAmount")).doubleValue();
+
+            // ===== THÊM =====
+            String customerName =
+                    (String) payload.get("customerName");
+
+            String phoneNumber =
+                    (String) payload.get("phoneNumber");
+
+            String shippingAddress =
+                    (String) payload.get("shippingAddress");
+
+            double discountAmount =
+                    payload.get("discountAmount") != null
+                            ? ((Number) payload.get("discountAmount")).doubleValue()
+                            : 0;
+
+            List<Map<String, Object>> items =
+                    (List<Map<String, Object>>) payload.get("items");
 
             Order order = new Order();
+
             order.setUserId(userId);
+
             order.setNote(note);
-            order.setTotalAmount(BigDecimal.valueOf(totalAmount));
+
+            order.setTotalAmount(
+                    BigDecimal.valueOf(totalAmount)
+            );
+
+            order.setDiscountAmount(
+                    BigDecimal.valueOf(discountAmount)
+            );
+
+            order.setCustomerName(customerName);
+
+            order.setCustomerPhone(phoneNumber);
+
+            order.setShippingAddress(shippingAddress);
+
             order.setDate(LocalDateTime.now());
+
             order.setStatus("PENDING");
 
             List<OrderDetail> details = new ArrayList<>();
+
             for (Map<String, Object> item : items) {
+
                 OrderDetail detail = new OrderDetail();
 
                 Product food = new Product();
+
                 food.setId((int) item.get("foodId"));
+
                 detail.setFood(food);
 
                 detail.setQuantity((int) item.get("quantity"));
-                detail.setUnitPrice(BigDecimal.valueOf(((Number) item.get("price")).doubleValue()));
+
+                detail.setUnitPrice(
+                        BigDecimal.valueOf(
+                                ((Number) item.get("price")).doubleValue()
+                        )
+                );
+
                 detail.setOrder(order);
+
                 details.add(detail);
             }
+
             order.setOrderDetails(details);
 
             Payment payment = new Payment();
+
             payment.setMethod(paymentMethod);
+
             payment.setStatus("PENDING");
+
             payment.setDate(LocalDateTime.now());
+
             payment.setOrder(order);
 
             order.setPayment(payment);
-            Order savedOrder = orderService.createOrder(order, paymentMethod);
+
+            Order savedOrder =
+                    orderService.createOrder(order, paymentMethod);
 
             return ResponseEntity.ok(Map.of(
                     "orderId", savedOrder.getId(),
                     "message", "Đặt hàng thành công!"
             ));
+
         } catch (Exception e) {
+
             e.printStackTrace();
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", e.getMessage()));
         }

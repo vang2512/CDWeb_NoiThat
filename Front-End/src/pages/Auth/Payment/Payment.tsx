@@ -93,9 +93,18 @@ const Payment = () => {
       // =============================
       const orderPayload = {
         userId: user.id,
+        customerName: orderData.userData?.fullName,
+        phoneNumber: orderData.userData?.phone,
+        shippingAddress: orderData.userData?.address,
+
+        discountAmount: orderData.discount || 0,
+
         note: orderData.formData?.note || "",
+
         paymentMethod: selectedPayment.toUpperCase(),
+
         totalAmount: orderData.total,
+
         items: orderData.cart.map((item: any) => ({
           foodId: item.id,
           quantity: item.quantity,

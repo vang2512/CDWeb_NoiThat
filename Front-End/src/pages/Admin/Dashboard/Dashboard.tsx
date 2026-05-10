@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import './Dashboard.css';
 import {
@@ -16,155 +16,226 @@ import {
     MoreOutlined
 } from '@ant-design/icons';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
-
+import adminApi from "../../../api/Admin/Admin";
+import { TopProduct } from "../../../model/TopProduct ";
+import { CategoryStatistic } from "../../../model/CategoryStatistic ";
 const Dashboard = () => {
-    // Dữ liệu thống kê
+
+    const [dashboardStats, setDashboardStats] = useState({
+        totalRevenue: 0,
+        totalOrders: 0,
+        totalProducts: 0,
+        totalCustomers: 0
+    });
+    const [revenueData, setRevenueData] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [categoryRevenue, setCategoryRevenue] = useState([]);
+    const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
+    const [categories, setCategories] = useState<CategoryStatistic[]>([]);
+    const [recentOrders, setRecentOrders] = useState<any[]>([]);
+    useEffect(() => {
+
+        const fetchDashboardStats = async () => {
+            try {
+                const response = await adminApi.getDashboardStats();
+
+                setDashboardStats(response.data);
+            } catch (error) {
+                console.log("Lỗi lấy dashboard stats:", error);
+            }
+        };
+
+        fetchDashboardStats();
+
+    }, []);
+    useEffect(() => {
+
+        const fetchRevenueChart = async () => {
+
+            try {
+
+                const response = await adminApi.getRevenueByMonth(selectedYear);
+
+                setRevenueData(response.data);
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
+
+        fetchRevenueChart();
+
+    }, [selectedYear]);
+    useEffect(() => {
+
+        const fetchCategoryRevenue = async () => {
+
+            try {
+
+                const response =
+                    await adminApi.getRevenueByCategory(selectedYear);
+
+                setCategoryRevenue(response.data);
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
+
+        fetchCategoryRevenue();
+
+    }, [selectedYear]);
+    useEffect(() => {
+
+        const fetchTopProducts = async () => {
+
+            try {
+
+                const response =
+                    await adminApi.getTopSellingProducts(selectedYear);
+
+                setTopProducts(response.data);
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
+
+        fetchTopProducts();
+
+    }, [selectedYear]);
+    useEffect(() => {
+
+        const fetchCategoryStatistics = async () => {
+
+            try {
+
+                const response =
+                    await adminApi.getCategoryStatistics();
+
+                const colors = [
+                    '#5b8cae',
+                    '#10b981',
+                    '#f59e0b',
+                    '#ef4444',
+                    '#8b5cf6',
+                    '#06b6d4'
+                ];
+
+                const dataWithColors: CategoryStatistic[] =
+                    response.data.map(
+                        (item: any, index: number) => ({
+                            ...item,
+                            color: colors[index % colors.length]
+                        })
+                    );
+
+                setCategories(dataWithColors);
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
+
+        fetchCategoryStatistics();
+
+    }, []);
+    useEffect(() => {
+
+        const fetchRecentOrders = async () => {
+
+            try {
+
+                const response =
+                    await adminApi.getRecentOrders();
+
+                setRecentOrders(response.data);
+
+            } catch (error) {
+
+                console.log(error);
+            }
+        };
+
+        fetchRecentOrders();
+
+    }, []);
+
     const stats = [
         {
             title: 'Tổng doanh thu',
-            value: '125.800.000đ',
-            change: '+12.5%',
-            trend: 'up',
+            value: `${dashboardStats.totalRevenue?.toLocaleString()}đ`,
             icon: <DollarOutlined />,
             color: '#5b8cae',
             bgColor: 'rgba(91, 140, 174, 0.1)'
         },
         {
             title: 'Đơn hàng',
-            value: '1,234',
-            change: '+8.2%',
-            trend: 'up',
+            value: dashboardStats.totalOrders?.toLocaleString(),
             icon: <ShoppingCartOutlined />,
             color: '#10b981',
             bgColor: 'rgba(16, 185, 129, 0.1)'
         },
         {
             title: 'Sản phẩm',
-            value: '456',
-            change: '+5',
-            trend: 'up',
+            value: dashboardStats.totalProducts?.toLocaleString(),
             icon: <ShoppingOutlined />,
             color: '#f59e0b',
             bgColor: 'rgba(245, 158, 11, 0.1)'
         },
         {
             title: 'Khách hàng',
-            value: '3,456',
-            change: '+15%',
-            trend: 'up',
+            value: dashboardStats.totalCustomers?.toLocaleString(),
             icon: <UserOutlined />,
             color: '#ef4444',
             bgColor: 'rgba(239, 68, 68, 0.1)'
         },
     ];
 
-    // Dữ liệu biểu đồ doanh thu theo tháng
-    const revenueData = [
-        { month: 'T1', revenue: 85, orders: 120 },
-        { month: 'T2', revenue: 92, orders: 135 },
-        { month: 'T3', revenue: 88, orders: 128 },
-        { month: 'T4', revenue: 105, orders: 150 },
-        { month: 'T5', revenue: 118, orders: 168 },
-        { month: 'T6', revenue: 125, orders: 185 },
-        { month: 'T7', revenue: 135, orders: 210 },
-        { month: 'T8', revenue: 142, orders: 225 },
-        { month: 'T9', revenue: 138, orders: 218 },
-        { month: 'T10', revenue: 155, orders: 245 },
-        { month: 'T11', revenue: 168, orders: 268 },
-        { month: 'T12', revenue: 180, orders: 290 },
-    ];
-
-    // Dữ liệu sản phẩm bán chạy
-    const topProducts = [
-        { id: 1, name: 'Ghế Sofa Cao Cấp', price: '12.500.000đ', sold: 245, revenue: '3.062.500.000đ', trend: '+23%', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100' },
-        { id: 2, name: 'Bàn Ăn Gỗ Tự Nhiên', price: '8.900.000đ', sold: 189, revenue: '1.682.100.000đ', trend: '+15%', image: 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=100' },
-        { id: 3, name: 'Tủ Quần Áo Thông Minh', price: '15.500.000đ', sold: 156, revenue: '2.418.000.000đ', trend: '+32%', image: 'https://images.unsplash.com/photo-1595425970373-0dfc8fc1d78f?w=100' },
-        { id: 4, name: 'Giường Ngủ Hiện Đại', price: '18.900.000đ', sold: 134, revenue: '2.532.600.000đ', trend: '+18%', image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?w=100' },
-        { id: 5, name: 'Bàn Làm Việc Gỗ', price: '4.500.000đ', sold: 298, revenue: '1.341.000.000đ', trend: '+45%', image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=100' },
-    ];
-
-    // Dữ liệu đơn hàng gần đây
-    const recentOrders = [
-        { id: '#ORD-001', customer: 'Nguyễn Văn An', amount: '12.500.000đ', status: 'completed', date: '2024-01-15', payment: 'Chuyển khoản' },
-        { id: '#ORD-002', customer: 'Trần Thị Bình', amount: '8.900.000đ', status: 'shipping', date: '2024-01-14', payment: 'COD' },
-        { id: '#ORD-003', customer: 'Lê Văn Cường', amount: '23.400.000đ', status: 'pending', date: '2024-01-14', payment: 'Chuyển khoản' },
-        { id: '#ORD-004', customer: 'Phạm Thị Dung', amount: '5.600.000đ', status: 'completed', date: '2024-01-13', payment: 'Thẻ tín dụng' },
-        { id: '#ORD-005', customer: 'Hoàng Văn Em', amount: '15.200.000đ', status: 'processing', date: '2024-01-13', payment: 'Chuyển khoản' },
-    ];
-
-    // Dữ liệu danh mục bán chạy
-    const categories = [
-        { name: 'Ghế Sofa', value: 35, color: '#5b8cae' },
-        { name: 'Bàn Ăn', value: 25, color: '#10b981' },
-        { name: 'Giường Ngủ', value: 20, color: '#f59e0b' },
-        { name: 'Tủ Kệ', value: 12, color: '#ef4444' },
-        { name: 'Trang Trí', value: 8, color: '#8b5cf6' },
-    ];
-
-    // Dữ liệu doanh thu theo danh mục
-    const categoryRevenue = [
-        { name: 'Ghế Sofa', revenue: 42, target: 35 },
-        { name: 'Bàn Ăn', revenue: 28, target: 25 },
-        { name: 'Giường Ngủ', revenue: 22, target: 20 },
-        { name: 'Tủ Kệ', revenue: 15, target: 12 },
-        { name: 'Trang Trí', revenue: 10, target: 8 },
-    ];
-
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'completed': return '#10b981';
-            case 'shipping': return '#3b82f6';
-            case 'pending': return '#f59e0b';
-            case 'processing': return '#8b5cf6';
+            case 'Đã giao': return '#10b981';
+            case 'Đang xử lý': return '#3b82f6';
+            case 'Đang giao': return '#f59e0b';
+            case 'Đã hủy': return '#f3442d';
             default: return '#64748b';
         }
     };
 
     const getStatusText = (status: string) => {
         switch (status) {
-            case 'completed': return 'Hoàn thành';
-            case 'shipping': return 'Đang giao';
-            case 'pending': return 'Chờ xử lý';
-            case 'processing': return 'Đang xử lý';
+            case 'Đã giao': return 'Đã giao';
+            case 'Đang giao': return 'Đang giao';
+            case 'Đang xử lý': return 'Đang xử lý';
+            case 'Đã hủy': return 'Đã hủy';
             default: return status;
         }
     };
 
     return (
         <div className="dashboard">
-            {/* Header với greeting và actions */}
-            <div className="dashboard-header">
-                <div className="greeting">
-                    <h1>Xin chào, Nguyễn Văn A! 👋</h1>
-                    <p>Đây là tổng quan về cửa hàng nội thất của bạn hôm nay</p>
-                </div>
-                <div className="header-actions">
-                    <button className="action-btn">
-                        <DownloadOutlined /> Báo cáo
-                    </button>
-                    <button className="action-btn primary">
-                        <ThunderboltOutlined /> Xuất kho
-                    </button>
-                </div>
-            </div>
 
             {/* Stats Cards */}
             <div className="stats-grid">
                 {stats.map((stat, index) => (
                     <div className="stat-card" key={index}>
-                        <div className="stat-header">
-                            <div className="stat-icon" style={{ background: stat.bgColor, color: stat.color }}>
-                                {stat.icon}
-                            </div>
-                            <span className={`stat-trend ${stat.trend}`}>
-                                {stat.change}
-                                {stat.trend === 'up' ? <RiseOutlined /> : <FallOutlined />}
-                            </span>
+                        <div
+                            className="stat-icon"
+                            style={{
+                                background: stat.bgColor,
+                                color: stat.color,
+                            }}
+                        >
+                            {stat.icon}
                         </div>
-                        <h3 className="stat-title">{stat.title}</h3>
-                        <p className="stat-value">{stat.value}</p>
-                        <div className="stat-progress">
-                            <div className="progress-bar" style={{ width: '70%', background: stat.color }}></div>
+
+                        <div className="stat-content">
+                            <span className="stat-title">{stat.title}</span>
+                            <h2 className="stat-value">{stat.value}</h2>
                         </div>
                     </div>
                 ))}
@@ -175,10 +246,15 @@ const Dashboard = () => {
                 <div className="chart-card large">
                     <div className="card-header">
                         <h3>Doanh thu theo tháng</h3>
-                        <select className="chart-select" aria-label="Chọn năm">
-                            <option>Năm 2024</option>
-                            <option>Năm 2023</option>
-                            <option>Năm 2022</option>
+                        <select
+                            className="chart-select"
+                            value={selectedYear}
+                            onChange={(e) => setSelectedYear(Number(e.target.value))}
+                        >
+                            <option value={2026}>Năm 2026</option>
+                            <option value={2025}>Năm 2025</option>
+                            <option value={2024}>Năm 2024</option>
+                            <option value={2023}>Năm 2023</option>
                         </select>
                     </div>
                     <ResponsiveContainer width="100%" height={320}>
@@ -189,10 +265,29 @@ const Dashboard = () => {
                                     <stop offset="95%" stopColor="#5b8cae" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                            <XAxis dataKey="month" stroke="var(--text-secondary)" />
-                            <YAxis stroke="var(--text-secondary)" />
+
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                stroke="var(--border-color)"
+                            />
+
+                            <XAxis
+                                dataKey="month"
+                                stroke="var(--text-secondary)"
+                                fontSize={12}
+                            />
+
+                            <YAxis
+                                stroke="var(--text-secondary)"
+                                fontSize={12}
+                                width={50}
+                                tickFormatter={(value) => `${value / 1000000}M`}
+                            />
+
                             <Tooltip
+                                formatter={(value: any) =>
+                                    `${Number(value).toLocaleString()}đ`
+                                }
                                 contentStyle={{
                                     background: 'var(--bg-card)',
                                     border: '1px solid var(--border-color)',
@@ -200,7 +295,14 @@ const Dashboard = () => {
                                     color: 'var(--text-primary)'
                                 }}
                             />
-                            <Area type="monotone" dataKey="revenue" stroke="#5b8cae" fill="url(#colorRevenue)" />
+
+                            <Area
+                                type="monotone"
+                                dataKey="revenue"
+                                stroke="#5b8cae"
+                                fill="url(#colorRevenue)"
+                                strokeWidth={3}
+                            />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
@@ -211,19 +313,44 @@ const Dashboard = () => {
                         <MoreOutlined style={{ cursor: 'pointer' }} />
                     </div>
                     <ResponsiveContainer width="100%" height={320}>
-                        <BarChart data={categoryRevenue}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                            <XAxis dataKey="name" stroke="var(--text-secondary)" fontSize={12} />
-                            <YAxis stroke="var(--text-secondary)" />
+                        <BarChart
+                            data={categoryRevenue}
+                            barSize={55}
+                        >
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                stroke="var(--border-color)"
+                            />
+
+                            <XAxis
+                                dataKey="name"
+                                stroke="var(--text-secondary)"
+                                fontSize={12}
+                            />
+
+                            <YAxis
+                                stroke="var(--text-secondary)"
+                                fontSize={12}
+                                width={45}
+                                tickFormatter={(value) => `${value / 1000000}M`}
+                            />
+
                             <Tooltip
+                                formatter={(value: any) =>
+                                    `${Number(value).toLocaleString()}đ`
+                                }
                                 contentStyle={{
                                     background: 'var(--bg-card)',
                                     border: '1px solid var(--border-color)',
-                                    borderRadius: '8px'
+                                    borderRadius: '10px'
                                 }}
                             />
-                            <Bar dataKey="revenue" fill="#5b8cae" radius={[8, 8, 0, 0]} />
-                            <Bar dataKey="target" fill="#cbd5e1" radius={[8, 8, 0, 0]} />
+
+                            <Bar
+                                dataKey="revenue"
+                                fill="#5b8cae"
+                                radius={[10, 10, 0, 0]}
+                            />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -234,27 +361,46 @@ const Dashboard = () => {
                 <div className="chart-card">
                     <div className="card-header">
                         <h3>Sản phẩm bán chạy</h3>
-                        <button className="view-all">Xem tất cả <ArrowRightOutlined /></button>
                     </div>
                     <div className="product-list">
                         {topProducts.map((product, index) => (
                             <div className="product-item" key={product.id}>
-                                <div className="product-rank">{index + 1}</div>
-                                <img src={product.image} alt={product.name} className="product-image" />
+
+                                <div className="product-rank">
+                                    {index + 1}
+                                </div>
+
+                                <img
+                                    src={product.img}
+                                    alt={product.name}
+                                    className="product-image"
+                                />
+
                                 <div className="product-info">
+
                                     <h4>{product.name}</h4>
-                                    <p className="product-price">{product.price}</p>
+
+                                    <p className="product-price">
+                                        {Number(product.price).toLocaleString()}đ
+                                    </p>
+
+
                                 </div>
+
                                 <div className="product-stats">
+
                                     <div className="stat">
-                                        <span className="stat-label">Đã bán</span>
-                                        <span className="stat-value-small">{product.sold}</span>
+                                        <span className="stat-label">
+                                            Đã bán
+                                        </span>
+
+                                        <span className="stat-value-small">
+                                            {product.sold}
+                                        </span>
                                     </div>
-                                    <div className="stat">
-                                        <span className="stat-label">Xu hướng</span>
-                                        <span className="trend up">{product.trend}</span>
-                                    </div>
+
                                 </div>
+
                             </div>
                         ))}
                     </div>
@@ -263,7 +409,6 @@ const Dashboard = () => {
                 <div className="chart-card">
                     <div className="card-header">
                         <h3>Danh mục sản phẩm</h3>
-                        <EyeOutlined style={{ cursor: 'pointer' }} />
                     </div>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
@@ -301,7 +446,6 @@ const Dashboard = () => {
             <div className="table-card">
                 <div className="card-header">
                     <h3>Đơn hàng gần đây</h3>
-                    <button className="view-all">Xem tất cả <ArrowRightOutlined /></button>
                 </div>
                 <div className="table-container">
                     <table>
@@ -319,11 +463,40 @@ const Dashboard = () => {
                         <tbody>
                             {recentOrders.map((order) => (
                                 <tr key={order.id}>
-                                    <td className="order-id">{order.id}</td>
-                                    <td>{order.customer}</td>
-                                    <td>{order.date}</td>
-                                    <td className="amount">{order.amount}</td>
-                                    <td>{order.payment}</td>
+
+                                    <td className="order-id">
+                                        #{order.id}
+                                    </td>
+
+                                    <td>
+                                        <div className="customer-cell">
+                                            <span className="customer-name">
+                                                {order.customerName}
+                                            </span>
+                                        </div>
+                                    </td>
+
+                                    <td className="order-date">
+                                        {order.orderDate
+                                            ? new Date(order.orderDate)
+                                                .toLocaleString("vi-VN")
+                                            : ""}
+                                    </td>
+
+                                    <td className="amount">
+                                        {Number(order.totalAmount).toLocaleString()}đ
+                                    </td>
+
+                                    <td>
+                                        <span
+                                            className={`payment-badge ${order.paymentMethod === "COD"
+                                                ? "cod"
+                                                : "online"
+                                                }`}
+                                        >
+                                            {order.paymentMethod}
+                                        </span>
+                                    </td>
                                     <td>
                                         <span
                                             className="status-badge"
@@ -331,11 +504,6 @@ const Dashboard = () => {
                                         >
                                             {getStatusText(order.status)}
                                         </span>
-                                    </td>
-                                    <td>
-                                        <button className="view-btn" aria-label="Xem chi tiết đơn hàng">
-                                            <EyeOutlined />
-                                        </button>
                                     </td>
                                 </tr>
                             ))}
