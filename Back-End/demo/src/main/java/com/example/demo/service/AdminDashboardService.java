@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.DailyRevenueDTO;
-import com.example.demo.repository.ReviewRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.OrderDetailRepository;
-import com.example.demo.repository.OrderRepository;
+import com.example.demo.dto.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,6 +14,9 @@ public class AdminDashboardService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private FoodRepository foodRepository;
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
@@ -31,36 +32,114 @@ public class AdminDashboardService {
 
         data.put("totalOrders", orderRepository.countDeliveredOrders());
         data.put("totalRevenue", orderRepository.sumDeliveredRevenue());
-        data.put("totalFoodSold", orderDetailRepository.sumDeliveredFoodQuantity());
+        data.put("totalProducts", foodRepository.countTotalProducts());
         data.put("totalCustomers", userRepository.countCustomers());
         data.put("pendingOrders", orderRepository.countPendingOrders());
         data.put("deliveringOrders", orderRepository.countDeliveringOrders());
         data.put("averageRating", reviewRepository.getAverageRating());
         data.put("totalReviews", reviewRepository.countVisibleReviews());
 
-        List<Object[]> rawData = orderRepository.getRevenueLast7Days();
-        Map<LocalDate, Double> revenueMap = new HashMap<>();
-        for (Object[] row : rawData) {
-            java.sql.Date sqlDate = (java.sql.Date) row[0];
-            LocalDate localDate = sqlDate.toLocalDate();
-            Double revenue = ((Number) row[1]).doubleValue();
+        return data;
+    }
+    public List<MonthlyRevenueDTO> getRevenueByMonth(int year) {
 
-            revenueMap.put(localDate, revenue);
+        List<Object[]> rawData =
+                orderRepository.getRevenueByMonth(year);
+
+        Map<Integer, Object[]> revenueMap = new HashMap<>();
+
+        for (Object[] row : rawData) {
+
+            Integer month = ((Number) row[0]).intValue();
+
+            revenueMap.put(month, row);
         }
-        List<DailyRevenueDTO> revenue7Days = new ArrayList<>();
-        for (int i = 6; i >= 0; i--) {
-            LocalDate day = LocalDate.now().minusDays(i);
-            revenue7Days.add(
-                    new DailyRevenueDTO(
-                            day.toString(),
-                            revenueMap.getOrDefault(day, 0.0)
+
+        List<MonthlyRevenueDTO> result = new ArrayList<>();
+
+        for (int i = 1; i <= 12; i++) {
+
+            if (revenueMap.containsKey(i)) {
+
+                Object[] row = revenueMap.get(i);
+
+                Double revenue =
+                        ((Number) row[1]).doubleValue();
+
+                Long orders =
+                        ((Number) row[2]).longValue();
+
+                result.add(
+                        new MonthlyRevenueDTO(
+                                "Tháng" + i,
+                                revenue,
+                                orders
+                        )
+                );
+
+            } else {
+
+                result.add(
+                        new MonthlyRevenueDTO(
+                                "T" + i,
+                                0.0,
+                                0L
+                        )
+                );
+            }
+        }
+
+        return result;
+    }
+    public List<CategoryRevenueDTO> getRevenueByCategory(int year) {
+
+        List<Object[]> rawData =
+                orderDetailRepository.getRevenueByCategory(year);
+
+        List<CategoryRevenueDTO> result = new ArrayList<>();
+
+        for (Object[] row : rawData) {
+
+            String categoryName = row[0].toString();
+
+            Double revenue =
+                    ((Number) row[1]).doubleValue();
+
+            result.add(
+                    new CategoryRevenueDTO(
+                            categoryName,
+                            revenue
                     )
             );
         }
-        data.put("revenue7Days", revenue7Days);
 
-        return data;
+        return result;
     }
+    public List<TopSellingProductDTO> getTopSellingProducts(int year) {
+
+        List<Object[]> results =
+                foodRepository.getTopSellingProducts(year);
+
+        return results.stream().map(row -> new TopSellingProductDTO(
+                ((Number) row[0]).intValue(),
+                (String) row[1],
+                ((Number) row[2]).doubleValue(),
+                (String) row[3],
+                ((Number) row[4]).intValue(),
+                ((Number) row[5]).doubleValue()
+        )).toList();
+    }
+    public List<CategoryStatisticDTO> getCategoryStatistics() {
+
+        return foodRepository.getCategoryStatistics();
+    }
+    public List<RecentOrderDTO> getTop5RecentOrders() {
+
+        return orderRepository.getRecentOrders(
+                PageRequest.of(0, 5)
+        );
+    }
+
 
 }
 
