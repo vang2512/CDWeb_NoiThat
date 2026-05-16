@@ -93,9 +93,18 @@ const Payment = () => {
       // =============================
       const orderPayload = {
         userId: user.id,
+        customerName: orderData.userData?.fullName,
+        phoneNumber: orderData.userData?.phone,
+        shippingAddress: orderData.userData?.address,
+
+        discountAmount: orderData.discount || 0,
+
         note: orderData.formData?.note || "",
+
         paymentMethod: selectedPayment.toUpperCase(),
+
         totalAmount: orderData.total,
+
         items: orderData.cart.map((item: any) => ({
           foodId: item.id,
           quantity: item.quantity,
@@ -164,7 +173,7 @@ const Payment = () => {
   return (
     <div className="payment_page">
       {/* Breadcrumb */}
-      <div className="payment_breadcrumb">
+      <div className="breadcrumb">
         <span onClick={() => navigate("/")}>Trang chủ</span>
         <span className="slash">/</span>
         <span onClick={() => navigate("/cart")}>Giỏ hàng</span>

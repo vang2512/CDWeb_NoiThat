@@ -160,3 +160,601 @@
 .select_all input {
   margin-right: 8px;
 }
+/* ===== RESPONSIVE CART PAGE CHUẨN MOBILE ===== */
+
+/* Tablet nhỏ (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .cart_page {
+    width: 100%;
+    margin: 90px auto 20px;
+    padding: 0 24px;
+  }
+  
+  .cart_container {
+    gap: 20px;
+  }
+  
+  .cart_left {
+    padding: 20px;
+  }
+  
+  .cart_right {
+    padding: 20px;
+  }
+  
+  .cart_img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .cart_name {
+    font-size: 14px;
+  }
+}
+
+/* Tablet (601px - 768px) */
+@media (max-width: 768px) {
+  .cart_page {
+    width: 100%;
+    margin: 85px auto 16px;
+    padding: 0 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  /* Chuyển thành 1 cột */
+  .cart_container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  /* LEFT */
+  .cart_left {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .cart_left h2 {
+    font-size: 18px;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .cart_count {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  
+  .select_all {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .select_all input {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+  }
+  
+  /* Cart Item */
+  .cart_item {
+    gap: 12px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  
+  .cart_img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .cart_info {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .cart_name {
+    font-size: 14px;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .cart_price {
+    font-size: 14px;
+  }
+  
+  /* Quantity & Delete wrapper */
+  .cart_quantity {
+    margin-left: auto;
+    gap: 8px;
+  }
+  
+  .cart_quantity button {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  
+  .cart_quantity span {
+    min-width: 24px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .cart_delete {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* RIGHT */
+  .cart_right {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .cart_right h2 {
+    font-size: 18px;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .order_total {
+    margin: 16px 0;
+    font-size: 15px;
+  }
+  
+  .price {
+    font-size: 18px;
+  }
+  
+  .note {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .checkout_btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+/* Mobile (481px - 600px) */
+@media (max-width: 600px) {
+  .cart_page {
+    margin: 80px auto 12px;
+    padding: 0 12px;
+  }
+  
+  .cart_left {
+    padding: 14px;
+  }
+  
+  .cart_left h2 {
+    font-size: 17px;
+  }
+  
+  .cart_item {
+    gap: 10px;
+    padding: 14px 0;
+  }
+  
+  .cart_img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .cart_info {
+    min-width: 120px;
+  }
+  
+  .cart_name {
+    font-size: 13px;
+  }
+  
+  .cart_price {
+    font-size: 13px;
+  }
+  
+  .cart_quantity button {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  
+  .cart_quantity span {
+    min-width: 20px;
+    font-size: 13px;
+  }
+  
+  .cart_right h2 {
+    font-size: 17px;
+  }
+  
+  .order_total {
+    font-size: 14px;
+  }
+  
+  .price {
+    font-size: 17px;
+  }
+}
+
+/* Mobile rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .cart_page {
+    margin: 75px auto 12px;
+    padding: 0 10px;
+  }
+  
+  .breadcrumb {
+    font-size: 11px;
+  }
+  
+  .cart_left {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  
+  .cart_left h2 {
+    font-size: 16px;
+  }
+  
+  .cart_count {
+    font-size: 12px;
+  }
+  
+  .select_all {
+    font-size: 13px;
+  }
+  
+  .cart_item {
+    gap: 8px;
+    padding: 12px 0;
+  }
+  
+  .cart_img {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .cart_info {
+    min-width: 100px;
+  }
+  
+  .cart_name {
+    font-size: 12px;
+  }
+  
+  .cart_price {
+    font-size: 12px;
+  }
+  
+  .cart_quantity {
+    gap: 6px;
+  }
+  
+  .cart_quantity button {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+  
+  .cart_quantity span {
+    min-width: 18px;
+    font-size: 12px;
+  }
+  
+  .cart_delete svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .cart_right {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  
+  .cart_right h2 {
+    font-size: 16px;
+  }
+  
+  .order_total {
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  
+  .price {
+    font-size: 16px;
+  }
+  
+  .note {
+    font-size: 11px;
+  }
+  
+  .checkout_btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .cart_page {
+    margin: 70px auto 10px;
+    padding: 0 8px;
+  }
+  
+  .cart_left {
+    padding: 10px;
+  }
+  
+  .cart_img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .cart_name {
+    font-size: 11px;
+  }
+  
+  .cart_quantity button {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+  
+  .cart_quantity span {
+    font-size: 11px;
+  }
+  
+  .checkout_btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Hỗ trợ màn hình có notch */
+@supports (padding: max(0px)) {
+  .cart_page {
+    margin-top: max(85px, env(safe-area-inset-top));
+    margin-bottom: max(16px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  @media (max-width: 480px) {
+    .cart_page {
+      margin-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Cải thiện touch target */
+@media (max-width: 768px) {
+  .cart_item,
+  .cart_quantity button,
+  .cart_delete,
+  .select_all,
+  .checkout_btn {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .cart_item:active {
+    background: #fafafa;
+    transform: scale(0.99);
+  }
+  
+  .cart_quantity button:active {
+    transform: scale(0.95);
+    background: #f0f0f0;
+  }
+  
+  .cart_delete:active {
+    transform: scale(0.95);
+  }
+  
+  .select_all:active {
+    opacity: 0.7;
+  }
+  
+  .checkout_btn:active {
+    transform: scale(0.98);
+  }
+  
+  /* Tăng vùng chạm */
+  .cart_quantity button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .cart_delete {
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .select_all {
+    min-height: 36px;
+  }
+  
+  .checkout_btn {
+    min-height: 48px;
+  }
+}
+
+/* Ẩn hover effect trên mobile */
+@media (max-width: 768px) {
+  .cart_delete:hover {
+    background: transparent;
+  }
+  
+  .checkout_btn:hover {
+    background: #e6a36a;
+  }
+}
+
+/* Animation khi load trang */
+@media (max-width: 768px) {
+  .cart_page {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .cart_left {
+    animation: slideUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .cart_right {
+    animation: slideUp 0.3s ease-out 0.1s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation cho từng cart item */
+  .cart_item {
+    animation: fadeInItem 0.2s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .cart_item:nth-child(1) { animation-delay: 0.05s; }
+  .cart_item:nth-child(2) { animation-delay: 0.1s; }
+  .cart_item:nth-child(3) { animation-delay: 0.15s; }
+  .cart_item:nth-child(4) { animation-delay: 0.2s; }
+  .cart_item:nth-child(5) { animation-delay: 0.25s; }
+  
+  @keyframes fadeInItem {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Fix cho landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cart_page {
+    margin: 80px auto 12px;
+  }
+  
+  .cart_container {
+    gap: 16px;
+  }
+  
+  .cart_item {
+    flex-wrap: nowrap;
+  }
+  
+  .cart_info {
+    min-width: auto;
+  }
+  
+  .cart_quantity {
+    margin-left: 0;
+  }
+}
+
+/* Loading state */
+.cart_loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+@media (max-width: 768px) {
+  .cart_loading {
+    min-height: 150px;
+  }
+}
+
+/* Empty cart state */
+.cart_empty {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.cart_empty svg {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.cart_empty p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.cart_empty button {
+  padding: 12px 24px;
+  background: #e6a36a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .cart_empty {
+    padding: 40px 16px;
+  }
+  
+  .cart_empty svg {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .cart_empty p {
+    font-size: 14px;
+  }
+  
+  .cart_empty button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Scrollbar cho cart list */
+@media (max-width: 768px) {
+  .cart_left {
+    max-height: none;
+    overflow: visible;
+  }
+}

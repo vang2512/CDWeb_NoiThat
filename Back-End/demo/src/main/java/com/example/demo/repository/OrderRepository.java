@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.RecentOrderDTO;
 import com.example.demo.entity.Order;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -44,20 +46,39 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     // Tổng đơn đang giao
     @Query("SELECT COUNT(o) FROM Order o WHERE o.status = 'Đang giao'")
     Long countDeliveringOrders();
+    @Query("""
+        SELECT new com.example.demo.dto.RecentOrderDTO(
+            o.id,
+            o.customerName,
+            o.totalAmount,
+            o.status,
+            p.method,
+            o.date
+        )
+        FROM Order o
+        LEFT JOIN o.payment p
+        ORDER BY o.date DESC
+    """)
+    List<RecentOrderDTO> getRecentOrders(Pageable pageable);
 
+    // Doanh thu theo tháng trong năm hiện tại
     @Query(
             value = """
-        SELECT DATE(o.date), SUM(o.total_amount)
-        FROM orders o
-        WHERE o.status = 'Đã giao'
-          AND o.date >= CURRENT_DATE - INTERVAL '6' DAY
-        GROUP BY DATE(o.date)
-        ORDER BY DATE(o.date)
-    """,
+    SELECT 
+        MONTH(o.date) AS month,
+        COALESCE(SUM(o.total_amount), 0) AS revenue,
+        COUNT(o.id) AS orders
+    FROM orders o
+    WHERE YEAR(o.date) = :year
+      AND o.status = 'Đã giao'
+    GROUP BY MONTH(o.date)
+    ORDER BY MONTH(o.date)
+""",
             nativeQuery = true
     )
-    List<Object[]> getRevenueLast7Days();
+    List<Object[]> getRevenueByMonth(@Param("year") int year);
 
     @Query("SELECT COUNT(o) FROM Order o WHERE o.userId = :userId")
     long countByUserId(@Param("userId") int userId);
+
 }

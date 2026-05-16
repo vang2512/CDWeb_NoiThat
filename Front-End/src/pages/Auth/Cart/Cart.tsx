@@ -55,7 +55,7 @@ const Cart = () => {
   }
 
   // Lưu tạm vào localStorage để chuyển qua trang Checkout
-  localStorage.setItem("pendingOrder", JSON.stringify(selectedProducts));
+  localStorage.setItem("checkoutCart", JSON.stringify(selectedProducts));
   navigate("/check-out");
 };
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -31,32 +32,48 @@ public class OrderService {
         order.setStatus("Đang xử lý");
 
         if (order.getOrderDetails() != null) {
+
             for (OrderDetail detail : order.getOrderDetails()) {
+
                 detail.setOrder(order);
 
-                if (detail.getFood() != null && detail.getFood().getId() != 0) {
-                    foodRepository.findById(detail.getFood().getId())
-                            .ifPresent(detail::setFood);
+                if (detail.getFood() != null
+                        && detail.getFood().getId() != 0) {
+
+                    foodRepository.findById(
+                            detail.getFood().getId()
+                    ).ifPresent(detail::setFood);
                 }
             }
         }
 
-        // ================== PAYMENT ==================
+        // ===== PAYMENT =====
         if (order.getPayment() != null) {
 
             Payment p = order.getPayment();
+
             p.setOrder(order);
+
             p.setDate(LocalDateTime.now());
 
             if ("COD".equalsIgnoreCase(paymentMethod)) {
+
                 p.setMethod("Thanh toán khi nhận hàng");
+
             } else if ("VNPAY".equalsIgnoreCase(paymentMethod)) {
+
                 p.setMethod("Thanh toán qua VNPAY");
+
             } else if ("MOMO".equalsIgnoreCase(paymentMethod)) {
+
                 p.setMethod("Thanh toán qua MOMO");
             }
 
             p.setStatus("Chờ thanh toán");
+        }
+
+        if (order.getDiscountAmount() == null) {
+            order.setDiscountAmount(BigDecimal.ZERO);
         }
 
         return orderRepo.save(order);

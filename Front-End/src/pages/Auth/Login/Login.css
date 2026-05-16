@@ -1,21 +1,33 @@
 .login-container {
-  min-height: 93vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f6fa;
-  padding: 120px 20px 20px 20px;
+  background: linear-gradient(135deg, #f5f6fa 0%, #eef2f7 100%);
+  padding: 100px 20px 20px 20px;
   font-family: "Inter", sans-serif;
 }
 
 .login-box {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: white;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 5px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-logo {
@@ -25,26 +37,26 @@
 }
 
 .login-logo img {
-  height: 90px;
+  height: 80px;
   object-fit: contain;
 }
 
 .login-box h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-  font-size: 24px;
-  font-weight: 600;
+  margin-bottom: 28px;
+  color: #1a1a2e;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 6px;
-  color: #555;
+  margin-bottom: 8px;
+  color: #333;
   font-weight: 500;
   font-size: 14px;
 }
@@ -53,9 +65,9 @@
 .input-box {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
-  padding: 10px 12px;
-  border-radius: 6px;
+  border: 1.5px solid #e0e4e8;
+  padding: 12px 14px;
+  border-radius: 12px;
   background: white;
   transition: all 0.3s ease;
   position: relative;
@@ -63,20 +75,20 @@
 
 .input-box:focus-within {
   border-color: #107dea;
-  box-shadow: 0 0 0 2px rgba(16, 125, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(16, 125, 234, 0.1);
 }
 
 .input-box input {
   border: none;
   outline: none;
   flex: 1;
-  margin-left: 8px;
-  font-size: 14px;
+  margin-left: 10px;
+  font-size: 15px;
   background: transparent;
 }
 
 .input-box input::placeholder {
-  color: #999;
+  color: #aaa;
 }
 
 /* Eye icon */
@@ -85,18 +97,20 @@
   margin-left: 8px;
   display: flex;
   align-items: center;
-  color: #666;
-  transition: color 0.3s ease;
+  color: #888;
+  transition: all 0.3s ease;
+  padding: 4px;
+  border-radius: 50%;
 }
 
-.eye-icon:hover {
-  color: #107dea;
+.eye-icon:active {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Checking email indicator */
 .checking-email {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   animation: spin 1s linear infinite;
@@ -125,7 +139,13 @@
   margin-bottom: 0;
   padding-left: 0;
   line-height: 1.4;
-  animation: fadeIn 0.3s ease;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
 }
 
 .checking-text {
@@ -155,38 +175,31 @@
   font-size: 13px;
   margin-bottom: 20px;
   cursor: pointer;
-  color: #2f7ed8;
-  transition: color 0.3s ease;
+  color: #107dea;
+  transition: all 0.3s ease;
 }
 
-.forgot:hover {
-  color: #107dea;
-  text-decoration: underline;
+.forgot:active {
+  opacity: 0.7;
 }
 
 /* Login button */
 .login-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #107dea;
   border: none;
   color: white;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 10px;
 }
 
-.login-btn:hover:not(:disabled) {
-  background: #1f6fd0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 125, 234, 0.3);
-}
-
 .login-btn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 .login-btn:disabled {
@@ -199,131 +212,90 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  transform: scale(0.95);
 }
 
 /* Register link */
 .register {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 24px;
   font-size: 14px;
   color: #666;
 }
 
 .register span {
-  color: #2f7ed8;
+  color: #107dea;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   margin-left: 5px;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.register span:hover {
-  color: #107dea;
-  text-decoration: underline;
+.register span:active {
+  opacity: 0.7;
 }
 
 /* Divider */
 .divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, #ddd, transparent);
-  margin: 25px 0;
+  background: linear-gradient(to right, transparent, #e0e4e8, transparent);
+  margin: 28px 0;
 }
 
 /* Social login */
 .social-login {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .social-login button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid #ddd;
-  padding: 10px 20px;
-  border-radius: 6px;
+  justify-content: center;
+  gap: 10px;
+  border: 1.5px solid #e0e4e8;
+  padding: 11px 20px;
+  border-radius: 40px;
   background: white;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   transition: all 0.3s ease;
   color: #555;
+  flex: 1;
+  min-width: 130px;
 }
 
-/* Nút Google - màu đỏ đặc trưng */
+.social-login button:active {
+  transform: scale(0.96);
+}
+
+/* Nút Google */
 .social-login button.google-btn {
   border-color: #db4437;
   color: #db4437;
 }
 
-.social-login button.google-btn:hover {
+.social-login button.google-btn:active {
   background: #db4437;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(219, 68, 55, 0.3);
-  border-color: #db4437;
 }
 
-.social-login button.google-btn:hover img {
-  filter: brightness(0) invert(1);
-}
-
-/* Nút Facebook - màu xanh đặc trưng */
+/* Nút Facebook */
 .social-login button.facebook-btn {
   border-color: #4267b2;
   color: #4267b2;
 }
 
-.social-login button.facebook-btn:hover {
+.social-login button.facebook-btn:active {
   background: #4267b2;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(66, 103, 178, 0.3);
-  border-color: #4267b2;
-}
-
-.social-login button.facebook-btn:hover img {
-  filter: brightness(0) invert(1);
-}
-
-/* Hiệu ứng chung cho social buttons */
-.social-login button:active {
-  transform: translateY(0);
 }
 
 .social-login img {
   width: 18px;
   height: 18px;
-  transition: filter 0.3s ease;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .login-container {
-    padding: 100px 15px 20px 15px;
-  }
-  
-  .login-box {
-    padding: 30px 20px;
-  }
-  
-  .login-box h2 {
-    font-size: 22px;
-  }
-  
-  .social-login button {
-    padding: 8px 16px;
-    font-size: 13px;
-  }
-  
-  .captcha-box {
-    transform: scale(0.85);
-  }
-  
-  .error, .checking-text {
-    font-size: 11px;
-  }
 }
 
 .input-box input:focus {
@@ -336,4 +308,288 @@
 .input-box input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ===== RESPONSIVE CHUẨN MOBILE ===== */
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .login-container {
+    padding: 90px 30px 30px 30px;
+  }
+  
+  .login-box {
+    max-width: 480px;
+    padding: 38px 35px;
+  }
+}
+
+/* Mobile Lớn (601px - 768px) */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 85px 16px 20px 16px;
+    align-items: flex-start;
+  }
+  
+  .login-box {
+    max-width: 100%;
+    padding: 28px 22px;
+    border-radius: 28px;
+    margin: 0 auto;
+  }
+  
+  .login-logo img {
+    height: 65px;
+  }
+  
+  .login-box h2 {
+    font-size: 23px;
+    margin-bottom: 22px;
+  }
+  
+  .form-group {
+    margin-bottom: 18px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .input-box {
+    padding: 11px 14px;
+    border-radius: 12px;
+  }
+  
+  .input-box input {
+    font-size: 16px; /* Tránh zoom iOS */
+    margin-left: 8px;
+  }
+  
+  .eye-icon {
+    padding: 6px;
+  }
+  
+  .forgot {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .login-btn {
+    padding: 13px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+  
+  .captcha-box {
+    transform: scale(0.95);
+    margin-top: 16px;
+  }
+  
+  .register {
+    font-size: 13px;
+    margin-top: 20px;
+  }
+  
+  .divider {
+    margin: 22px 0;
+  }
+  
+  .social-login {
+    gap: 12px;
+  }
+  
+  .social-login button {
+    padding: 10px 14px;
+    font-size: 13px;
+    min-width: 120px;
+  }
+  
+  .error, .checking-text {
+    font-size: 11px;
+  }
+}
+
+/* Mobile Nhỏ (481px - 600px) */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 80px 14px 16px 14px;
+  }
+  
+  .login-box {
+    padding: 24px 18px;
+    border-radius: 24px;
+  }
+  
+  .login-logo img {
+    height: 55px;
+  }
+  
+  .login-box h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+  }
+  
+  .social-login button {
+    padding: 9px 12px;
+    font-size: 12px;
+    min-width: 100px;
+  }
+}
+
+/* Mobile Rất Nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 75px 12px 16px 12px;
+  }
+  
+  .login-box {
+    padding: 22px 16px;
+    border-radius: 22px;
+  }
+  
+  .login-logo img {
+    height: 50px;
+  }
+  
+  .login-box h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-box {
+    padding: 10px 12px;
+  }
+  
+  .input-box input {
+    font-size: 15px;
+  }
+  
+  .login-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+  
+  .social-login {
+    gap: 10px;
+  }
+  
+  .social-login button {
+    padding: 8px 10px;
+    font-size: 12px;
+    gap: 6px;
+    min-width: 90px;
+  }
+  
+  .social-login img {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .captcha-box {
+    transform: scale(0.85);
+  }
+  
+  .error, .checking-text {
+    font-size: 10px;
+  }
+  
+  .register {
+    font-size: 12px;
+  }
+}
+
+/* iPhone SE, iPhone 5 (dưới 380px) */
+@media (max-width: 380px) {
+  .login-container {
+    padding: 70px 10px 12px 10px;
+  }
+  
+  .login-box {
+    padding: 18px 14px;
+    border-radius: 20px;
+  }
+  
+  .login-logo img {
+    height: 45px;
+  }
+  
+  .login-box h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+  }
+  
+  .input-box {
+    padding: 8px 10px;
+  }
+  
+  .input-box input {
+    font-size: 14px;
+  }
+  
+  .social-login button {
+    padding: 7px 8px;
+    font-size: 11px;
+    min-width: 80px;
+  }
+}
+
+/* Hỗ trợ notch iPhone, Dynamic Island */
+@supports (padding: max(0px)) {
+  .login-container {
+    padding-top: max(85px, env(safe-area-inset-top));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  
+  @media (max-width: 480px) {
+    .login-container {
+      padding-top: max(75px, env(safe-area-inset-top));
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+    }
+  }
+}
+
+/* Hover chỉ hoạt động trên desktop */
+@media (min-width: 769px) {
+  .login-btn:hover:not(:disabled) {
+    background: #0d6ad1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 125, 234, 0.25);
+  }
+  
+  .forgot:hover {
+    text-decoration: underline;
+  }
+  
+  .register span:hover {
+    text-decoration: underline;
+  }
+  
+  .social-login button.google-btn:hover {
+    background: #db4437;
+    color: white;
+  }
+  
+  .social-login button.google-btn:hover img {
+    filter: brightness(0) invert(1);
+  }
+  
+  .social-login button.facebook-btn:hover {
+    background: #4267b2;
+    color: white;
+  }
+  
+  .social-login button.facebook-btn:hover img {
+    filter: brightness(0) invert(1);
+  }
+  
+  .eye-icon:hover {
+    color: #107dea;
+  }
 }

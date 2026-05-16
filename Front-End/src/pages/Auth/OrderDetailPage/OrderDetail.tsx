@@ -21,8 +21,7 @@ const OrderDetail = () => {
 const fetchOrderDetail = async () => {
     try {
         const res = await authApi.getDetailOrder(Number(id));
-        // Vì API trả thẳng OrderDTO
-        setOrder(res.data); // không cần res.data.data
+        setOrder(res.data); 
     } catch (err) {
         console.error(err);
         toast.error(t("load_error"));

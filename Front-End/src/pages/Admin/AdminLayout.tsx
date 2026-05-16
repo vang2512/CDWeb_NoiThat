@@ -131,12 +131,6 @@ const AdminLayout: React.FC = () => {
               <SearchOutlined className="search-icon" />
               <input type="text" placeholder="Tìm kiếm..." />
             </div>
-
-            <div className="notifications">
-              <BellOutlined />
-              <span className="notification-badge">3</span>
-            </div>
-
             <div className="user-info">
               <div className="user-avatar">
                 <img src="https://i.pravatar.cc/300?img=7" alt="Admin" />
