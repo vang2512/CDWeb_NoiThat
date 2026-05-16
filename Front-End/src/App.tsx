@@ -26,7 +26,9 @@ import Dashboard from "./pages/Admin/Dashboard/Dashboard";
 import ProductAdmin from "./pages/Admin/ProductAdmin/ProductsAdmin";
 import UsersAdmin from "./pages/Admin/UsersAdmin/UsersAdmin";
 import Categories from "./pages/Admin/ProductAdmin/CategoriesAdmin";
-
+import Orders from "./pages/Admin/OrdersAdmin/OrdersAdmin";
+import Voucher from "./pages/Admin/VoucherAdmin/VoucherAdmin";
+import Review from "./pages/Admin/ReviewsAdmin/ReviewsAdmin";
 
 function App() {
   const location = useLocation();
@@ -97,6 +99,9 @@ function App() {
             <Route path="products" element={<ProductAdmin />} />
             <Route path="categories" element={<Categories />} />
             <Route path="customers" element={<UsersAdmin />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="vouchers" element={<Voucher />} />
+            <Route path="reviews" element={<Review />} />
           </Route>
         </Routes>
       </CartProvider>
