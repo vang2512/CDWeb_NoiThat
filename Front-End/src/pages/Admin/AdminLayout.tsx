@@ -20,7 +20,8 @@ import {
   BellOutlined,
   SearchOutlined,
   MoonOutlined,
-  SunOutlined
+  SunOutlined,
+  StarOutlined
 } from '@ant-design/icons';
 
 interface AdminLayoutProps {
@@ -39,10 +40,14 @@ const AdminLayout: React.FC = () => {
     { key: 'products', icon: <ShoppingOutlined />, label: 'Sản phẩm', path: '/admin/products' },
     { key: 'orders', icon: <ContainerOutlined />, label: 'Đơn hàng', path: '/admin/orders', badge: 12 },
     { key: 'categories', icon: <TagOutlined />, label: 'Danh mục', path: '/admin/categories' },
+    { key: 'vouchers', icon: <TagOutlined />, label: 'Mã giảm giá', path: '/admin/vouchers' },
     { key: 'customers', icon: <UserOutlined />, label: 'Khách hàng', path: '/admin/customers' },
+    { key: 'reviews', icon: <StarOutlined />, label: 'Đánh giá', path: '/admin/reviews' },
+
     { key: 'revenue', icon: <DollarOutlined />, label: 'Doanh thu', path: '/admin/revenue' },
     { key: 'statistics', icon: <BarChartOutlined />, label: 'Thống kê', path: '/admin/statistics' },
     { key: 'settings', icon: <SettingOutlined />, label: 'Cài đặt', path: '/admin/settings' },
+
   ];
 
   const toggleTheme = () => {
