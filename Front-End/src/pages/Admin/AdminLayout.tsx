@@ -43,7 +43,7 @@ const AdminLayout: React.FC = () => {
     { key: 'vouchers', icon: <TagOutlined />, label: 'Mã giảm giá', path: '/admin/vouchers' },
     { key: 'customers', icon: <UserOutlined />, label: 'Khách hàng', path: '/admin/customers' },
     { key: 'reviews', icon: <StarOutlined />, label: 'Đánh giá', path: '/admin/reviews' },
-
+    { key: 'logs', icon: <BellOutlined />, label: 'Logs hệ thống', path: '/admin/logs' },
     { key: 'revenue', icon: <DollarOutlined />, label: 'Doanh thu', path: '/admin/revenue' },
     { key: 'statistics', icon: <BarChartOutlined />, label: 'Thống kê', path: '/admin/statistics' },
     { key: 'settings', icon: <SettingOutlined />, label: 'Cài đặt', path: '/admin/settings' },

@@ -2,15 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ResetPasswordRequest;
 import com.example.demo.entity.Users;
-import com.example.demo.service.EmailService;
-import com.example.demo.service.EmailService_Res;
-import com.example.demo.service.UserService;
+import com.example.demo.model.Status;
+import com.example.demo.service.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.dto.SocialLoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.service.OtpService;
 
 import java.util.*;
 
@@ -32,22 +30,40 @@ public class UserController {
     private OtpService otpService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LogService logService;
 
     @PostMapping("/send-otp")
     public Map<String, Object> sendOtp(@RequestParam String email) {
+
         Map<String, Object> response = new HashMap<>();
 
-        // Kiểm tra email tồn tại
         var userOpt = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
+
+            logService.saveAuthLog(
+                    "SEND_OTP",
+                    null,
+                    Status.FAILED,
+                    "Email đã tồn tại",
+                    "unknown"
+            );
+
             response.put("success", false);
             response.put("message", "Email đã tồn tại!");
             return response;
         }
 
-        // Sinh OTP 4 số và gửi mail thật
         String otp = otpService.generateOtp(email);
         emailService.sendOtpEmail(email, otp);
+
+        logService.saveAuthLog(
+                "SEND_OTP",
+                null,
+                Status.SUCCESS,
+                "Gửi OTP đăng ký",
+                "unknown"
+        );
 
         response.put("success", true);
         response.put("message", "Đã gửi OTP đến email " + email);
@@ -69,17 +85,35 @@ public class UserController {
 
     @PostMapping("/verify-otp")
     public Map<String, Object> verifyOtp(@RequestBody Map<String, String> body) {
+
         String email = body.get("email");
         String otp = body.get("otp");
 
         boolean isValid = otpService.verifyOtp(email, otp);
 
         if (isValid) {
+
+            logService.saveAuthLog(
+                    "VERIFY_OTP",
+                    null,
+                    Status.SUCCESS,
+                    "OTP hợp lệ",
+                    "unknown"
+            );
+
             otpService.clearOtp(email);
             return Map.of("valid", true, "message", "OTP hợp lệ");
-        } else {
-            return Map.of("valid", false, "message", "OTP không đúng hoặc đã hết hạn");
         }
+
+        logService.saveAuthLog(
+                "VERIFY_OTP",
+                null,
+                Status.FAILED,
+                "OTP sai hoặc hết hạn",
+                "unknown"
+        );
+
+        return Map.of("valid", false, "message", "OTP không đúng hoặc đã hết hạn");
     }
     @PostMapping("/social-login")
     public Map<String, Object> socialLogin(@RequestBody SocialLoginRequest body) {
@@ -105,6 +139,13 @@ public class UserController {
                 response.put("message", "Tài khoản đã bị khóa");
                 return response;
             }
+            logService.saveAuthLog(
+                    "SOCIAL_LOGIN",
+                    user,
+                    Status.SUCCESS,
+                    "Đăng nhập Google",
+                    "unknown"
+            );
 
         } else {
             user = new Users();
@@ -114,6 +155,14 @@ public class UserController {
             user.setPassword("");
             user.setIsDeleted(false);
             userRepository.save(user);
+
+            logService.saveAuthLog(
+                    "SOCIAL_LOGIN",
+                    user,
+                    Status.SUCCESS,
+                    "Tạo tài khoản + login Google",
+                    "unknown"
+            );
         }
         response.put("success", true);
         response.put("message", "Đăng nhập social thành công");
@@ -167,21 +216,59 @@ public class UserController {
         var userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty()) {
+
+            logService.saveAuthLog(
+                    "LOGIN",
+                    null,
+                    Status.FAILED,
+                    "Email không tồn tại",
+                    "unknown"
+            );
+
             response.put("success", false);
             response.put("message", "Email không tồn tại!");
             return response;
         }
+
         Users user = userOpt.get();
+
         if (user.getIsDeleted()) {
+
+            logService.saveAuthLog(
+                    "LOGIN",
+                    user,
+                    Status.FAILED,
+                    "Tài khoản bị khóa",
+                    "unknown"
+            );
+
             response.put("success", false);
             response.put("message", "Tài khoản đã bị khóa!");
             return response;
         }
 
         if (!user.getPassword().equals(userService.hashPassword(password))) {
+
+            logService.saveAuthLog(
+                    "LOGIN",
+                    user,
+                    Status.FAILED,
+                    "Sai mật khẩu",
+                    "unknown"
+            );
+
             response.put("message", "Mật khẩu không đúng!");
             return response;
         }
+
+        logService.saveAuthLog(
+                "LOGIN",
+                user,
+                Status.SUCCESS,
+                "Đăng nhập thành công",
+                "unknown"
+        );
+
         response.put("success", true);
         response.put("message", "Đăng nhập thành công!");
         response.put("user", Map.of(
@@ -190,6 +277,7 @@ public class UserController {
                 "fullName", user.getFullName(),
                 "role", user.getRole()
         ));
+
         return response;
     }
 
@@ -212,9 +300,15 @@ public class UserController {
         user.setDateOfBirth(updated.getDateOfBirth());
 
         userService.save(user);
-
         response.put("success", true);
         response.put("message", "Cập nhật thành công!");
+        logService.saveActivityLog(
+                "UPDATE_USER",
+                "USER",
+                user,
+                "Cập nhật thông tin user",
+                "unknown"
+        );
         response.put("user", user);
         return response;
     }
@@ -234,12 +328,26 @@ public class UserController {
         var userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty()) {
+            logService.saveAuthLog(
+                    "RESET_PASSWORD",
+                    null,
+                    Status.FAILED,
+                    "Email không tồn tại",
+                    "unknown"
+            );
             return Map.of("message", "Email không tồn tại.");
         }
 
         Users user = userOpt.get();
         user.setPassword(userService.hashPassword(newPassword));
         userService.save(user);
+        logService.saveAuthLog(
+                "RESET_PASSWORD",
+                user,
+                Status.SUCCESS,
+                "Đặt lại mật khẩu thành công",
+                "unknown"
+        );
 
         return Map.of("message", "Đặt lại mật khẩu thành công!");
     }

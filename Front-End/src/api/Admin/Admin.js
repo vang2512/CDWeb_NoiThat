@@ -2,6 +2,7 @@ import axiosClient from "../axiosClient";
 
 const adminApi = {
 
+    // Dashboard
     getDashboardStats() {
         return axiosClient.get("/admin/dashboard/stats");
     },
@@ -30,6 +31,10 @@ const adminApi = {
 
     getRecentOrders() {
         return axiosClient.get("/admin/dashboard/recent-orders");
+    },
+    //Log admin
+    getLogs(params) {
+        return axiosClient.get("/admin/logs", { params });
     }
 
 };
