@@ -7,7 +7,13 @@ import slide4 from "../../../assets/images/slide_1_img.jpeg";
 import authApi from "../../../api/Auth/Auth_Api";
 import { useCart } from "../CartContext";
 import { useNavigate } from "react-router-dom";
-import { ArrowUp, Image as ImageIcon, ShoppingCart, Star } from "lucide-react";
+import {
+  ArrowUp,
+  Image as ImageIcon,
+  ShoppingCart,
+  Star,
+  Mic
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -39,6 +45,8 @@ const Home = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [input, setInput] = useState("");
   const [recommendedFoods, setRecommendedFoods] = useState<Product[]>([]);
+  const [isListening, setIsListening] = useState(false);
+  const [isVoiceMessage, setIsVoiceMessage] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [productsSale, setProductsSale] = useState<Product[]>([]);
@@ -92,7 +100,7 @@ const Home = () => {
     };
     fetchTopSelling();
   }, []);
-  
+
   // Gợi ý sp
   useEffect(() => {
     const fetchRecommended = async () => {
@@ -129,12 +137,23 @@ const Home = () => {
   }, []);
 
   // chat bot
-  const sendMessage = async () => {
-    if (!input.trim() && !image && !selectedFile) return;
+  // chat bot
+  const sendMessage = async (
+    voiceText?: string,
+    fromVoice: boolean = false
+  ) => {
 
-    const text = input;
+    const text =
+      typeof voiceText === "string"
+        ? voiceText
+        : input;
 
-    let newMessage: any = { type: "user" };
+    if (!text.trim() && !image && !selectedFile)
+      return;
+
+    let newMessage: any = {
+      type: "user"
+    };
 
     if (text.trim()) {
       newMessage.text = text;
@@ -154,23 +173,28 @@ const Home = () => {
     setSelectedFile(null);
 
     try {
-      if (currentFile) {
-        const res = await authApi.searchImage(currentFile);
 
-        console.log("API searchImage response:", res.data);
+      // SEARCH IMAGE
+      if (currentFile) {
+
+        const res =
+          await authApi.searchImage(currentFile);
 
         const products = res.data || [];
 
         let botText = "";
 
         if (products.length > 0) {
-          botText = "Mình tìm thấy được một số sản phẩm tương tự nè:";
+          botText =
+            "Mình tìm thấy được một số sản phẩm tương tự nè:";
         } else {
-          botText = "Không tìm thấy sản phẩm phù hợp. Vui lòng thử ảnh khác.";
+          botText =
+            "Không tìm thấy sản phẩm phù hợp. Vui lòng thử ảnh khác.";
         }
 
         if (text.trim()) {
-          botText = `"${text.trim()}"\n\n${botText}`;
+          botText =
+            `"${text.trim()}"\n\n${botText}`;
         }
 
         setMessages(prev => [
@@ -185,9 +209,18 @@ const Home = () => {
         return;
       }
 
+      // CHAT TEXT
       if (text.trim()) {
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        const res = await authApi.chatbot(text, user.id || 0);
+
+        const user = JSON.parse(
+          localStorage.getItem("user") || "{}"
+        );
+
+        const res =
+          await authApi.chatbot(
+            text,
+            user.id || 0
+          );
 
         const data = res.data;
 
@@ -195,17 +228,39 @@ const Home = () => {
           ...prev,
           {
             type: "bot",
-            text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
+            text:
+              data.reply ||
+              "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
             product: data.product
           }
         ]);
+
+        // CHỈ ĐỌC KHI DÙNG MIC
+        if (fromVoice) {
+
+          window.speechSynthesis.cancel();
+
+          const speech =
+            new SpeechSynthesisUtterance(
+              data.reply
+            );
+
+          speech.lang = "vi-VN";
+
+          window.speechSynthesis.speak(speech);
+        }
       }
 
     } catch (err) {
+
       console.error("Chat error:", err);
+
       setMessages(prev => [
         ...prev,
-        { type: "bot", text: "Có lỗi xảy ra. Vui lòng thử lại." }
+        {
+          type: "bot",
+          text: "Có lỗi xảy ra. Vui lòng thử lại."
+        }
       ]);
     }
   };
@@ -220,6 +275,47 @@ const Home = () => {
       ]);
     }
   }, [openChat]);
+  const startVoiceRecognition = () => {
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("Trình duyệt không hỗ trợ giọng nói");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "vi-VN";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    setIsListening(true);
+
+    recognition.start();
+
+    recognition.onresult = async (event: any) => {
+
+      const transcript =
+        event.results[0][0].transcript;
+
+      setInput(transcript);
+
+      setIsListening(false);
+
+      await sendMessage(transcript, true);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+  };
 
   if (!show) return null;
 
@@ -522,9 +618,9 @@ const Home = () => {
         </div>
 
         <div className="scroll_top" onClick={scrollToTop}>
-          <ArrowUp size={22} /> 
+          <ArrowUp size={22} />
         </div>
-        
+
         {/* CHATBOT BUTTON */}
         <div
           className="chatbot_button"
@@ -616,16 +712,16 @@ const Home = () => {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
-                    setSelectedFile(file); 
+                    setSelectedFile(file);
 
                     const reader = new FileReader();
                     reader.onload = () => {
-                      setImage(reader.result as string); 
+                      setImage(reader.result as string);
                     };
                     reader.readAsDataURL(file);
                   }
 
-                  e.target.value = ""; 
+                  e.target.value = "";
                 }}
               />
 
@@ -635,6 +731,12 @@ const Home = () => {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <ImageIcon size={20} />
+              </button>
+              <button
+                className={`btn_mic ${isListening ? "listening" : ""}`}
+                onClick={startVoiceRecognition}
+              >
+                <Mic size={20} />
               </button>
 
               {/* INPUT */}
@@ -646,7 +748,10 @@ const Home = () => {
               />
 
               {/* NÚT GỬI */}
-              <button className="btn_send" onClick={sendMessage}>
+              <button
+                className="btn_send"
+                onClick={() => sendMessage()}
+              >
                 ➤
               </button>
 

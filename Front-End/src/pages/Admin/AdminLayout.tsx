@@ -127,14 +127,11 @@ const AdminLayout: React.FC = () => {
           </div>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <SearchOutlined className="search-icon" />
-              <input type="text" placeholder="Tìm kiếm..." />
-            </div>
             <div className="user-info">
               <div className="user-avatar">
                 <img src="https://i.pravatar.cc/300?img=7" alt="Admin" />
               </div>
+
               {!collapsed && (
                 <div className="user-details">
                   <span className="user-name">Nguyễn Văn A</span>

@@ -9,7 +9,8 @@ import com.example.demo.dto.SocialLoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.demo.model.IpUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @RestController
@@ -206,7 +207,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> body) {
+    public Map<String, Object> login(
+            @RequestBody Map<String, String> body,
+            HttpServletRequest request
+    ) {
+        String ip = IpUtils.getClientIp(request);
 
         Map<String, Object> response = new HashMap<>();
 
@@ -222,7 +227,7 @@ public class UserController {
                     null,
                     Status.FAILED,
                     "Email không tồn tại",
-                    "unknown"
+                    ip
             );
 
             response.put("success", false);
@@ -239,7 +244,7 @@ public class UserController {
                     user,
                     Status.FAILED,
                     "Tài khoản bị khóa",
-                    "unknown"
+                    ip
             );
 
             response.put("success", false);
@@ -254,7 +259,7 @@ public class UserController {
                     user,
                     Status.FAILED,
                     "Sai mật khẩu",
-                    "unknown"
+                    ip
             );
 
             response.put("message", "Mật khẩu không đúng!");
@@ -266,7 +271,7 @@ public class UserController {
                 user,
                 Status.SUCCESS,
                 "Đăng nhập thành công",
-                "unknown"
+                ip
         );
 
         response.put("success", true);

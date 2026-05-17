@@ -19,8 +19,12 @@ public class LogAdminController {
     @GetMapping
     public Page<LogDTO> getAllLogs(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String type
     ) {
-        return logService.getAllLogs(PageRequest.of(page, size));
+        return logService.getAllLogs(
+                PageRequest.of(page, size),
+                type
+        );
     }
 }

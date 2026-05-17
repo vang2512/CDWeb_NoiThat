@@ -13,11 +13,21 @@ public class LogDTO {
     private String username;
     private String message;
     private String ipAddress;
+    private String status;
     private LocalDateTime createdAt;
 
-    public LogDTO(Long id, String type, String action, String module,
-                  String username, String message, String ipAddress,
-                  LocalDateTime createdAt) {
+
+    public LogDTO(
+            Long id,
+            String type,
+            String action,
+            String module,
+            String username,
+            String message,
+            String ipAddress,
+            String status,
+            LocalDateTime createdAt
+    ) {
         this.id = id;
         this.type = type;
         this.action = action;
@@ -25,6 +35,7 @@ public class LogDTO {
         this.username = username;
         this.message = message;
         this.ipAddress = ipAddress;
+        this.status = status;
         this.createdAt = createdAt;
     }
 

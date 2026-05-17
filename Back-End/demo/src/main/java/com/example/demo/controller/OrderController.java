@@ -3,6 +3,8 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.OrderDTO;
 import com.example.demo.entity.*;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.LogService;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import com.example.demo.model.IpUtils;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -18,6 +21,10 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private LogService logService;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/create")
     public ResponseEntity<?> createOrder(@RequestBody Map<String, Object> payload) {
@@ -117,6 +124,17 @@ public class OrderController {
 
             Order savedOrder =
                     orderService.createOrder(order, paymentMethod);
+            Users user = userRepository
+                    .findById(userId)
+                    .orElse(null);
+
+            logService.saveActivityLog(
+                    "CREATE_ORDER",
+                    "ORDER",
+                    user,
+                    "Đã đặt hàng thành công đơn #" + savedOrder.getId(),
+                    "unknown"
+            );
 
             return ResponseEntity.ok(Map.of(
                     "orderId", savedOrder.getId(),
@@ -169,6 +187,17 @@ public class OrderController {
             }
 
             orderService.updateOrderStatus(orderId, "Đã huỷ");
+            Users user = userRepository
+                    .findById(userId)
+                    .orElse(null);
+
+            logService.saveActivityLog(
+                    "CANCEL_ORDER",
+                    "ORDER",
+                    user,
+                    "Hủy đơn hàng #" + orderId,
+                    "unknown"
+            );
 
             return ResponseEntity.ok(Map.of(
                     "message", "Hủy đơn hàng thành công",
@@ -184,6 +213,13 @@ public class OrderController {
     @PostMapping("/update-online")
     public String updateOnline(@RequestParam int orderId) {
         orderService.updateOrderOnline(orderId);
+        logService.saveActivityLog(
+                "ONLINE_PAYMENT",
+                "PAYMENT",
+                null,
+                "Thanh toán online đơn #" + orderId,
+                "unknown"
+        );
         return "Updated successfully";
     }
 
@@ -213,7 +249,16 @@ public class OrderController {
             }
 
             orderService.deleteOrder(orderId);
+            Users user = new Users();
+            user.setUserId(userId);
 
+            logService.saveActivityLog(
+                    "DELETE_ORDER",
+                    "ORDER",
+                    user,
+                    "Xóa đơn hàng #" + orderId,
+                    "unknown"
+            );
             return ResponseEntity.ok(Map.of(
                     "message", "Xóa đơn hàng thành công",
                     "orderId", orderId

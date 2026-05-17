@@ -19,7 +19,9 @@ public class LogService {
     private LogRepository logRepository;
 
     public void saveAuthLog(String action, Users user, Status status, String message, String ip) {
+
         Logs log = new Logs();
+
         log.setType(LogType.AUTH);
         log.setAction(action);
 
@@ -28,7 +30,8 @@ public class LogService {
             log.setUsername(user.getEmail());
         }
 
-        log.setStatus(Status.SUCCESS);
+        log.setStatus(status);
+
         log.setMessage(message);
         log.setIpAddress(ip);
         log.setCreatedAt(LocalDateTime.now());
@@ -53,9 +56,23 @@ public class LogService {
 
         logRepository.save(log);
     }
-    public Page<LogDTO> getAllLogs(Pageable pageable) {
+    public Page<LogDTO> getAllLogs(Pageable pageable, String type) {
 
-        Page<Logs> logs = logRepository.findAllByOrderByCreatedAtDesc(pageable);
+        Page<Logs> logs;
+
+        if (type != null && !type.isEmpty()) {
+
+            LogType logType = LogType.valueOf(type);
+
+            logs = logRepository.findByTypeOrderByCreatedAtDesc(
+                    logType,
+                    pageable
+            );
+
+        } else {
+
+            logs = logRepository.findAllByOrderByCreatedAtDesc(pageable);
+        }
 
         return logs.map(log -> new LogDTO(
                 log.getId(),
@@ -65,6 +82,7 @@ public class LogService {
                 log.getUsername(),
                 log.getMessage(),
                 log.getIpAddress(),
+                log.getStatus().name(),
                 log.getCreatedAt()
         ));
     }
