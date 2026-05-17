@@ -17,6 +17,7 @@ import { CartProvider } from "./pages/Auth/CartContext";
 import ForgotPassword from "./pages/Auth/ForgotPass/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPass/ResetPassword";
 import StoreAddress from "./pages/Auth/StoreAddress/StoreAddress";
+import LogAdmin from "./pages/Admin/LogAdmin/LogAdmin";
 import { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 
@@ -102,6 +103,7 @@ function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="vouchers" element={<Voucher />} />
             <Route path="reviews" element={<Review />} />
+            <Route path= "logs" element= {<LogAdmin />} />
           </Route>
         </Routes>
       </CartProvider>

@@ -43,7 +43,7 @@ const AdminLayout: React.FC = () => {
     { key: 'vouchers', icon: <TagOutlined />, label: 'Mã giảm giá', path: '/admin/vouchers' },
     { key: 'customers', icon: <UserOutlined />, label: 'Khách hàng', path: '/admin/customers' },
     { key: 'reviews', icon: <StarOutlined />, label: 'Đánh giá', path: '/admin/reviews' },
-
+    { key: 'logs', icon: <BellOutlined />, label: 'Logs hệ thống', path: '/admin/logs' },
     { key: 'revenue', icon: <DollarOutlined />, label: 'Doanh thu', path: '/admin/revenue' },
     { key: 'statistics', icon: <BarChartOutlined />, label: 'Thống kê', path: '/admin/statistics' },
     { key: 'settings', icon: <SettingOutlined />, label: 'Cài đặt', path: '/admin/settings' },
@@ -127,14 +127,11 @@ const AdminLayout: React.FC = () => {
           </div>
 
           <div className="top-bar-right">
-            <div className="search-box">
-              <SearchOutlined className="search-icon" />
-              <input type="text" placeholder="Tìm kiếm..." />
-            </div>
             <div className="user-info">
               <div className="user-avatar">
                 <img src="https://i.pravatar.cc/300?img=7" alt="Admin" />
               </div>
+
               {!collapsed && (
                 <div className="user-details">
                   <span className="user-name">Nguyễn Văn A</span>
