@@ -10,7 +10,10 @@ export interface ProductSpecification {
   standard: string;
   dimensions: string;
 }
-
+export interface Category {
+  id: number;
+  categoryName: string;
+}
 export interface ProductDetails {
   id: number;
   name: string;
@@ -23,6 +26,7 @@ export interface ProductDetails {
   createdAt: string;
 
   // quan hệ
+  category?: Category;
   subImages: SubImage[];
   specification: ProductSpecification;
 }
