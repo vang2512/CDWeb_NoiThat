@@ -124,30 +124,79 @@ public class FoodAdController {
 
         return foodRepository.save(product);
     }
-    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
-    public Product updateFood(
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product updateProduct(
             @PathVariable int id,
             @RequestParam("name") String name,
             @RequestParam("description") String description,
             @RequestParam("price") double price,
             @RequestParam("quantity") int quantity,
+            @RequestParam("discount") int discount,
             @RequestParam("categoryId") int categoryId,
-            @RequestParam("imgUrl") String imgUrl
-    ) {
-        Product food = foodRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Food not found"));
 
-        food.setName(name);
-        food.setDescription(description);
-        food.setPrice(price);
-        food.setQuantity(quantity);
+            @RequestParam("material") String material,
+            @RequestParam("origin") String origin,
+            @RequestParam("standard") String standard,
+            @RequestParam("dimensions") String dimensions,
+
+            @RequestPart(value = "img", required = false) MultipartFile img,
+            @RequestPart(value = "subImages", required = false) List<MultipartFile> subImages
+    ) {
+
+        Product product = foodRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-        food.setCategory(category);
 
-        food.setImg(imgUrl);
+        // update basic
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setQuantity(quantity);
+        product.setDiscount(discount);
+        product.setCategory(category);
 
-        return foodRepository.save(food);
+        // update image (nếu có)
+        if (img != null && !img.isEmpty()) {
+            String imgUrl = supabaseService.uploadFile(img);
+            product.setImg(imgUrl);
+        }
+
+        // update specification
+        ProductSpecification spec = product.getSpecification();
+        if (spec == null) {
+            spec = new ProductSpecification();
+            spec.setProduct(product);
+        }
+
+        spec.setMaterial(material);
+        spec.setOrigin(origin);
+        spec.setStandard(standard);
+        spec.setDimensions(dimensions);
+
+        product.setSpecification(spec);
+
+        // update subImages (replace kiểu đơn giản)
+        if (subImages != null && !subImages.isEmpty()) {
+
+            product.getSubImages().clear(); // xoá cũ
+
+            List<SubImage> newList = new ArrayList<>();
+
+            for (MultipartFile file : subImages) {
+                String url = supabaseService.uploadFile(file);
+
+                SubImage s = new SubImage();
+                s.setImage(url);
+                s.setProduct(product);
+
+                newList.add(s);
+            }
+
+            product.setSubImages(newList);
+        }
+
+        return foodRepository.save(product);
     }
 }
