@@ -73,6 +73,7 @@ public class LlmService {
         return callGemini(prompt, LlmIntent.class, getChatFallback());
     }
 
+
     // =====================================================
     // VOICE SEARCH (TÌM KIẾM MÓN ĂN)
     // =====================================================

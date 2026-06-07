@@ -305,11 +305,7 @@ const Checkout = () => {
             <div className="map_container">
               <label>Chọn vị trí trên bản đồ</label>
               <div className="google_map">
-                <GoogleMapPicker
-                  onSelect={(pos) => {
-                    console.log("Selected:", pos);
-                  }}
-                />
+                <GoogleMapPicker/>
               </div>
               <p className="map_note">
                 Vui lòng chọn vị trí chính xác để giao hàng nhanh hơn

@@ -220,7 +220,22 @@
   background: #f97316;
   border-radius: 10px;
 }
+.order_items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* khoảng cách giữa các sản phẩm */
+}
 
+.order_item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 16px;
+  margin: 0;
+}
 .order_item {
   display: flex;
   align-items: center;
@@ -239,6 +254,7 @@
   border-radius: 12px;
   object-fit: cover;
   background: #f9fafb;
+  margin-left: 5px;
 }
 
 .item_info {
@@ -262,6 +278,7 @@
   font-size: 15px;
   font-weight: 700;
   color: #f97316;
+  margin-right: 5px;
 }
 
 /* Voucher Section */

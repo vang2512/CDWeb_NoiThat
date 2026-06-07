@@ -73,7 +73,10 @@ const OrderSuccess: React.FC = () => {
             Về trang chủ
           </button>
 
-          <button className="outline" onClick={() => navigate("/orders")}>
+          <button
+            className="outline"
+            onClick={() => navigate(`/order-detail/${orderId}`)}
+          >
             Xem đơn hàng
           </button>
         </div>

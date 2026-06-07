@@ -1,9 +1,11 @@
 package com.example.demo.dto;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Data
 public class OrderDTO {
     private int id;
     private BigDecimal totalAmount;
@@ -14,7 +16,9 @@ public class OrderDTO {
     private List<OrderItemDTO> items;
     private int userId;
     private LocalDateTime deliveredAt;
-
+    private String customerName;
+    private String customerPhone;
+    private String shippingAddress;
     public OrderDTO(int id, BigDecimal totalAmount, String paymentMethod, String note,
                     String status, LocalDateTime date, List<OrderItemDTO> items) {
         this.id = id;
@@ -24,6 +28,31 @@ public class OrderDTO {
         this.status = status;
         this.date = date;
         this.items = items;
+    }
+    public OrderDTO(
+            int id,
+            BigDecimal totalAmount,
+            String paymentMethod,
+            String note,
+            String status,
+            LocalDateTime date,
+            LocalDateTime deliveredAt,
+            List<OrderItemDTO> items,
+            String customerName,
+            String customerPhone,
+            String shippingAddress
+    ) {
+        this.id = id;
+        this.totalAmount = totalAmount;
+        this.paymentMethod = paymentMethod;
+        this.note = note;
+        this.status = status;
+        this.date = date;
+        this.deliveredAt = deliveredAt;
+        this.items = items;
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.shippingAddress = shippingAddress;
     }
     public OrderDTO(int id, BigDecimal totalAmount, String paymentMethod, String note,
                     String status, LocalDateTime date, List<OrderItemDTO> items, int userId) {
@@ -68,4 +97,5 @@ public class OrderDTO {
     public LocalDateTime getDeliveredAt() { return deliveredAt; }
     public List<OrderItemDTO> getItems() { return items; }
     public int getUserId() { return userId; }
+
 }

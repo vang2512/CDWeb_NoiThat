@@ -292,7 +292,11 @@ public class OrderService {
                 order.getNote(),
                 order.getStatus(),
                 order.getDate(),
-                itemDTOs
+                order.getDeliveredAt(),
+                itemDTOs,
+                order.getCustomerName(),
+                order.getCustomerPhone(),
+                order.getShippingAddress()
         );
     }
 
