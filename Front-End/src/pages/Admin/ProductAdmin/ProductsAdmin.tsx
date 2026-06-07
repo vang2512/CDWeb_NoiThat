@@ -89,21 +89,28 @@ const Products = () => {
 
     const handleDelete = async () => {
         if (!selectedProduct) return;
+
         try {
             await axios.delete(`${API_BASE}/${selectedProduct.id}`);
+
+            toast.success("Xóa sản phẩm thành công!");
+
             fetchProducts();
             setIsDeleteModalOpen(false);
             setSelectedProduct(null);
+
         } catch (error) {
             console.error('Error deleting product:', error);
+
+            toast.error("Xóa sản phẩm thất bại!");
         }
     };
 
     const handleSubmit = async () => {
         try {
+            if (!validateForm()) return;
             const form = new FormData();
 
-            // text fields
             form.append("name", formData.name);
             form.append("description", formData.description);
             form.append("price", String(formData.price));
@@ -116,36 +123,37 @@ const Products = () => {
             form.append("standard", formData.standard);
             form.append("dimensions", formData.dimensions);
 
-            // ❗ CHECK IMAGE (QUAN TRỌNG)
-            if (!mainFile) {
-                alert("Vui lòng chọn ảnh chính");
-                return;
+            // image chính
+            if (mainFile) {
+                form.append("img", mainFile);
             }
-
-            form.append("img", mainFile);
 
             // sub images
             subFiles.forEach(file => {
                 form.append("subImages", file);
             });
 
-            const res = await axios.post(API_BASE, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            toast.success(
-                modalMode === "add"
-                    ? "Thêm sản phẩm thành công!"
-                    : "Cập nhật sản phẩm thành công!"
-            );
+            if (modalMode === "add") {
+                await axios.post(API_BASE, form, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+
+                toast.success("Thêm sản phẩm thành công!");
+            }
+            else {
+                await axios.put(`${API_BASE}/${selectedProduct?.id}`, form, {
+                    headers: { "Content-Type": "multipart/form-data" }
+                });
+
+                toast.success("Cập nhật sản phẩm thành công!");
+            }
 
             fetchProducts();
             setIsModalOpen(false);
             resetForm();
 
         } catch (error: any) {
-            console.error("ERROR:", error.response?.data || error.message);
+            console.error(error.response?.data || error.message);
         }
     };
 
@@ -252,6 +260,62 @@ const Products = () => {
             currency: 'VND'
         }).format(price);
     };
+    const validateForm = () => {
+        const missingFields: string[] = [];
+
+        if (!formData.name.trim()) {
+            missingFields.push("Tên sản phẩm");
+        }
+
+        if (!formData.description.trim()) {
+            missingFields.push("Mô tả");
+        }
+
+        if (formData.price <= 0 || isNaN(formData.price)) {
+            missingFields.push("Giá sản phẩm");
+        }
+
+        if (formData.quantity < 0 || isNaN(formData.quantity)) {
+            missingFields.push("Số lượng");
+        }
+
+        if (formData.categoryId === 0) {
+            missingFields.push("Danh mục");
+        }
+
+        if (!formData.material.trim()) {
+            missingFields.push("Chất liệu");
+        }
+
+        if (!formData.origin.trim()) {
+            missingFields.push("Xuất xứ");
+        }
+
+        if (!formData.standard.trim()) {
+            missingFields.push("Tiêu chuẩn");
+        }
+
+        if (!formData.dimensions.trim()) {
+            missingFields.push("Kích thước");
+        }
+
+        if (!mainFile && modalMode === "add") {
+            missingFields.push("Ảnh chính");
+        }
+
+        if (missingFields.length > 0) {
+            toast.error(
+                `Vui lòng nhập đầy đủ thông tin:\n${missingFields.join(", ")}`,
+                {
+                    duration: 4000,
+                }
+            );
+
+            return false;
+        }
+
+        return true;
+    };
 
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -357,89 +421,99 @@ const Products = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentProducts.map((product) => (
-                                    <tr key={product.id}>
-                                        <td>{product.id}</td>
-                                        <td>
-                                            <img
-                                                loading="lazy"
-                                                src={
-                                                    product.img && product.img.trim() !== ''
-                                                        ? product.img
-                                                        : 'https://static.vecteezy.com/system/resources/previews/048/910/778/large_2x/default-image-missing-placeholder-free-vector.jpg'
-                                                }
-                                                alt={product.name}
-                                                className="product-image"
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-
-                                                    // tránh loop load lỗi
-                                                    target.onerror = null;
-
-                                                    // ảnh mặc định
-                                                    target.src =
-                                                        'https://static.vecteezy.com/system/resources/previews/048/910/778/large_2x/default-image-missing-placeholder-free-vector.jpg';
-                                                }}
-                                            />
-                                        </td>
-                                        <td>
-                                            <div className="product-name">
-                                                <strong>{product.name}</strong>
-                                                {product.description && (
-                                                    <span className="product-description">{product.description.substring(0, 40)}...</span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span className="category-badge">
-                                                {product.category?.categoryName || 'Chưa phân loại'}
-                                            </span>
-                                        </td>
-                                        <td className="price original">{formatPrice(product.price)}</td>
-                                        <td className="discount">
-                                            {product.discount > 0 ? (
-                                                <span className="discount-badge">-{product.discount}%</span>
-                                            ) : (
-                                                <span className="no-discount">0%</span>
-                                            )}
-                                        </td>
-                                        <td className="price sale">
-                                            <strong>{formatPrice(calculateSalePrice(product.price, product.discount))}</strong>
-                                        </td>
-                                        <td>
-                                            <span className={`quantity-badge ${product.quantity < 10 ? 'low' : product.quantity < 30 ? 'medium' : 'high'}`}>
-                                                {product.quantity}
-                                            </span>
-                                        </td>
-                                        <td className="sold">{product.quantitySold}</td>
-                                        <td>
-                                            <div className="action-buttons">
-                                                <button
-                                                    className="action-btn view"
-                                                    onClick={() => handleViewDetail(product.id)}
-                                                >
-                                                    <EyeOutlined />
-                                                </button>
-
-                                                <button
-                                                    className="action-btn edit"
-                                                    onClick={() => handleEdit(product)}
-                                                >
-                                                    <EditOutlined />
-                                                </button>
-                                                <button
-                                                    className="action-btn delete"
-                                                    onClick={() => {
-                                                        setSelectedProduct(product);
-                                                        setIsDeleteModalOpen(true);
-                                                    }}
-                                                >
-                                                    <DeleteOutlined />
-                                                </button>
-                                            </div>
+                                {currentProducts.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={10} style={{ textAlign: 'center', padding: '20px' }}>
+                                            Không có sản phẩm phù hợp
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+
+                                    currentProducts.map((product) => (
+                                        <tr key={product.id}>
+                                            <td>{product.id}</td>
+                                            <td>
+                                                <img
+                                                    loading="lazy"
+                                                    src={
+                                                        product.img && product.img.trim() !== ''
+                                                            ? product.img
+                                                            : 'https://static.vecteezy.com/system/resources/previews/048/910/778/large_2x/default-image-missing-placeholder-free-vector.jpg'
+                                                    }
+                                                    alt={product.name}
+                                                    className="food-image"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+
+                                                        // tránh loop load lỗi
+                                                        target.onerror = null;
+
+                                                        // ảnh mặc định
+                                                        target.src =
+                                                            'https://static.vecteezy.com/system/resources/previews/048/910/778/large_2x/default-image-missing-placeholder-free-vector.jpg';
+                                                    }}
+                                                />
+                                            </td>
+                                            <td>
+                                              
+                                                    <div className="product-name">
+                                                        <strong className="product-name-text">
+                                                            {product.name}
+                                                        </strong>
+                                                    </div>
+                                                
+                                            </td>
+                                            <td>
+                                                <span className="category-badge">
+                                                    {product.category?.categoryName || 'Chưa phân loại'}
+                                                </span>
+                                            </td>
+                                            <td className="price original">{formatPrice(product.price)}</td>
+                                            <td className="discount">
+                                                {product.discount > 0 ? (
+                                                    <span className="discount-badge">-{product.discount}%</span>
+                                                ) : (
+                                                    <span className="no-discount">0%</span>
+                                                )}
+                                            </td>
+                                            <td className="price sale">
+                                                <strong>{formatPrice(calculateSalePrice(product.price, product.discount))}</strong>
+                                            </td>
+                                            <td>
+                                                <span className={`quantity-badge ${product.quantity < 10 ? 'low' : product.quantity < 30 ? 'medium' : 'high'}`}>
+                                                    {product.quantity}
+                                                </span>
+                                            </td>
+                                            <td className="sold">{product.quantitySold}</td>
+                                            <td>
+                                                <div className="action-buttons">
+                                                    <button
+                                                        className="action-btn view"
+                                                        onClick={() => handleViewDetail(product.id)}
+                                                    >
+                                                        <EyeOutlined />
+                                                    </button>
+
+                                                    <button
+                                                        className="action-btn edit"
+                                                        onClick={() => handleEdit(product)}
+                                                    >
+                                                        <EditOutlined />
+                                                    </button>
+                                                    <button
+                                                        className="action-btn delete"
+                                                        onClick={() => {
+                                                            setSelectedProduct(product);
+                                                            setIsDeleteModalOpen(true);
+                                                        }}
+                                                    >
+                                                        <DeleteOutlined />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
 
@@ -532,9 +606,7 @@ const Products = () => {
                                         : 'Chỉnh sửa sản phẩm'}
                                 </h2>
 
-                                <p className="pf-subtitle">
-                                    Quản lý thông tin và hình ảnh sản phẩm
-                                </p>
+
                             </div>
 
                             <button
@@ -862,7 +934,6 @@ const Products = () => {
                         </div>
                         <div className="modal-body">
                             <p>Bạn có chắc chắn muốn xóa sản phẩm <strong>"{selectedProduct.name}"</strong>?</p>
-                            <p className="delete-warning">Hành động này không thể hoàn tác!</p>
                         </div>
                         <div className="modal-footer">
                             <button className="btn-cancel" onClick={() => setIsDeleteModalOpen(false)}>

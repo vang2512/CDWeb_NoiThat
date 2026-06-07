@@ -44,12 +44,17 @@ function App() {
     <>
       <Toaster
         position="bottom-right"
+        containerStyle={{
+          zIndex: 99999
+        }}
         toastOptions={{
           style: {
+            zIndex: 99999,
             borderRadius: "10px",
             padding: "12px 16px",
             color: "#fff",
             fontSize: "14px",
+
           },
 
           success: {
@@ -103,7 +108,7 @@ function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="vouchers" element={<Voucher />} />
             <Route path="reviews" element={<Review />} />
-            <Route path= "logs" element= {<LogAdmin />} />
+            <Route path="logs" element={<LogAdmin />} />
           </Route>
         </Routes>
       </CartProvider>
