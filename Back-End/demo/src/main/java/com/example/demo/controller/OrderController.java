@@ -162,7 +162,7 @@ public class OrderController {
         if (orderDTO != null) {
             return ResponseEntity.ok(orderDTO);
         } else {
-            return ResponseEntity.notFound().build(); // trả 404 nếu không tìm thấy
+            return ResponseEntity.notFound().build();
         }
     }
 

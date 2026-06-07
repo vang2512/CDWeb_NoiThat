@@ -114,9 +114,9 @@ const fetchOrderDetail = async () => {
                 <div className="shipping_section">
                     <h3>Thông tin giao hàng</h3>
                     <div className="shipping_info">
-                        <p><strong>Người nhận:</strong> {order.fullName || order.customerName}</p>
-                        <p><strong>Số điện thoại:</strong> {order.phone}</p>
-                        <p><strong>Địa chỉ:</strong> {order.address}</p>
+                        <p><strong>Người nhận:</strong> {order.customerName}</p>
+                        <p><strong>Số điện thoại:</strong> {order.customerPhone}</p>
+                        <p><strong>Địa chỉ:</strong> {order.shippingAddress}</p>
                     </div>
                 </div>
 

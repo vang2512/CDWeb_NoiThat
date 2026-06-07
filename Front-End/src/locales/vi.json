@@ -21,6 +21,7 @@
   "login_success": "Đăng nhập thành công!",
   "server_error": "Lỗi server!",
   "language": "Ngôn ngữ",
+  "order_detail": "Chi tiết đơn hàng",
   
   "register_title": "Đăng ký",
   "full_name": "Họ và tên",
@@ -179,7 +180,7 @@
 
   "shipping_note": "Phí vận chuyển sẽ được tính ở trang Thanh toán",
 
-  "checkout": "THANH TOÁN",
+  "checkout": "TIẾP TỤC",
 
   "store": {
   "title": "Thông tin siêu thị",

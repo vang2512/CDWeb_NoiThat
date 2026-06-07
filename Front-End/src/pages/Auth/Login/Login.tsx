@@ -41,14 +41,14 @@ const Login: React.FC = () => {
 
   // Kiểm tra form hợp lệ
   useEffect(() => {
-    const isValid = 
+    const isValid =
       email.trim() !== "" &&
       password.trim() !== "" &&
       errors.email === "" &&
       errors.password === "" &&
       emailExists === true &&
       captchaValue !== null;
-    
+
     setIsFormValid(isValid);
   }, [email, password, errors, emailExists, captchaValue]);
 
@@ -82,30 +82,30 @@ const Login: React.FC = () => {
   // Xử lý thay đổi email với debounce
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    
+
     // Clear timeout cũ
     if (emailTimeout) {
       clearTimeout(emailTimeout);
     }
-    
+
     // Validate format email bằng hàm từ validate.js
     const formatError = validateLoginEmail(value);
-    
+
     if (formatError) {
       setErrors(prev => ({ ...prev, email: formatError }));
       setEmailExists(false);
       setCheckingEmail(false);
       return;
     }
-    
+
     // Nếu email hợp lệ về format, set tạm thời
     setErrors(prev => ({ ...prev, email: "" }));
-    
+
     // Debounce kiểm tra server sau 500ms
     const timeout = setTimeout(() => {
       checkEmailExists(value);
     }, 500);
-    
+
     setEmailTimeout(timeout);
   };
 
@@ -144,11 +144,21 @@ const Login: React.FC = () => {
 
       if (res.data.success) {
         toast.success(t("login_success"));
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        const user = res.data.user;
+
+        localStorage.setItem("user", JSON.stringify(user));
 
         setTimeout(() => {
-          navigate("/");
+
+          if (user.role === 0) {
+            navigate("/admin/dashboard");
+          } else {
+            navigate("/");
+          }
+
           window.location.reload();
+
         }, 1200);
       } else {
         toast.error(res.data.message);
@@ -277,8 +287,8 @@ const Login: React.FC = () => {
         </div>
 
         {/* LOGIN BUTTON */}
-        <button 
-          className="login-btn" 
+        <button
+          className="login-btn"
           onClick={handleLogin}
           disabled={!isFormValid}
           style={{ opacity: !isFormValid ? 0.6 : 1, cursor: !isFormValid ? "not-allowed" : "pointer" }}
