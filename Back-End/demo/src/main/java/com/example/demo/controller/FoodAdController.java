@@ -180,7 +180,9 @@ public class FoodAdController {
         // update subImages (replace kiểu đơn giản)
         if (subImages != null && !subImages.isEmpty()) {
 
-            product.getSubImages().clear();
+
+            product.getSubImages().clear(); // xoá cũ
+
 
             List<SubImage> newList = new ArrayList<>();
 
