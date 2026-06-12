@@ -5,6 +5,7 @@ import com.example.demo.entity.Order;
 import com.example.demo.entity.Payment;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.MomoService;
+import com.example.demo.service.VnpayService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class PaymentController {
     private OrderRepository orderRepository;
     @Autowired
     private MomoService momoService;
+    @Autowired
+    private VnpayService vnpayService;
+
     // =========================================================
     // 1️TẠO LINK THANH TOÁN VNPAY
     // =========================================================
@@ -38,60 +42,11 @@ public class PaymentController {
             HttpServletRequest request
     ) throws Exception {
 
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-
-        String txnRef = String.valueOf(orderId);
-        String ipAddress = request.getRemoteAddr();
-
-        Map<String, String> vnpParams = new HashMap<>();
-
-        vnpParams.put("vnp_Version", "2.1.0");
-        vnpParams.put("vnp_Command", "pay");
-        vnpParams.put("vnp_TmnCode", ConfigVNPay.vnp_TmnCode);
-        vnpParams.put("vnp_Amount", String.valueOf(amount * 100));
-        vnpParams.put("vnp_CurrCode", "VND");
-        vnpParams.put("vnp_TxnRef", txnRef);
-        vnpParams.put("vnp_OrderInfo", "Thanh toan don hang " + orderId);
-        vnpParams.put("vnp_OrderType", "other");
-        vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl);
-        vnpParams.put("vnp_IpAddr", ipAddress);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        vnpParams.put("vnp_CreateDate", formatter.format(new Date()));
-
-        // Sắp xếp field
-        List<String> fieldNames = new ArrayList<>(vnpParams.keySet());
-        Collections.sort(fieldNames);
-
-        StringBuilder hashData = new StringBuilder();
-        StringBuilder query = new StringBuilder();
-
-        for (int i = 0; i < fieldNames.size(); i++) {
-            String fieldName = fieldNames.get(i);
-            String value = vnpParams.get(fieldName);
-
-            if (value != null && !value.isEmpty()) {
-
-                String encodedValue = URLEncoder.encode(value, StandardCharsets.US_ASCII);
-
-                hashData.append(fieldName).append("=").append(encodedValue);
-                query.append(fieldName).append("=").append(encodedValue);
-
-                if (i < fieldNames.size() - 1) {
-                    hashData.append("&");
-                    query.append("&");
-                }
-            }
-        }
-
-        String secureHash = hmacSHA512(ConfigVNPay.secretKey, hashData.toString());
-        query.append("&vnp_SecureHash=").append(secureHash);
-
-        String paymentUrl = ConfigVNPay.vnp_PayUrl + "?" + query;
-
-        return Map.of("paymentUrl", paymentUrl);
+        return vnpayService.createVNPayPayment(
+                orderId,
+                amount,
+                request.getRemoteAddr()
+        );
     }
 
     // =========================================================

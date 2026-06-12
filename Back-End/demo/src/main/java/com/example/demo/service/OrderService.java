@@ -26,56 +26,36 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(Order order, String paymentMethod) {
-
         order.setDate(LocalDateTime.now());
-
         order.setStatus("Đang xử lý");
-
         if (order.getOrderDetails() != null) {
-
             for (OrderDetail detail : order.getOrderDetails()) {
-
                 detail.setOrder(order);
-
                 if (detail.getFood() != null
                         && detail.getFood().getId() != 0) {
-
                     foodRepository.findById(
                             detail.getFood().getId()
                     ).ifPresent(detail::setFood);
                 }
             }
         }
-
         // ===== PAYMENT =====
         if (order.getPayment() != null) {
-
             Payment p = order.getPayment();
-
             p.setOrder(order);
-
             p.setDate(LocalDateTime.now());
-
             if ("COD".equalsIgnoreCase(paymentMethod)) {
-
                 p.setMethod("Thanh toán khi nhận hàng");
-
             } else if ("VNPAY".equalsIgnoreCase(paymentMethod)) {
-
                 p.setMethod("Thanh toán qua VNPAY");
-
             } else if ("MOMO".equalsIgnoreCase(paymentMethod)) {
-
                 p.setMethod("Thanh toán qua MOMO");
             }
-
             p.setStatus("Chờ thanh toán");
         }
-
         if (order.getDiscountAmount() == null) {
             order.setDiscountAmount(BigDecimal.ZERO);
         }
-
         return orderRepo.save(order);
     }
     public void deleteOrder(int orderId) {

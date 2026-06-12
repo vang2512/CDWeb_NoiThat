@@ -2,12 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ResetPasswordRequest;
 import com.example.demo.entity.Users;
+import com.example.demo.model.JwtUtil;
 import com.example.demo.model.Status;
 import com.example.demo.service.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.dto.SocialLoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.model.IpUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +35,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private LogService logService;
-
+    @Autowired
+    private JwtUtil jwtUtil;
     @PostMapping("/send-otp")
     public Map<String, Object> sendOtp(@RequestParam String email) {
 
@@ -117,29 +120,36 @@ public class UserController {
         return Map.of("valid", false, "message", "OTP không đúng hoặc đã hết hạn");
     }
     @PostMapping("/social-login")
-    public Map<String, Object> socialLogin(@RequestBody SocialLoginRequest body) {
+    public Map<String, Object> socialLogin(
+            @RequestBody SocialLoginRequest body) {
 
         Map<String, Object> response = new HashMap<>();
 
         String email = body.getEmail();
         String fullName = body.getFullName();
 
-        Optional<Users> userOpt = userRepository.findByEmail(email);
+        Optional<Users> userOpt =
+                userRepository.findByEmail(email);
 
         Users user;
 
         if (userOpt.isPresent()) {
+
             user = userOpt.get();
+
             if (user.getRole() != 1) {
                 response.put("success", false);
-                response.put("message", "Email này thuộc tài khoản Admin, không thể đăng nhập bằng Google");
+                response.put("message",
+                        "Email này thuộc tài khoản Admin, không thể đăng nhập bằng Google");
                 return response;
             }
+
             if (Boolean.TRUE.equals(user.getIsDeleted())) {
                 response.put("success", false);
                 response.put("message", "Tài khoản đã bị khóa");
                 return response;
             }
+
             logService.saveAuthLog(
                     "SOCIAL_LOGIN",
                     user,
@@ -149,12 +159,14 @@ public class UserController {
             );
 
         } else {
+
             user = new Users();
             user.setEmail(email);
             user.setFullName(fullName);
             user.setRole(1);
             user.setPassword("");
             user.setIsDeleted(false);
+
             userRepository.save(user);
 
             logService.saveAuthLog(
@@ -165,14 +177,26 @@ public class UserController {
                     "unknown"
             );
         }
+
+        // Sinh JWT
+        String token =
+                jwtUtil.generateToken(
+                        user.getEmail(),
+                        user.getRole()
+                );
+
         response.put("success", true);
         response.put("message", "Đăng nhập social thành công");
+
+        response.put("token", token);
+
         response.put("user", Map.of(
                 "id", user.getUserId(),
                 "email", user.getEmail(),
                 "fullName", user.getFullName(),
                 "role", user.getRole()
         ));
+
         return response;
     }
 
@@ -237,7 +261,7 @@ public class UserController {
 
         Users user = userOpt.get();
 
-        if (user.getIsDeleted()) {
+        if (Boolean.TRUE.equals(user.getIsDeleted())) {
 
             logService.saveAuthLog(
                     "LOGIN",
@@ -262,9 +286,16 @@ public class UserController {
                     ip
             );
 
+            response.put("success", false);
             response.put("message", "Mật khẩu không đúng!");
             return response;
         }
+
+        // Sinh JWT Token
+        String token = jwtUtil.generateToken(
+                user.getEmail(),
+                user.getRole()
+        );
 
         logService.saveAuthLog(
                 "LOGIN",
@@ -276,6 +307,8 @@ public class UserController {
 
         response.put("success", true);
         response.put("message", "Đăng nhập thành công!");
+        response.put("token", token);
+
         response.put("user", Map.of(
                 "id", user.getUserId(),
                 "email", user.getEmail(),
@@ -286,27 +319,35 @@ public class UserController {
         return response;
     }
 
-    @PutMapping("/update/{id}")
-    public Map<String, Object> updateUser(@PathVariable int id, @RequestBody Users updated) {
-        Map<String, Object> response = new HashMap<>();
-        var userOpt = userService.getUser(id);
+    @PutMapping("/update")
+    public Map<String, Object> updateUser(
+            @RequestBody Users updated,
+            Authentication authentication
+    ) {
 
-        if (userOpt.isEmpty()) {
+        Map<String, Object> response = new HashMap<>();
+
+        String email = authentication.getName();
+
+        Users user = userRepository.findByEmail(email)
+                .orElse(null);
+
+        if (user == null) {
             response.put("success", false);
             response.put("message", "Không tìm thấy người dùng!");
             return response;
         }
 
-        Users user = userOpt.get();
         user.setFullName(updated.getFullName());
-        user.setEmail(updated.getEmail());
         user.setPhone(updated.getPhone());
         user.setAddress(updated.getAddress());
         user.setDateOfBirth(updated.getDateOfBirth());
 
         userService.save(user);
+
         response.put("success", true);
         response.put("message", "Cập nhật thành công!");
+
         logService.saveActivityLog(
                 "UPDATE_USER",
                 "USER",
@@ -314,7 +355,9 @@ public class UserController {
                 "Cập nhật thông tin user",
                 "unknown"
         );
+
         response.put("user", user);
+
         return response;
     }
 
