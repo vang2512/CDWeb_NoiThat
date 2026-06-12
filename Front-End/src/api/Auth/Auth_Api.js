@@ -13,8 +13,8 @@ const authApi = {
   login: (data) =>
     axiosClient.post(`/users/login`, data),
   getUser: (id) => axiosClient.get(`/users/${id}`),
-  updateUser: (id, data) =>
-    axiosClient.put(`/users/update/${id}`, data),
+  updateUser: (data) =>
+    axiosClient.put(`/users/update`, data),
   getAll: () => axiosClient.get("/categories"),
   checkEmail: (email) =>
     axiosClient.get(`/users/check-email?email=${email}`),
@@ -30,10 +30,10 @@ const authApi = {
   getByCategory: (id) => axiosClient.get(`/foods/byCategory/${id}`),
   getReviewsByProduct: (id) => axiosClient.get(`/reviews/product/${id}`),
   addReview: (data) => axiosClient.post(`/reviews/add-review`, data),
-  getHistoryOrderUser: (id) => axiosClient.get(`/orders/history/${id}`),
+  getHistoryOrderUser: (id) => axiosClient.get(`/orders/history`),
   // authApi.ts
   getDetailOrder: (orderId) => axiosClient.get(`/orders/detail/${orderId}`),
-  cancelOrder: (orderId, userId) => axiosClient.put(`/orders/cancel/${orderId}?userId=${userId}`),
+  cancelOrder: (orderId) =>axiosClient.put(`/orders/cancel/${orderId}`),
   socialLogin: (data) => axiosClient.post('/users/social-login', data),
   searchProduct: (keyword) =>
     axiosClient.get(`/foods/search`, {

@@ -38,6 +38,7 @@ const Profile = () => {
     // LOGOUT
     const handleLogout = () => {
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
         navigate("/login");
         window.location.reload();
     };
@@ -63,7 +64,7 @@ const Profile = () => {
     // update
     const handleUpdate = async () => {
         try {
-            const res = await authApi.updateUser(storedUser.id, userData);
+            const res = await authApi.updateUser(userData);
 
             if (res.data.success) {
                 toast.success(t("update_success"));
@@ -90,7 +91,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const res = await authApi.getHistoryOrderUser(storedUser.id);
+                const res = await authApi.getHistoryOrderUser();
                 setOrders(res.data);
             } catch (err) {
                 console.error(err);
@@ -102,14 +103,17 @@ const Profile = () => {
 
     // Hàm xử lý hủy đơn hàng
     const handleCancelOrder = async (orderId: number, e: React.MouseEvent) => {
-        e.stopPropagation(); // Ngăn chặn sự kiện click vào card
+        e.stopPropagation(); 
         try {
-            const res = await authApi.cancelOrder(orderId, storedUser.id);
+            const res =
+                await authApi.cancelOrder(
+                    orderId
+                );
 
             if (res.data.success) {
                 toast.success("Đã hủy đơn hàng");
                 // Refresh lại danh sách đơn hàng
-                const refreshRes = await authApi.getHistoryOrderUser(storedUser.id);
+                const refreshRes = await authApi.getHistoryOrderUser();
                 setOrders(refreshRes.data);
             } else {
                 toast.error(res.data.message);
@@ -306,8 +310,8 @@ const Profile = () => {
 
                                     {orders.map((order) => (
 
-                                        <div 
-                                            key={order.id} 
+                                        <div
+                                            key={order.id}
                                             className="order_item"
                                             onClick={() => navigate(`/order-detail/${order.id}`)}
                                         >
@@ -326,14 +330,14 @@ const Profile = () => {
                                                 </div>
                                             </div>
                                             <div className="order_item_right">
-                                                <div 
+                                                <div
                                                     className="order_status"
                                                     style={getStatusStyle(order.status)}
                                                 >
                                                     {getStatusText(order.status)}
                                                 </div>
                                                 {canCancel(order.status) && (
-                                                    <button 
+                                                    <button
                                                         className="btn_cancel_order"
                                                         onClick={(e) => handleCancelOrder(order.id, e)}
                                                     >

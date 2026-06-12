@@ -141,13 +141,16 @@ const Login: React.FC = () => {
         email,
         password
       });
+      console.log("LOGIN RESPONSE", res.data);
 
       if (res.data.success) {
         toast.success(t("login_success"));
 
         const user = res.data.user;
+        const token = res.data.token;
 
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
 
         setTimeout(() => {
 
@@ -172,58 +175,121 @@ const Login: React.FC = () => {
   // Xử lý login Google
   const handleLoginGoogle = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+
+      const result =
+        await signInWithPopup(
+          auth,
+          googleProvider
+        );
+
       const user = result.user;
 
-      console.log("Google user:", user);
-      const res = await authApi.socialLogin({
-        email: user.email,
-        fullName: user.displayName
-      });
+      const res =
+        await authApi.socialLogin({
+          email: user.email,
+          fullName: user.displayName
+        });
 
       if (res.data.success) {
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        toast.success(t("login_google_success"));
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.user)
+        );
+
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
+
+        toast.success(
+          t("login_google_success")
+        );
 
         setTimeout(() => {
+
           navigate("/");
+
           window.location.reload();
+
         }, 1200);
+
       } else {
-        toast.error(res.data.message);
+
+        toast.error(
+          res.data.message
+        );
+
       }
-    } catch (err: any) {
+
+    } catch (err) {
+
       console.error(err);
-      toast.error(t("login_google_fail"));
+
+      toast.error(
+        t("login_google_fail")
+      );
     }
   };
 
   // Xử lý login Facebook
   const handleLoginFacebook = async () => {
+
     try {
-      const result = await signInWithPopup(auth, facebookProvider);
+
+      const result =
+        await signInWithPopup(
+          auth,
+          facebookProvider
+        );
+
       const user = result.user;
 
-      console.log("Facebook user:", user);
-
-      const res = await authApi.socialLogin({
-        email: user.email,
-        fullName: user.displayName
-      });
+      const res =
+        await authApi.socialLogin({
+          email: user.email,
+          fullName: user.displayName
+        });
 
       if (res.data.success) {
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        toast.success(t("login_facebook_success"));
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.user)
+        );
+
+        localStorage.setItem(
+          "token",
+          res.data.token
+        );
+
+        toast.success(
+          t("login_facebook_success")
+        );
+
         setTimeout(() => {
+
           navigate("/");
+
           window.location.reload();
+
         }, 1200);
+
       } else {
-        toast.error(res.data.message);
+
+        toast.error(
+          res.data.message
+        );
+
       }
-    } catch (err: any) {
+
+    } catch (err) {
+
       console.error(err);
-      toast.error(t("login_facebook_fail"));
+
+      toast.error(
+        t("login_facebook_fail")
+      );
     }
   };
 

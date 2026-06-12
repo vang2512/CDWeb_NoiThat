@@ -44,8 +44,8 @@ public class MomoService {
             body.put("partnerCode", ConfigMomo.PARTNER_CODE);
             body.put("accessKey", ConfigMomo.ACCESS_KEY);
             body.put("requestId", requestId);
-            body.put("amount", amount.toString()); // nên để string cho chắc
-            body.put("orderId", orderId); // giờ là String
+            body.put("amount", amount.toString());
+            body.put("orderId", orderId);
             body.put("orderInfo", orderInfo);
             body.put("redirectUrl", ConfigMomo.REDIRECT_URL);
             body.put("ipnUrl", ConfigMomo.IPN_URL);
@@ -53,27 +53,20 @@ public class MomoService {
             body.put("requestType", ConfigMomo.REQUEST_TYPE);
             body.put("signature", signature);
             body.put("lang", "vi");
-
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost post = new HttpPost(ConfigMomo.ENDPOINT);
             post.setHeader("Content-Type", "application/json");
             post.setEntity(new StringEntity(body.toString(), StandardCharsets.UTF_8));
-
             CloseableHttpResponse response = client.execute(post);
-
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(response.getEntity().getContent())
             );
-
             StringBuilder result = new StringBuilder();
             String line;
-
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
-
             return result.toString();
-
         } catch (Exception e) {
             e.printStackTrace();
             return "{\"error\":\"" + e.getMessage() + "\"}";
