@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import { Product } from '../../../model/Product';
 import { ProductDetails } from '../../../model/ProductDetail';
+import adminApi from "../../../api/Admin/Admin";
 import toast from "react-hot-toast";
 import './ProductsAdmin.css';
 
@@ -57,10 +58,6 @@ const Products = () => {
         dimensions: ''
     });
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/foods';
-    const CATEGORY_API = 'http://localhost:8080/api/categories';
-
     useEffect(() => {
         fetchProducts();
         fetchCategories();
@@ -69,10 +66,10 @@ const Products = () => {
     const fetchProducts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
-            setProducts(response.data);
+            const res = await adminApi.getProducts();
+            setProducts(res.data);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            console.error(error);
         } finally {
             setLoading(false);
         }
@@ -80,10 +77,10 @@ const Products = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get(CATEGORY_API);
-            setCategories(response.data);
+            const res = await adminApi.getCategories();
+            setCategories(res.data);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            console.error(error);
         }
     };
 
@@ -91,8 +88,7 @@ const Products = () => {
         if (!selectedProduct) return;
 
         try {
-            await axios.delete(`${API_BASE}/${selectedProduct.id}`);
-
+            await adminApi.deleteProduct(selectedProduct.id);
             toast.success("Xóa sản phẩm thành công!");
 
             fetchProducts();
@@ -134,17 +130,11 @@ const Products = () => {
             });
 
             if (modalMode === "add") {
-                await axios.post(API_BASE, form, {
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
-
+                await adminApi.createProduct(form);
                 toast.success("Thêm sản phẩm thành công!");
             }
             else {
-                await axios.put(`${API_BASE}/${selectedProduct?.id}`, form, {
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
-
+                await adminApi.updateProduct(selectedProduct?.id, form);
                 toast.success("Cập nhật sản phẩm thành công!");
             }
 
@@ -158,9 +148,7 @@ const Products = () => {
     };
 
     const handleEdit = async (product: Product) => {
-        const res = await axios.get<ProductDetails>(
-            `${API_BASE}/${product.id}`
-        );
+        const res = await adminApi.getProductById(product.id);
 
         const data = res.data;
 
@@ -191,21 +179,15 @@ const Products = () => {
         setIsModalOpen(true);
     };
     const handleViewDetail = async (id: number) => {
-
         try {
-
-            const response = await axios.get<ProductDetails>(
-                `${API_BASE}/${id}`
-            );
+            const response = await adminApi.getProductById(id);
 
             setDetailProduct(response.data);
-
             setIsDetailModalOpen(true);
 
         } catch (error) {
-
             console.error('Error fetching detail:', error);
-
+            toast.error("Không load được chi tiết sản phẩm");
         }
     };
     const handleSubImagesUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -455,13 +437,13 @@ const Products = () => {
                                                 />
                                             </td>
                                             <td>
-                                              
-                                                    <div className="product-name">
-                                                        <strong className="product-name-text">
-                                                            {product.name}
-                                                        </strong>
-                                                    </div>
-                                                
+
+                                                <div className="product-name">
+                                                    <strong className="product-name-text">
+                                                        {product.name}
+                                                    </strong>
+                                                </div>
+
                                             </td>
                                             <td>
                                                 <span className="category-badge">

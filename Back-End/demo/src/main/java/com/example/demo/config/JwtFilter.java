@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -43,13 +43,24 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = claims.getSubject();
                 Integer role = claims.get("role", Integer.class);
 
-                String authority = (role != null && role == 0) ? "ADMIN" : "USER";
+                String authority = (role != null && role == 0)
+                        ? "ADMIN"
+                        : "USER";
+
+                System.out.println("====== JWT INFO ======");
+                System.out.println("Username: " + username);
+                System.out.println("Role: " + role);
+                System.out.println("Authority: " + authority);
+                System.out.println("Request URI: " + request.getRequestURI());
+                System.out.println("======================");
 
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 username,
                                 null,
-                                Collections.singletonList(new SimpleGrantedAuthority(authority))
+                                Collections.singletonList(
+                                        new SimpleGrantedAuthority(authority)
+                                )
                         );
 
                 SecurityContextHolder.getContext().setAuthentication(auth);

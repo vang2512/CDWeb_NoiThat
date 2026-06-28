@@ -29,6 +29,9 @@ public class Review {
     @Column(name = "is_hidden", nullable = false)
     private Boolean isHidden = false;
 
+    @Column(name = "sentiment")
+    private String sentiment;
+
     // Getters & setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -50,4 +53,11 @@ public class Review {
 
     public Boolean getIsHidden() { return isHidden; }
     public void setIsHidden(Boolean isHidden) { this.isHidden = isHidden; }
+    public String getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
 }

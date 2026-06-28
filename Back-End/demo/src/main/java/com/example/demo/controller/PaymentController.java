@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.ConfigVNPay;
+import com.example.demo.config.ConfigVNPay;
 import com.example.demo.entity.Order;
-import com.example.demo.entity.Payment;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.MomoService;
 import com.example.demo.service.VnpayService;
@@ -16,7 +15,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 

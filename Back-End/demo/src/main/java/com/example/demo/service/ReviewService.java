@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.SentimentStatisticDTO;
 import com.example.demo.entity.Review;
 import com.example.demo.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,13 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final SentimentAnalysisService sentimentAnalysisService;
 
-    public ReviewService(ReviewRepository reviewRepository) {
+
+    public ReviewService(ReviewRepository reviewRepository, SentimentAnalysisService sentimentAnalysisService) {
         this.reviewRepository = reviewRepository;
+        this.sentimentAnalysisService = sentimentAnalysisService;
     }
-
-    // Load danh sách review cua nguoi dung
     // Load danh sách review cua nguoi dung
     public List<Review> getAllReviews() {
         return reviewRepository.findAllWithUserAndFood();
@@ -30,4 +32,13 @@ public class ReviewService {
         reviewRepository.save(review);
         return true;
     }
+    public Review createReview(Review review) {
+        String sentiment =
+                sentimentAnalysisService
+                        .analyze(review.getComment());
+        review.setSentiment(sentiment);
+
+        return reviewRepository.save(review);
+    }
+
 }

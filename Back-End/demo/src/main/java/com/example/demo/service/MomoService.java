@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ConfigMomo;
+import com.example.demo.config.ConfigMomo;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

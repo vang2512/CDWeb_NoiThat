@@ -37,10 +37,13 @@ const Profile = () => {
 
     // LOGOUT
     const handleLogout = () => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        navigate("/login");
-        window.location.reload();
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        toast.success('Đăng xuất thành công!');
+        setTimeout(() => {
+            navigate('/login');
+            window.location.reload();
+        }, 500);
     };
 
     // load user
@@ -103,7 +106,7 @@ const Profile = () => {
 
     // Hàm xử lý hủy đơn hàng
     const handleCancelOrder = async (orderId: number, e: React.MouseEvent) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         try {
             const res =
                 await authApi.cancelOrder(
