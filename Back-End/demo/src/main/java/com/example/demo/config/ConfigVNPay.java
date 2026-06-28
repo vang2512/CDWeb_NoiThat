@@ -1,13 +1,4 @@
-package com.example.demo.model;
-
-import jakarta.servlet.http.HttpServletRequest;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+package com.example.demo.config;
 
 public class ConfigVNPay {
 

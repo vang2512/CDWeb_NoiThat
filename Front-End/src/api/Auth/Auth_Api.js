@@ -66,7 +66,7 @@ const authApi = {
     }),
 
   // Gợi ý sp
-  getRecommendedFoods: (userId, limit = 8) =>
+  getRecommendedFoods: (userId, limit = 10) =>
     axiosClient.get(`/foods/recommended`, {
       params: { userId, limit }
     }),

@@ -381,7 +381,7 @@ class FoodRecommender:
             avg_spent = user_orders['unit_price'].mean()
             price_range = (avg_spent * 0.5, avg_spent * 2)
         else:
-            price_range = (0, 100000)  
+            price_range = (0, 100000000)  
         
         # Lọc và sắp xếp lại
         filtered = []

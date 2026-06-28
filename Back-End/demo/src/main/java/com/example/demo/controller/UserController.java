@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ResetPasswordRequest;
 import com.example.demo.entity.Users;
-import com.example.demo.model.JwtUtil;
-import com.example.demo.model.Status;
+import com.example.demo.config.JwtUtil;
+import com.example.demo.config.Status;
 import com.example.demo.service.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.dto.SocialLoginRequest;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.model.IpUtils;
+import com.example.demo.config.IpUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.*;
 

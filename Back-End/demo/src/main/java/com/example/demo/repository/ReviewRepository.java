@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
+import com.example.demo.dto.TopSentimentProductDTO;
 import com.example.demo.entity.Review;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,4 +36,23 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     """)
     List<Review> findAllWithUserAndFood();
     List<Review> findByFood_Id(int productId);
+    long countBySentimentAndIsHiddenFalse(String sentiment);
+    @Query("""
+        SELECT new com.example.demo.dto.TopSentimentProductDTO(
+            p.id,
+            p.name,
+            p.img,
+            COUNT(r)
+        )
+        FROM Review r
+        JOIN r.food p
+        WHERE r.sentiment = :sentiment
+        AND r.isHidden = false
+        GROUP BY p.id,p.name,p.img
+        ORDER BY COUNT(r) DESC
+    """)
+    List<TopSentimentProductDTO> findTopProductsBySentiment(
+            @Param("sentiment") String sentiment,
+            Pageable pageable
+    );
 }

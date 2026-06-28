@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo.model.ConfigVNPay;
+import com.example.demo.config.ConfigVNPay;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;

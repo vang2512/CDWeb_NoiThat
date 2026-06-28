@@ -139,6 +139,51 @@ public class AdminDashboardService {
                 PageRequest.of(0, 5)
         );
     }
+    public SentimentStatisticDTO getSentimentStatistics() {
+
+        long positive =
+                reviewRepository.countBySentimentAndIsHiddenFalse("POS");
+
+        long neutral =
+                reviewRepository.countBySentimentAndIsHiddenFalse("NEU");
+
+        long negative =
+                reviewRepository.countBySentimentAndIsHiddenFalse("NEG");
+
+        System.out.println("=== SENTIMENT DEBUG ===");
+        System.out.println("POS: " + positive);
+        System.out.println("NEU: " + neutral);
+        System.out.println("NEG: " + negative);
+
+        long total = positive + neutral + negative;
+
+        System.out.println("TOTAL: " + total);
+
+        if (total == 0) {
+            System.out.println("WARNING: TOTAL = 0 => DB không có dữ liệu match query");
+            return new SentimentStatisticDTO(0,0,0,0,0,0);
+        }
+
+        SentimentStatisticDTO dto = new SentimentStatisticDTO(
+                positive,
+                neutral,
+                negative,
+                Math.round((positive * 100.0 / total) * 10) / 10.0,
+                Math.round((neutral * 100.0 / total) * 10) / 10.0,
+                Math.round((negative * 100.0 / total) * 10) / 10.0
+        );
+
+        System.out.println("DTO RETURN: " + dto);
+
+        return dto;
+    }
+    public List<TopSentimentProductDTO> getTopProductsBySentiment(String sentiment){
+
+        return reviewRepository.findTopProductsBySentiment(
+                sentiment,
+                PageRequest.of(0,5)
+        );
+    }
 
 
 }

@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Logs;
 import com.example.demo.entity.Users;
-import com.example.demo.model.LogType;
-import com.example.demo.model.Status;
+import com.example.demo.config.LogType;
+import com.example.demo.config.Status;
 import com.example.demo.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -56,5 +56,17 @@ public class AdminDashboardController {
                 dashboardService.getTop5RecentOrders()
         );
     }
+    @GetMapping("/sentiment")
+    public ResponseEntity<?> getSentimentStatistics() {
+        Object result = dashboardService.getSentimentStatistics();
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/top-products-by-sentiment")
+    public ResponseEntity<?> getTopProductsBySentiment(
+            @RequestParam String sentiment){
+        return ResponseEntity.ok(
+                dashboardService.getTopProductsBySentiment(sentiment)
+        );
+    }
 }
 

@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
-import com.example.demo.model.LogType;
-import com.example.demo.model.Status;
+import com.example.demo.config.LogType;
+import com.example.demo.config.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 

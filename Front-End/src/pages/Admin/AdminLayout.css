@@ -667,3 +667,258 @@ td {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(91, 140, 174, 0.3);
 }
+/* Thêm vào cuối file AdminLayout.css */
+
+/* User Dropdown Styles */
+.user-dropdown-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+.user-info:hover {
+  background: rgba(91, 140, 174, 0.08);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #5b8cae;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.user-info:hover .user-avatar {
+  border-color: #4a7a9a;
+  box-shadow: 0 0 0 4px rgba(91, 140, 174, 0.15);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 80px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+  transition: color 0.3s ease;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.dropdown-arrow {
+  font-size: 12px;
+  color: #9CA3AF;
+  transition: transform 0.3s ease;
+  margin-left: 4px;
+}
+
+.user-info:hover .dropdown-arrow {
+  color: #5b8cae;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 280px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 8px 0;
+  animation: slideDown 0.2s ease;
+  z-index: 1000;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 8px 16px;
+}
+
+.dropdown-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #5b8cae;
+  flex-shrink: 0;
+}
+
+.dropdown-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.dropdown-user-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1F2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-user-email {
+  font-size: 13px;
+  color: #6B7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #E5E7EB;
+  margin: 8px 16px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  color: #374151;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #F3F4F6;
+  color: #5b8cae;
+}
+
+.dropdown-item .anticon {
+  font-size: 18px;
+  color: #6B7280;
+  transition: color 0.2s ease;
+}
+
+.dropdown-item:hover .anticon {
+  color: #5b8cae;
+}
+
+.dropdown-item.logout-item {
+  color: #DC2626;
+}
+
+.dropdown-item.logout-item .anticon {
+  color: #DC2626;
+}
+
+.dropdown-item.logout-item:hover {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.dropdown-item.logout-item:hover .anticon {
+  color: #DC2626;
+}
+
+/* Dark mode support */
+.admin-container.dark .user-name {
+  color: #E5E7EB;
+}
+
+.admin-container.dark .user-role,
+.admin-container.dark .dropdown-user-email {
+  color: #9CA3AF;
+}
+
+.admin-container.dark .user-info:hover {
+  background: rgba(91, 140, 174, 0.15);
+}
+
+.admin-container.dark .dropdown-menu {
+  background: #1F2937;
+  border-color: #374151;
+}
+
+.admin-container.dark .dropdown-item {
+  color: #D1D5DB;
+}
+
+.admin-container.dark .dropdown-item:hover {
+  background: #374151;
+  color: #5b8cae;
+}
+
+.admin-container.dark .dropdown-item:hover .anticon {
+  color: #5b8cae;
+}
+
+.admin-container.dark .dropdown-divider {
+  background: #374151;
+}
+
+.admin-container.dark .dropdown-item.logout-item {
+  color: #F87171;
+}
+
+.admin-container.dark .dropdown-item.logout-item:hover {
+  background: #451A1A;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    min-width: 240px;
+    right: -10px;
+  }
+  
+  .user-details {
+    display: none;
+  }
+  
+  .dropdown-arrow {
+    display: none;
+  }
+}

@@ -106,7 +106,7 @@ const Home = () => {
     const fetchRecommended = async () => {
       try {
         const userId = storedUser.id;
-        const res = await authApi.getRecommendedFoods(userId, 8);
+        const res = await authApi.getRecommendedFoods(userId, 10);
         setRecommendedFoods(res.data.data);
       } catch (err) {
         console.error(err);
@@ -210,6 +210,7 @@ const Home = () => {
       }
 
       // CHAT TEXT
+      // CHAT TEXT
       if (text.trim()) {
 
         const user = JSON.parse(
@@ -224,16 +225,26 @@ const Home = () => {
 
         const data = res.data;
 
-        setMessages(prev => [
-          ...prev,
-          {
-            type: "bot",
-            text:
-              data.reply ||
-              "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
-            product: data.product
-          }
-        ]);
+        // Tạo message object
+        const botMessage: any = {
+          type: "bot",
+          text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
+        };
+
+        // THÊM 3 DÒNG NÀY
+        if (data.products && data.products.length > 0) {
+          botMessage.products = data.products;
+        }
+
+        if (data.product) {
+          botMessage.product = data.product;
+        }
+
+        if (data.summary) {
+          botMessage.summary = data.summary;
+        }
+
+        setMessages(prev => [...prev, botMessage]);
 
         // CHỈ ĐỌC KHI DÙNG MIC
         if (fromVoice) {
@@ -653,13 +664,37 @@ const Home = () => {
                     <img src={msg.image} className="chat_image" />
                   )}
 
-                  {/* PRODUCT CARD */}
-                  {msg.product && (
+                  {/* ===== DANH SÁCH SẢN PHẨM (MỚI) ===== */}
+                  {msg.products && msg.products.length > 0 && (
+                    <div className="chat_products_list">
+                      {msg.products.map((p: Product) => (
+                        <div
+                          key={p.id}
+                          className="chat_product"
+                          onClick={() => navigate(`/product-detail/${p.id}`)}
+                        >
+                          <img src={p.img} alt={p.name} />
+                          <div>
+                            <p className="name">{p.name}</p>
+                            <p className="price">{p.price?.toLocaleString()} đ</p>
+                            {p.quantity > 0 ? (
+                              <span className="in_stock">Còn hàng</span>
+                            ) : (
+                              <span className="out_of_stock">Hết hàng</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* ===== 1 SẢN PHẨM (GIỮ NGUYÊN) ===== */}
+                  {msg.product && !msg.products && (
                     <div
                       className="chat_product"
                       onClick={() => navigate(`/product-detail/${msg.product.id}`)}
                     >
-                      <img src={msg.product.img} />
+                      <img src={msg.product.img} alt={msg.product.name} />
                       <div>
                         <p className="name">{msg.product.name}</p>
                         <p className="price">
@@ -668,18 +703,11 @@ const Home = () => {
                       </div>
                     </div>
                   )}
-                  {/* MULTIPLE PRODUCTS FROM IMAGE */}
-                  {msg.products && msg.products.length > 0 && (
-                    <div className="chat_products_list">
-                      {msg.products.map((p: Product) => (
-                        <div key={p.id} className="chat_product" onClick={() => navigate(`/product-detail/${p.id}`)}>
-                          <img src={p.img} />
-                          <div>
-                            <p className="name">{p.name}</p>
-                            <p className="price">{p.price?.toLocaleString()} đ</p>
-                          </div>
-                        </div>
-                      ))}
+
+                  {/* ===== SUMMARY TÓM TẮT (MỚI) ===== */}
+                  {msg.summary && (
+                    <div className="chat_summary">
+                      {msg.summary}
                     </div>
                   )}
 

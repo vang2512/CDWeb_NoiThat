@@ -1,3 +1,5 @@
+// Dashboard.tsx - Phần cập nhật
+
 import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import './Dashboard.css';
@@ -5,20 +7,19 @@ import {
     ShoppingOutlined,
     DollarOutlined,
     UserOutlined,
-    RiseOutlined,
-    FallOutlined,
     ShoppingCartOutlined,
-    EyeOutlined,
-    ThunderboltOutlined,
-    StarOutlined,
-    ArrowRightOutlined,
-    DownloadOutlined,
-    MoreOutlined
+    MoreOutlined,
+    SmileOutlined,
+    MehOutlined,
+    FrownOutlined,
+    HeartOutlined,
+    FilterOutlined
 } from '@ant-design/icons';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import adminApi from "../../../api/Admin/Admin";
 import { TopProduct } from "../../../model/TopProduct ";
 import { CategoryStatistic } from "../../../model/CategoryStatistic ";
+
 const Dashboard = () => {
 
     const [dashboardStats, setDashboardStats] = useState({
@@ -33,89 +34,87 @@ const Dashboard = () => {
     const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
     const [categories, setCategories] = useState<CategoryStatistic[]>([]);
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
-    useEffect(() => {
+    const [sentimentStats, setSentimentStats] = useState({
+        positive: 0,
+        neutral: 0,
+        negative: 0,
+        positivePercent: 0,
+        neutralPercent: 0,
+        negativePercent: 0
+    });
 
+    // State cho danh sách sản phẩm đánh giá
+    const [productReviews, setProductReviews] = useState<any[]>([]);
+    const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
+    const [sentimentFilter, setSentimentFilter] = useState("POS");
+    const [topSentimentProducts, setTopSentimentProducts] = useState<any[]>([]);
+
+    const totalReviews = sentimentStats.positive + sentimentStats.neutral + sentimentStats.negative;
+
+    // Animation states for satisfaction bars
+    const [animatedValues, setAnimatedValues] = useState({
+        positive: 0,
+        neutral: 0,
+        negative: 0
+    });
+
+    // Fetch dashboard stats
+    useEffect(() => {
         const fetchDashboardStats = async () => {
             try {
                 const response = await adminApi.getDashboardStats();
-
                 setDashboardStats(response.data);
             } catch (error) {
                 console.log("Lỗi lấy dashboard stats:", error);
             }
         };
-
         fetchDashboardStats();
-
     }, []);
-    useEffect(() => {
 
+    // Fetch revenue by month
+    useEffect(() => {
         const fetchRevenueChart = async () => {
-
             try {
-
                 const response = await adminApi.getRevenueByMonth(selectedYear);
-
                 setRevenueData(response.data);
-
             } catch (error) {
-
                 console.log(error);
             }
         };
-
         fetchRevenueChart();
-
     }, [selectedYear]);
-    useEffect(() => {
 
+    // Fetch category revenue
+    useEffect(() => {
         const fetchCategoryRevenue = async () => {
-
             try {
-
-                const response =
-                    await adminApi.getRevenueByCategory(selectedYear);
-
+                const response = await adminApi.getRevenueByCategory(selectedYear);
                 setCategoryRevenue(response.data);
-
             } catch (error) {
-
                 console.log(error);
             }
         };
-
         fetchCategoryRevenue();
-
     }, [selectedYear]);
+
+    // Fetch top products
     useEffect(() => {
-
         const fetchTopProducts = async () => {
-
             try {
-
-                const response =
-                    await adminApi.getTopSellingProducts(selectedYear);
-
+                const response = await adminApi.getTopSellingProducts(selectedYear);
                 setTopProducts(response.data);
-
             } catch (error) {
-
                 console.log(error);
             }
         };
-
         fetchTopProducts();
-
     }, [selectedYear]);
+
+    // Fetch category statistics
     useEffect(() => {
-
         const fetchCategoryStatistics = async () => {
-
             try {
-
-                const response =
-                    await adminApi.getCategoryStatistics();
-
+                const response = await adminApi.getCategoryStatistics();
                 const colors = [
                     '#5b8cae',
                     '#10b981',
@@ -124,47 +123,72 @@ const Dashboard = () => {
                     '#8b5cf6',
                     '#06b6d4'
                 ];
-
-                const dataWithColors: CategoryStatistic[] =
-                    response.data.map(
-                        (item: any, index: number) => ({
-                            ...item,
-                            color: colors[index % colors.length]
-                        })
-                    );
-
+                const dataWithColors: CategoryStatistic[] = response.data.map(
+                    (item: any, index: number) => ({
+                        ...item,
+                        color: colors[index % colors.length]
+                    })
+                );
                 setCategories(dataWithColors);
-
             } catch (error) {
-
                 console.log(error);
             }
         };
-
         fetchCategoryStatistics();
-
     }, []);
+
+    // Fetch recent orders
     useEffect(() => {
-
         const fetchRecentOrders = async () => {
-
             try {
-
-                const response =
-                    await adminApi.getRecentOrders();
-
+                const response = await adminApi.getRecentOrders();
                 setRecentOrders(response.data);
-
             } catch (error) {
-
                 console.log(error);
             }
         };
-
         fetchRecentOrders();
-
     }, []);
 
+    // Fetch sentiment statistics
+    useEffect(() => {
+        const fetchSentimentStats = async () => {
+            try {
+                const response = await adminApi.getSentimentStatistics();
+                setSentimentStats(response.data);
+            } catch (error) {
+                console.log("Lỗi sentiment:", error);
+            }
+        };
+        fetchSentimentStats();
+    }, []);
+
+    useEffect(() => {
+        const fetchTopProducts = async () => {
+            try {
+                const response = await adminApi.getTopProductsBySentiment(sentimentFilter);
+                setTopSentimentProducts(response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        fetchTopProducts();
+    }, [sentimentFilter]);
+
+    // Animate satisfaction bars on mount
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setAnimatedValues({
+                positive: sentimentStats.positivePercent,
+                neutral: sentimentStats.neutralPercent,
+                negative: sentimentStats.negativePercent
+            });
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [sentimentStats]);
+
+    // Stats cards data
     const stats = [
         {
             title: 'Tổng doanh thu',
@@ -216,6 +240,41 @@ const Dashboard = () => {
         }
     };
 
+    // Get sentiment distribution for a product
+    const getSentimentDistribution = (product: any) => {
+        const total = product.totalReviews;
+        return {
+            positive: (product.positive / total * 100).toFixed(0),
+            neutral: (product.neutral / total * 100).toFixed(0),
+            negative: (product.negative / total * 100).toFixed(0)
+        };
+    };
+
+    // Satisfaction data for donut chart and bars
+    const satisfactionData = [
+        {
+            name: 'Hài lòng',
+            percent: sentimentStats.positivePercent || 0,
+            count: sentimentStats.positive || 0,
+            color: '#10b981',
+            icon: <SmileOutlined />
+        },
+        {
+            name: 'Bình thường',
+            percent: sentimentStats.neutralPercent || 0,
+            count: sentimentStats.neutral || 0,
+            color: '#f59e0b',
+            icon: <MehOutlined />
+        },
+        {
+            name: 'Không hài lòng',
+            percent: sentimentStats.negativePercent || 0,
+            count: sentimentStats.negative || 0,
+            color: '#ef4444',
+            icon: <FrownOutlined />
+        }
+    ];
+
     return (
         <div className="dashboard">
 
@@ -232,7 +291,6 @@ const Dashboard = () => {
                         >
                             {stat.icon}
                         </div>
-
                         <div className="stat-content">
                             <span className="stat-title">{stat.title}</span>
                             <h2 className="stat-value">{stat.value}</h2>
@@ -265,29 +323,16 @@ const Dashboard = () => {
                                     <stop offset="95%" stopColor="#5b8cae" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-
-                            <CartesianGrid
-                                strokeDasharray="3 3"
-                                stroke="var(--border-color)"
-                            />
-
-                            <XAxis
-                                dataKey="month"
-                                stroke="var(--text-secondary)"
-                                fontSize={12}
-                            />
-
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                            <XAxis dataKey="month" stroke="var(--text-secondary)" fontSize={12} />
                             <YAxis
                                 stroke="var(--text-secondary)"
                                 fontSize={12}
                                 width={50}
                                 tickFormatter={(value) => `${value / 1000000}M`}
                             />
-
                             <Tooltip
-                                formatter={(value: any) =>
-                                    `${Number(value).toLocaleString()}đ`
-                                }
+                                formatter={(value: any) => `${Number(value).toLocaleString()}đ`}
                                 contentStyle={{
                                     background: 'var(--bg-card)',
                                     border: '1px solid var(--border-color)',
@@ -295,7 +340,6 @@ const Dashboard = () => {
                                     color: 'var(--text-primary)'
                                 }}
                             />
-
                             <Area
                                 type="monotone"
                                 dataKey="revenue"
@@ -313,44 +357,24 @@ const Dashboard = () => {
                         <MoreOutlined style={{ cursor: 'pointer' }} />
                     </div>
                     <ResponsiveContainer width="100%" height={320}>
-                        <BarChart
-                            data={categoryRevenue}
-                            barSize={55}
-                        >
-                            <CartesianGrid
-                                strokeDasharray="3 3"
-                                stroke="var(--border-color)"
-                            />
-
-                            <XAxis
-                                dataKey="name"
-                                stroke="var(--text-secondary)"
-                                fontSize={12}
-                            />
-
+                        <BarChart data={categoryRevenue} barSize={55}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
+                            <XAxis dataKey="name" stroke="var(--text-secondary)" fontSize={12} />
                             <YAxis
                                 stroke="var(--text-secondary)"
                                 fontSize={12}
                                 width={45}
                                 tickFormatter={(value) => `${value / 1000000}M`}
                             />
-
                             <Tooltip
-                                formatter={(value: any) =>
-                                    `${Number(value).toLocaleString()}đ`
-                                }
+                                formatter={(value: any) => `${Number(value).toLocaleString()}đ`}
                                 contentStyle={{
                                     background: 'var(--bg-card)',
                                     border: '1px solid var(--border-color)',
                                     borderRadius: '10px'
                                 }}
                             />
-
-                            <Bar
-                                dataKey="revenue"
-                                fill="#5b8cae"
-                                radius={[10, 10, 0, 0]}
-                            />
+                            <Bar dataKey="revenue" fill="#5b8cae" radius={[10, 10, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -365,42 +389,18 @@ const Dashboard = () => {
                     <div className="product-list">
                         {topProducts.map((product, index) => (
                             <div className="product-item" key={product.id}>
-
-                                <div className="product-rank">
-                                    {index + 1}
-                                </div>
-
-                                <img
-                                    src={product.img}
-                                    alt={product.name}
-                                    className="product-image"
-                                />
-
+                                <div className="product-rank">{index + 1}</div>
+                                <img src={product.img} alt={product.name} className="product-image" />
                                 <div className="product-info">
-
                                     <h4>{product.name}</h4>
-
-                                    <p className="product-price">
-                                        {Number(product.price).toLocaleString()}đ
-                                    </p>
-
-
+                                    <p className="product-price">{Number(product.price).toLocaleString()}đ</p>
                                 </div>
-
                                 <div className="product-stats">
-
                                     <div className="stat">
-                                        <span className="stat-label">
-                                            Đã bán
-                                        </span>
-
-                                        <span className="stat-value-small">
-                                            {product.sold}
-                                        </span>
+                                        <span className="stat-label">Đã bán</span>
+                                        <span className="stat-value-small">{product.sold}</span>
                                     </div>
-
                                 </div>
-
                             </div>
                         ))}
                     </div>
@@ -463,36 +463,19 @@ const Dashboard = () => {
                         <tbody>
                             {recentOrders.map((order) => (
                                 <tr key={order.id}>
-
-                                    <td className="order-id">
-                                        #{order.id}
-                                    </td>
-
+                                    <td className="order-id">#{order.id}</td>
                                     <td>
                                         <div className="customer-cell">
-                                            <span className="customer-name">
-                                                {order.customerName}
-                                            </span>
+                                            <span className="customer-name">{order.customerName}</span>
                                         </div>
                                     </td>
-
                                     <td className="order-date">
-                                        {order.orderDate
-                                            ? new Date(order.orderDate)
-                                                .toLocaleString("vi-VN")
-                                            : ""}
+                                        {order.orderDate ? new Date(order.orderDate).toLocaleString("vi-VN") : ""}
                                     </td>
-
-                                    <td className="amount">
-                                        {Number(order.totalAmount).toLocaleString()}đ
-                                    </td>
-
+                                    <td className="amount">{Number(order.totalAmount).toLocaleString()}đ</td>
                                     <td>
                                         <span
-                                            className={`payment-badge ${order.paymentMethod === "COD"
-                                                ? "cod"
-                                                : "online"
-                                                }`}
+                                            className={`payment-badge ${order.paymentMethod === "COD" ? "cod" : "online"}`}
                                         >
                                             {order.paymentMethod}
                                         </span>
@@ -512,38 +495,147 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="quick-actions">
-                <h3>Thao tác nhanh</h3>
-                <div className="actions-grid">
-                    <div className="action-item">
-                        <div className="action-icon" style={{ background: 'rgba(91, 140, 174, 0.1)', color: '#5b8cae' }}>
-                            <ShoppingOutlined />
-                        </div>
-                        <span>Thêm sản phẩm</span>
+            {/* Customer Satisfaction Section - UPDATED */}
+            <div className="satisfaction-section">
+                <div className="satisfaction-header">
+                    <div className="header-left">
+                        <h3>Mức độ hài lòng của khách hàng</h3>
                     </div>
-                    <div className="action-item">
-                        <div className="action-icon" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                            <UserOutlined />
-                        </div>
-                        <span>Thêm khách hàng</span>
+                    <div className="filter-wrapper">
+                        <FilterOutlined style={{ color: 'var(--text-secondary)' }} />
+                        <select
+                            className="sentiment-filter"
+                            value={sentimentFilter}
+                            onChange={(e) => setSentimentFilter(e.target.value)}
+                        >
+                            <option value="POS">Hài lòng</option>
+                            <option value="NEU">Bình thường</option>
+                            <option value="NEG">Không hài lòng</option>
+                        </select>
                     </div>
-                    <div className="action-item">
-                        <div className="action-icon" style={{ background: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>
-                            <ShoppingCartOutlined />
+                </div>
+
+                <div className="satisfaction-content">
+                    {/* Donut Chart */}
+                    <div className="satisfaction-chart">
+                        <ResponsiveContainer width="100%" height={220}>
+                            <PieChart>
+                                <Pie
+                                    data={satisfactionData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={55}
+                                    outerRadius={85}
+                                    paddingAngle={4}
+                                    dataKey="percent"
+                                    stroke="none"
+                                >
+                                    {satisfactionData.map((entry, index) => (
+                                        <Cell
+                                            key={`cell-${index}`}
+                                            fill={entry.color}
+                                            style={{
+                                                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
+                                            }}
+                                        />
+                                    ))}
+                                </Pie>
+                                <Tooltip
+                                    formatter={(value: any) => `${value}%`}
+                                    contentStyle={{
+                                        background: 'var(--bg-card)',
+                                        border: '1px solid var(--border-color)',
+                                        borderRadius: '10px'
+                                    }}
+                                />
+                            </PieChart>
+                        </ResponsiveContainer>
+                        <div className="chart-center-label">
+                            <span className="label-main">Tổng đánh giá</span>
+                            <span className="label-value">{totalReviews}</span>
                         </div>
-                        <span>Tạo đơn hàng</span>
                     </div>
-                    <div className="action-item">
-                        <div className="action-icon" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444' }}>
-                            <StarOutlined />
+
+                    {/* Satisfaction Bars */}
+                    <div className="satisfaction-bars">
+                        {satisfactionData.map((item, index) => {
+                            let animKey = 'positive';
+                            if (item.name === 'Bình thường') animKey = 'neutral';
+                            else if (item.name === 'Không hài lòng') animKey = 'negative';
+                            const animValue = (animatedValues as any)[animKey];
+                            return (
+                                <div className="satisfaction-item" key={index}>
+                                    <div className="satisfaction-item-header">
+                                        <div className="item-label">
+                                            <span className="item-icon" style={{ color: item.color }}>
+                                                {item.icon}
+                                            </span>
+                                            <span className="item-name">{item.name}</span>
+                                        </div>
+                                        <span className="item-percentage" style={{ color: item.color }}>
+                                            {item.percent}%
+                                        </span>
+                                    </div>
+                                    <div className="satisfaction-bar-track">
+                                        <div
+                                            className="satisfaction-bar-fill"
+                                            style={{
+                                                width: `${animValue}%`,
+                                                background: `linear-gradient(90deg, ${item.color}dd, ${item.color})`,
+                                                boxShadow: `0 4px 12px ${item.color}40`
+                                            }}
+                                        >
+                                            <div className="bar-shimmer"></div>
+                                        </div>
+                                    </div>
+                                    <div className="satisfaction-stats">
+                                        <span className="stat-count">
+                                            {item.count} lượt
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* Product Reviews List - NEW */}
+                    <div className="product-reviews">
+                        <h4 className="reviews-title">Danh sách sản phẩm</h4>
+                        <div className="reviews-list">
+                            {topSentimentProducts.map((product: any) => (
+                                <div className="review-item" key={product.productId}>
+                                    <img
+                                        src={product.image}
+                                        alt={product.productName}
+                                        className="review-product-image"
+                                    />
+
+                                    <div className="review-product-info">
+                                        <span className="review-product-name">
+                                            {product.productName}
+                                        </span>
+                                    </div>
+
+                                    <div className="review-total">
+                                        <span className="review-count">
+                                            {product.reviewCount}
+                                        </span>
+                                        <span className="review-label">
+                                            lượt
+                                        </span>
+                                    </div>
+
+                                </div>
+                            ))}
+                            {topSentimentProducts.length === 0 && (
+                                <div className="no-reviews">
+                                    <span>Không có sản phẩm nào phù hợp với bộ lọc</span>
+                                </div>
+                            )}
                         </div>
-                        <span>Khuyến mãi</span>
                     </div>
                 </div>
             </div>
-
-
         </div>
     );
 };
