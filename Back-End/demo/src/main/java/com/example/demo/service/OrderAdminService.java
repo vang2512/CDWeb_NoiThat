@@ -2,9 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.OrderDTO;
 import com.example.demo.dto.OrderItemDTO;
-import com.example.demo.entity.Order;
-import com.example.demo.entity.OrderDetail;
-import com.example.demo.entity.Payment;
+import com.example.demo.model.Order;
+import com.example.demo.model.Payment;
 import com.example.demo.repository.OrderRepository;
 
 import jakarta.transaction.Transactional;

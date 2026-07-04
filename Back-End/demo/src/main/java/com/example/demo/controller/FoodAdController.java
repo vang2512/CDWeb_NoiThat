@@ -1,18 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Category;
-import com.example.demo.entity.Product;
-import com.example.demo.entity.ProductSpecification;
-import com.example.demo.entity.SubImage;
+import com.example.demo.model.Category;
+import com.example.demo.model.Product;
+import com.example.demo.model.ProductSpecification;
+import com.example.demo.model.SubImage;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.FoodRepository;
 import com.example.demo.service.SupabaseService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;

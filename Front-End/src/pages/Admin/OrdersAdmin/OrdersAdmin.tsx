@@ -15,7 +15,7 @@ import {
     PrinterOutlined,
     SendOutlined
 } from '@ant-design/icons';
-import axios from 'axios';
+import adminApi from "../../../api/Admin/Admin";
 import dayjs from 'dayjs';
 import './OrdersAdmin.css';
 
@@ -58,10 +58,6 @@ const Orders = () => {
     const [filterStatus, setFilterStatus] = useState<string>('all');
     const [selectedStatus, setSelectedStatus] = useState('');
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/orders';
-    const USER_API = 'http://localhost:8080/api/admin/users';
-
     useEffect(() => {
         fetchOrders();
         fetchUsers();
@@ -70,7 +66,8 @@ const Orders = () => {
     const fetchOrders = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
+            // Sử dụng adminApi thay vì axios trực tiếp
+            const response = await adminApi.getOrders();
             const ordersData = Array.isArray(response.data) ? response.data : [];
             console.log('Fetched orders:', ordersData);
             setOrders(ordersData);
@@ -84,7 +81,7 @@ const Orders = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get(USER_API);
+            const response = await adminApi.getUsers();
             const userMap = new Map();
             if (Array.isArray(response.data)) {
                 response.data.forEach((user: User) => {
@@ -99,7 +96,7 @@ const Orders = () => {
 
     const updateOrderStatus = async (orderId: number, status: string) => {
         try {
-            await axios.put(`${API_BASE}/${orderId}/status`, { status });
+            await adminApi.updateOrderStatus(orderId, status);
             fetchOrders();
             setIsUpdateStatusModalOpen(false);
             setSelectedStatus('');

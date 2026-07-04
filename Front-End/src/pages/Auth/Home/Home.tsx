@@ -12,7 +12,10 @@ import {
   Image as ImageIcon,
   ShoppingCart,
   Star,
-  Mic
+  Mic,
+  Sun,
+  Moon,
+  X
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -47,6 +50,8 @@ const Home = () => {
   const [recommendedFoods, setRecommendedFoods] = useState<Product[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [isVoiceMessage, setIsVoiceMessage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Thêm state loading
+  const chatBodyRef = useRef<HTMLDivElement>(null); // Thêm ref để scroll
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [productsSale, setProductsSale] = useState<Product[]>([]);
@@ -136,7 +141,13 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // chat bot
+  // Auto scroll to bottom khi có tin nhắn mới
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
   // chat bot
   const sendMessage = async (
     voiceText?: string,
@@ -164,37 +175,28 @@ const Home = () => {
     }
 
     setMessages(prev => [...prev, newMessage]);
-
     setInput("");
+    setIsLoading(true); // Bật loading
 
     const currentFile = selectedFile;
-
     setImage(null);
     setSelectedFile(null);
 
     try {
-
       // SEARCH IMAGE
       if (currentFile) {
-
-        const res =
-          await authApi.searchImage(currentFile);
-
+        const res = await authApi.searchImage(currentFile);
         const products = res.data || [];
 
         let botText = "";
-
         if (products.length > 0) {
-          botText =
-            "Mình tìm thấy được một số sản phẩm tương tự nè:";
+          botText = "Mình tìm thấy được một số sản phẩm tương tự nè:";
         } else {
-          botText =
-            "Không tìm thấy sản phẩm phù hợp. Vui lòng thử ảnh khác.";
+          botText = "Không tìm thấy sản phẩm phù hợp. Vui lòng thử ảnh khác.";
         }
 
         if (text.trim()) {
-          botText =
-            `"${text.trim()}"\n\n${botText}`;
+          botText = `"${text.trim()}"\n\n${botText}`;
         }
 
         setMessages(prev => [
@@ -206,23 +208,14 @@ const Home = () => {
           }
         ]);
 
+        setIsLoading(false);
         return;
       }
 
       // CHAT TEXT
-      // CHAT TEXT
       if (text.trim()) {
-
-        const user = JSON.parse(
-          localStorage.getItem("user") || "{}"
-        );
-
-        const res =
-          await authApi.chatbot(
-            text,
-            user.id || 0
-          );
-
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const res = await authApi.chatbot(text, user.id || 0);
         const data = res.data;
 
         // Tạo message object
@@ -231,7 +224,6 @@ const Home = () => {
           text: data.reply || "Mình chưa hiểu rõ câu hỏi, bạn thử nói rõ hơn nhé",
         };
 
-        // THÊM 3 DÒNG NÀY
         if (data.products && data.products.length > 0) {
           botMessage.products = data.products;
         }
@@ -248,24 +240,17 @@ const Home = () => {
 
         // CHỈ ĐỌC KHI DÙNG MIC
         if (fromVoice) {
-
           window.speechSynthesis.cancel();
-
-          const speech =
-            new SpeechSynthesisUtterance(
-              data.reply
-            );
-
+          const speech = new SpeechSynthesisUtterance(data.reply);
           speech.lang = "vi-VN";
-
           window.speechSynthesis.speak(speech);
         }
+
+        setIsLoading(false);
       }
 
     } catch (err) {
-
       console.error("Chat error:", err);
-
       setMessages(prev => [
         ...prev,
         {
@@ -273,6 +258,7 @@ const Home = () => {
           text: "Có lỗi xảy ra. Vui lòng thử lại."
         }
       ]);
+      setIsLoading(false);
     }
   };
 
@@ -286,8 +272,8 @@ const Home = () => {
       ]);
     }
   }, [openChat]);
-  const startVoiceRecognition = () => {
 
+  const startVoiceRecognition = () => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -298,24 +284,17 @@ const Home = () => {
     }
 
     const recognition = new SpeechRecognition();
-
     recognition.lang = "vi-VN";
     recognition.continuous = false;
     recognition.interimResults = false;
 
     setIsListening(true);
-
     recognition.start();
 
     recognition.onresult = async (event: any) => {
-
-      const transcript =
-        event.results[0][0].transcript;
-
+      const transcript = event.results[0][0].transcript;
       setInput(transcript);
-
       setIsListening(false);
-
       await sendMessage(transcript, true);
     };
 
@@ -647,14 +626,24 @@ const Home = () => {
             <div className="chatbox_header">
               <span>Chat Bot</span>
               <div className="actions">
-                <button onClick={() => setDarkMode(!darkMode)}>
-                  {darkMode ? "☀️" : "🌙"}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="toggle-dark-btn"
+                  title={darkMode ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"}
+                >
+                  {darkMode ? <Sun size={18} /> : <Moon size={18} />}
                 </button>
-                <button onClick={() => setOpenChat(false)}>✕</button>
+                <button
+                  onClick={() => setOpenChat(false)}
+                  className="close-chat-btn"
+                  title="Đóng chat"
+                >
+                  <X size={18} />
+                </button>
               </div>
             </div>
 
-            <div className="chatbox_body">
+            <div className="chatbox_body" ref={chatBodyRef}>
               {messages.map((msg, index) => (
                 <div key={index} className={`message ${msg.type}`}>
 
@@ -664,7 +653,7 @@ const Home = () => {
                     <img src={msg.image} className="chat_image" />
                   )}
 
-                  {/* ===== DANH SÁCH SẢN PHẨM (MỚI) ===== */}
+                  {/* DANH SÁCH SẢN PHẨM */}
                   {msg.products && msg.products.length > 0 && (
                     <div className="chat_products_list">
                       {msg.products.map((p: Product) => (
@@ -688,7 +677,7 @@ const Home = () => {
                     </div>
                   )}
 
-                  {/* ===== 1 SẢN PHẨM (GIỮ NGUYÊN) ===== */}
+                  {/* 1 SẢN PHẨM */}
                   {msg.product && !msg.products && (
                     <div
                       className="chat_product"
@@ -704,7 +693,7 @@ const Home = () => {
                     </div>
                   )}
 
-                  {/* ===== SUMMARY TÓM TẮT (MỚI) ===== */}
+                  {/* SUMMARY TÓM TẮT */}
                   {msg.summary && (
                     <div className="chat_summary">
                       {msg.summary}
@@ -713,15 +702,25 @@ const Home = () => {
 
                 </div>
               ))}
+
+              {/* Loading với 3 dấu chấm */}
+              {isLoading && (
+                <div className="message bot loading-message">
+                  <div className="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="chatbox_input">
 
               {/* PREVIEW IMAGE */}
               {image && (
                 <div className="preview_image">
                   <img src={image} alt="preview" />
-
-                  {/* NÚT XOÁ */}
                   <span
                     className="remove_image"
                     onClick={() => setImage(null)}
@@ -741,44 +740,44 @@ const Home = () => {
                   const file = e.target.files?.[0];
                   if (file) {
                     setSelectedFile(file);
-
                     const reader = new FileReader();
                     reader.onload = () => {
                       setImage(reader.result as string);
                     };
                     reader.readAsDataURL(file);
                   }
-
                   e.target.value = "";
                 }}
               />
 
-              {/* Ô NHẬP TEXT */}
               <button
                 className="btn_image"
                 onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading}
               >
                 <ImageIcon size={20} />
               </button>
+
               <button
                 className={`btn_mic ${isListening ? "listening" : ""}`}
                 onClick={startVoiceRecognition}
+                disabled={isLoading}
               >
                 <Mic size={20} />
               </button>
 
-              {/* INPUT */}
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                onKeyDown={(e) => e.key === "Enter" && !isLoading && sendMessage()}
                 placeholder="Nhập tin nhắn..."
+                disabled={isLoading}
               />
 
-              {/* NÚT GỬI */}
               <button
                 className="btn_send"
                 onClick={() => sendMessage()}
+                disabled={isLoading}
               >
                 ➤
               </button>

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.entity.Review;
+import com.example.demo.model.Review;
 import com.example.demo.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
 

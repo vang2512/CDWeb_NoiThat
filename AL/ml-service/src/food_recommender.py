@@ -205,7 +205,7 @@ class FoodRecommender:
         self.popularity_scores = popularity.set_index('food_id')['total_pop_score'].to_dict()
         return self.popularity_scores
     
-    # ========== 5. HYBRID RECOMMENDATION ==========
+    # ========== HYBRID RECOMMENDATION ==========
     def hybrid_recommend(self, user_id, top_n=10, weights=None, allow_repeat=True):
         """
         Kết hợp các phương pháp:

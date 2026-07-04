@@ -30,6 +30,7 @@ public class OrderDTO {
         this.items = items;
     }
     public OrderDTO(
+            int userId,
             int id,
             BigDecimal totalAmount,
             String paymentMethod,
@@ -42,6 +43,7 @@ public class OrderDTO {
             String customerPhone,
             String shippingAddress
     ) {
+        this.userId = userId;
         this.id = id;
         this.totalAmount = totalAmount;
         this.paymentMethod = paymentMethod;

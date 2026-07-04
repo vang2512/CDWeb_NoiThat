@@ -195,15 +195,15 @@ const Payment = () => {
             <div className="recipient_info">
               <div className="info_row">
                 <span className="info_label">Họ tên:</span>
-                <span className="info_value">{orderData.userData?.fullName}</span>
+                <span className="info_value_payment">{orderData.userData?.fullName}</span>
               </div>
               <div className="info_row">
                 <span className="info_label">Số điện thoại:</span>
-                <span className="info_value">{orderData.userData?.phone}</span>
+                <span className="info_value_payment">{orderData.userData?.phone}</span>
               </div>
               <div className="info_row">
                 <span className="info_label">Địa chỉ:</span>
-                <span className="info_value">{orderData.userData?.address}</span>
+                <span className="info_value_payment">{orderData.userData?.address}</span>
               </div>
               {orderData.formData?.note && (
                 <div className="info_row">
@@ -275,7 +275,7 @@ const Payment = () => {
                   <Banknote size={16} className="summary_icon_total" />
                   Tổng thanh toán
                 </span>
-                <span className="total_price">{orderData.total?.toLocaleString()} đ</span>
+                <span className="total_price_payment">{orderData.total?.toLocaleString()} đ</span>
               </div>
             </div>
 

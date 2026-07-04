@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import com.example.demo.config.LogType;
 import com.example.demo.config.Status;

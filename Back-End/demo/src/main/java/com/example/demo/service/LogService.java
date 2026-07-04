@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Logs;
-import com.example.demo.entity.Users;
+import com.example.demo.model.Logs;
+import com.example.demo.model.Users;
 import com.example.demo.config.LogType;
 import com.example.demo.config.Status;
 import com.example.demo.repository.LogRepository;

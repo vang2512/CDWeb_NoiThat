@@ -15,7 +15,7 @@ import {
     WarningOutlined,
     EyeInvisibleOutlined,
 } from '@ant-design/icons';
-import axios from 'axios';
+import adminApi from "../../../api/Admin/Admin";
 import dayjs from 'dayjs';
 import './ReviewsAdmin.css';
 
@@ -54,9 +54,6 @@ const Reviews = () => {
     const [filterRating, setFilterRating] = useState<string>('all');
     const [filterStatus, setFilterStatus] = useState<string>('all');
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/reviews';
-
     useEffect(() => {
         fetchReviews();
     }, []);
@@ -64,7 +61,8 @@ const Reviews = () => {
     const fetchReviews = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
+            // Sử dụng adminApi thay vì axios trực tiếp
+            const response = await adminApi.getReviews();
             const reviewsData = Array.isArray(response.data) ? response.data : [];
             setReviews(reviewsData);
         } catch (error) {
@@ -77,7 +75,7 @@ const Reviews = () => {
 
     const handleToggleHidden = async (review: Review) => {
         try {
-            await axios.patch(`${API_BASE}/${review.id}/hide`, { isHidden: !review.isHidden });
+            await adminApi.toggleReviewVisibility(review.id, !review.isHidden);
             fetchReviews();
         } catch (error) {
             console.error('Error toggling review visibility:', error);
@@ -88,7 +86,7 @@ const Reviews = () => {
     const handleDelete = async () => {
         if (!selectedReview) return;
         try {
-            await axios.delete(`${API_BASE}/${selectedReview.id}`);
+            await adminApi.deleteReview(selectedReview.id);
             fetchReviews();
             setIsDeleteModalOpen(false);
             setSelectedReview(null);
@@ -517,8 +515,6 @@ const Reviews = () => {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 };

@@ -37,7 +37,7 @@ const Register: React.FC = () => {
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
-    email: "", // Thêm email vào errors
+    email: "", 
     password: "",
     confirmPassword: ""
   });

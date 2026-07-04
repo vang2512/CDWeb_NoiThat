@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.LogDTO;
-import com.example.demo.entity.Logs;
 import com.example.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

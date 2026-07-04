@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Logs;
+import com.example.demo.model.Logs;
 import com.example.demo.config.LogType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

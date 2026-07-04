@@ -1762,3 +1762,73 @@
 .btn_mic:hover {
   background: #e2e8f0;
 }
+/* Typing indicator - 3 dots */
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  background: #f0f0f0;
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+  min-height: 16px;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #888;
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite both;
+}
+
+.typing-indicator span:nth-child(1) { 
+  animation-delay: 0s; 
+  background: #999;
+}
+.typing-indicator span:nth-child(2) { 
+  animation-delay: 0.2s; 
+  background: #aaa;
+}
+.typing-indicator span:nth-child(3) { 
+  animation-delay: 0.4s; 
+  background: #bbb;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% { 
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  30% { 
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+/* Dark mode cho typing indicator */
+.chatbox.dark .typing-indicator {
+  background: #2d2d2d;
+}
+
+.chatbox.dark .typing-indicator span {
+  background: #aaa;
+}
+
+.chatbox.dark .typing-indicator span:nth-child(1) { background: #bbb; }
+.chatbox.dark .typing-indicator span:nth-child(2) { background: #ccc; }
+.chatbox.dark .typing-indicator span:nth-child(3) { background: #ddd; }
+
+/* Loading message */
+.message.bot.loading-message {
+  animation: fadeIn 0.2s ease;
+  display: flex;
+  justify-content: flex-start;
+  margin: 2px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

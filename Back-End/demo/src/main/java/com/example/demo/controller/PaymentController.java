@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.ConfigVNPay;
-import com.example.demo.entity.Order;
+import com.example.demo.model.Order;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.MomoService;
 import com.example.demo.service.VnpayService;

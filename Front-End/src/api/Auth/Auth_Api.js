@@ -7,7 +7,6 @@ const authApi = {
     axiosClient.post(`/users/send-otp-res?email=${email}`),
   verifyOtp: (email, otp) =>
     axiosClient.post(`/users/verify-otp`, { email, otp }),
-
   register: (data) =>
     axiosClient.post(`/users/register`, data),
   login: (data) =>
@@ -18,10 +17,8 @@ const authApi = {
   getAll: () => axiosClient.get("/categories"),
   checkEmail: (email) =>
     axiosClient.get(`/users/check-email?email=${email}`),
-
   resetPassword: (data) =>
     axiosClient.post(`/users/reset-password`, data),
-
   //home
   getAll: () => axiosClient.get("/categories"),
   flashSale: () => axiosClient.get("/foods/flash-sale"),
@@ -33,7 +30,7 @@ const authApi = {
   getHistoryOrderUser: (id) => axiosClient.get(`/orders/history`),
   // authApi.ts
   getDetailOrder: (orderId) => axiosClient.get(`/orders/detail/${orderId}`),
-  cancelOrder: (orderId) =>axiosClient.put(`/orders/cancel/${orderId}`),
+  cancelOrder: (orderId) => axiosClient.put(`/orders/cancel/${orderId}`),
   socialLogin: (data) => axiosClient.post('/users/social-login', data),
   searchProduct: (keyword) =>
     axiosClient.get(`/foods/search`, {
@@ -74,7 +71,6 @@ const authApi = {
   searchImage: (file) => {
     const formData = new FormData();
     formData.append("file", file);
-
     return axiosClient.post("/ai/search-image", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
