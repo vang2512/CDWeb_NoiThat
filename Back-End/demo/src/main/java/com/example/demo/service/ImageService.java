@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.MultipartInputStreamFileResource;
-import com.example.demo.entity.Product;
-import com.example.demo.entity.Product;
+import com.example.demo.model.Product;
 import com.example.demo.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;

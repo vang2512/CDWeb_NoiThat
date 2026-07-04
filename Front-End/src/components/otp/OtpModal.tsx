@@ -18,7 +18,7 @@ const OtpModal: React.FC<OtpModalProps> = ({
   const { t } = useTranslation();
 
   const [otp, setOtp] = useState<string>("");
-  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const [timeLeft, setTimeLeft] = useState<number>(300);
   const [isExpired, setIsExpired] = useState<boolean>(false);
 
   // COUNTDOWN
@@ -35,7 +35,7 @@ const OtpModal: React.FC<OtpModalProps> = ({
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  // 🔐 VERIFY OTP
+  //  VERIFY OTP
   const handleVerify = async () => {
 
     if (isExpired) {
@@ -64,8 +64,12 @@ const OtpModal: React.FC<OtpModalProps> = ({
 
   // format time
   const formatTime = (time: number) => {
-    const seconds = time < 10 ? `0${time}` : time;
-    return `00:${seconds}`;
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (

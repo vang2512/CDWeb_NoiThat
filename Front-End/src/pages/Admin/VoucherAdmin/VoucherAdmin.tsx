@@ -17,7 +17,7 @@ import {
     WarningOutlined,
     FilterOutlined
 } from '@ant-design/icons';
-import axios from 'axios';
+import adminApi from "../../../api/Admin/Admin";
 import dayjs from 'dayjs';
 import './VoucherAdmin.css';
 
@@ -56,9 +56,6 @@ const Vouchers = () => {
         status: 'ACTIVE'
     });
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/vouchers';
-
     useEffect(() => {
         fetchVouchers();
     }, []);
@@ -66,7 +63,8 @@ const Vouchers = () => {
     const fetchVouchers = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
+            // Sử dụng adminApi thay vì axios trực tiếp
+            const response = await adminApi.getVouchers();
             const vouchersData = Array.isArray(response.data) ? response.data : [];
             setVouchers(vouchersData);
         } catch (error) {
@@ -80,7 +78,7 @@ const Vouchers = () => {
     const handleDelete = async () => {
         if (!selectedVoucher) return;
         try {
-            await axios.delete(`${API_BASE}/${selectedVoucher.id}`);
+            await adminApi.deleteVoucher(selectedVoucher.id);
             fetchVouchers();
             setIsDeleteModalOpen(false);
             setSelectedVoucher(null);
@@ -100,9 +98,9 @@ const Vouchers = () => {
             };
 
             if (modalMode === 'add') {
-                await axios.post(API_BASE, submitData);
+                await adminApi.createVoucher(submitData);
             } else {
-                await axios.put(`${API_BASE}/${selectedVoucher?.id}`, submitData);
+                await adminApi.updateVoucher(selectedVoucher?.id, submitData);
             }
             fetchVouchers();
             setIsModalOpen(false);
@@ -137,7 +135,7 @@ const Vouchers = () => {
     const handleToggleStatus = async (voucher: Voucher) => {
         const newStatus = voucher.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
         try {
-            await axios.patch(`${API_BASE}/${voucher.id}/status`, { status: newStatus });
+            await adminApi.toggleVoucherStatus(voucher.id, newStatus);
             fetchVouchers();
         } catch (error) {
             console.error('Error toggling status:', error);
@@ -629,8 +627,6 @@ const Vouchers = () => {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 };

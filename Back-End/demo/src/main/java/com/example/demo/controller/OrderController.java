@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dto.OrderDTO;
-import com.example.demo.entity.*;
+import com.example.demo.model.*;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.LogService;
 import com.example.demo.service.OrderService;
@@ -194,6 +194,7 @@ public class OrderController {
             Authentication authentication
     ) {
         String email = authentication.getName();
+
         Users currentUser = userRepository
                 .findByEmail(email)
                 .orElse(null);
@@ -202,12 +203,18 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Token không hợp lệ");
         }
-        OrderDTO orderDTO =
-                orderService.getOrderDetailById(orderId);
+
+        OrderDTO orderDTO = orderService.getOrderDetailById(orderId);
 
         if (orderDTO == null) {
             return ResponseEntity.notFound().build();
         }
+
+        // ===== THÊM LOG Ở ĐÂY =====
+        System.out.println("Email: " + email);
+        System.out.println("Current User ID: " + currentUser.getUserId());
+        System.out.println("Order User ID: " + orderDTO.getUserId());
+
         if (orderDTO.getUserId() != currentUser.getUserId()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body("Bạn không có quyền xem đơn hàng này");
@@ -215,7 +222,6 @@ public class OrderController {
 
         return ResponseEntity.ok(orderDTO);
     }
-
     // Hủy đơn hàng (user)
     @PutMapping("/cancel/{orderId}")
     public ResponseEntity<?> cancelOrder(

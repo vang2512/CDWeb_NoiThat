@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Users;
+import com.example.demo.model.Users;
 import com.example.demo.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.service.UserService;

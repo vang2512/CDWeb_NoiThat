@@ -13,7 +13,7 @@ import {
     PictureOutlined,
     CheckOutlined
 } from '@ant-design/icons';
-import axios from 'axios';
+import adminApi from "../../../api/Admin/Admin";
 import './CategoriesAdmin.css';
 
 interface Category {
@@ -37,9 +37,6 @@ const Categories = () => {
         img: ''
     });
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/categories';
-
     useEffect(() => {
         fetchCategories();
     }, []);
@@ -47,7 +44,8 @@ const Categories = () => {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
+            // Sử dụng adminApi thay vì axios trực tiếp
+            const response = await adminApi.getCategories();
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
@@ -59,7 +57,7 @@ const Categories = () => {
     const handleDelete = async () => {
         if (!selectedCategory) return;
         try {
-            await axios.delete(`${API_BASE}/${selectedCategory.id}`);
+            await adminApi.deleteCategory(selectedCategory.id);
             fetchCategories();
             setIsDeleteModalOpen(false);
             setSelectedCategory(null);
@@ -72,15 +70,16 @@ const Categories = () => {
     const handleSubmit = async () => {
         try {
             if (modalMode === 'add') {
-                await axios.post(API_BASE, formData);
+                await adminApi.createCategory(formData);
             } else {
-                await axios.put(`${API_BASE}/${selectedCategory?.id}`, formData);
+                await adminApi.updateCategory(selectedCategory?.id, formData);
             }
             fetchCategories();
             setIsModalOpen(false);
             resetForm();
         } catch (error) {
             console.error('Error saving category:', error);
+            alert('Lưu danh mục thất bại!');
         }
     };
 

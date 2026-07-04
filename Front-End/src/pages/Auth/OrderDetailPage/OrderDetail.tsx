@@ -18,15 +18,15 @@ const OrderDetail = () => {
         fetchOrderDetail();
     }, [id]);
 
-const fetchOrderDetail = async () => {
-    try {
-        const res = await authApi.getDetailOrder(Number(id));
-        setOrder(res.data); 
-    } catch (err) {
-        console.error(err);
-        toast.error(t("load_error"));
-    }
-};
+    const fetchOrderDetail = async () => {
+        try {
+            const res = await authApi.getDetailOrder(Number(id));
+            setOrder(res.data);
+        } catch (err) {
+            console.error(err);
+            toast.error(t("load_error"));
+        }
+    };
 
     const getStatusIcon = (status: string) => {
         const s = status?.toLowerCase();

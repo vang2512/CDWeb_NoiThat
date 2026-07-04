@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Order;
+import com.example.demo.model.Order;
 import com.example.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.config.ConfigVNPay;

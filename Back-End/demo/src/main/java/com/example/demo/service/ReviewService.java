@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.SentimentStatisticDTO;
-import com.example.demo.entity.Review;
+import com.example.demo.model.Review;
 import com.example.demo.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 

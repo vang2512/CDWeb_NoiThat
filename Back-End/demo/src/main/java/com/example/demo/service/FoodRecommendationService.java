@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Category;
-import com.example.demo.entity.Product;  // Sửa import này
+import com.example.demo.model.Category;
+import com.example.demo.model.Product;  // Sửa import này
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

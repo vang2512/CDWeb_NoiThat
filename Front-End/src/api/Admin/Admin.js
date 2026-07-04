@@ -65,7 +65,108 @@ const adminApi = {
 
     getCategories() {
         return axiosClient.get("/categories");
-    }
+    },
+    // ================= ORDERS =================
+    getOrders() {
+        return axiosClient.get("/admin/orders");
+    },
+
+    getOrderById(id) {
+        return axiosClient.get(`/admin/orders/${id}`);
+    },
+
+    updateOrderStatus(id, status) {
+        return axiosClient.put(`/admin/orders/${id}/status`, { status });
+    },
+
+    // ================= USERS =================
+    getUsers() {
+        return axiosClient.get("/admin/users");
+    },
+
+    getUserById(id) {
+        return axiosClient.get(`/admin/users/${id}`);
+    },
+    // ================= CATEGORIES =================
+    getCategories() {
+        return axiosClient.get("/admin/categories");
+    },
+
+    getCategoryById(id) {
+        return axiosClient.get(`/admin/categories/${id}`);
+    },
+
+    createCategory(data) {
+        return axiosClient.post("/admin/categories", data);
+    },
+
+    updateCategory(id, data) {
+        return axiosClient.put(`/admin/categories/${id}`, data);
+    },
+
+    deleteCategory(id) {
+        return axiosClient.delete(`/admin/categories/${id}`);
+    },
+    // ================= REVIEWS =================
+    getReviews() {
+        return axiosClient.get("/admin/reviews");
+    },
+
+    getReviewById(id) {
+        return axiosClient.get(`/admin/reviews/${id}`);
+    },
+
+    toggleReviewVisibility(id, isHidden) {
+        return axiosClient.patch(`/admin/reviews/${id}/hide`, { isHidden });
+    },
+
+    deleteReview(id) {
+        return axiosClient.delete(`/admin/reviews/${id}`);
+    },
+    // ================= USERS =================
+    getUsers() {
+        return axiosClient.get("/admin/users");
+    },
+
+    getUserById(id) {
+        return axiosClient.get(`/admin/users/${id}`);
+    },
+
+    createUser(data) {
+        return axiosClient.post("/admin/users", data);
+    },
+
+    updateUser(id, data) {
+        return axiosClient.put(`/admin/users/${id}`, data);
+    },
+
+    deleteUser(id) {
+        return axiosClient.delete(`/admin/users/${id}`);
+    },
+     // ================= VOUCHERS =================
+    getVouchers() {
+        return axiosClient.get("/admin/vouchers");
+    },
+
+    getVoucherById(id) {
+        return axiosClient.get(`/admin/vouchers/${id}`);
+    },
+
+    createVoucher(data) {
+        return axiosClient.post("/admin/vouchers", data);
+    },
+
+    updateVoucher(id, data) {
+        return axiosClient.put(`/admin/vouchers/${id}`, data);
+    },
+
+    deleteVoucher(id) {
+        return axiosClient.delete(`/admin/vouchers/${id}`);
+    },
+
+    toggleVoucherStatus(id, status) {
+        return axiosClient.patch(`/admin/vouchers/${id}/status`, { status });
+    },
 };
 
 export default adminApi;

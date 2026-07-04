@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.VoiceSearchIntent;
-import com.example.demo.entity.Product;
+import com.example.demo.model.Product;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 

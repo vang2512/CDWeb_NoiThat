@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Voucher;
+import com.example.demo.model.Voucher;
 import com.example.demo.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

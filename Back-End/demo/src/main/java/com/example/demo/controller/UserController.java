@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ResetPasswordRequest;
-import com.example.demo.entity.Users;
+import com.example.demo.model.Users;
 import com.example.demo.config.JwtUtil;
 import com.example.demo.config.Status;
 import com.example.demo.service.*;
@@ -214,17 +214,17 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody Users user) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            response.put("message", "Email đã được đăng ký!");
+        Map<String, Object> response = userService.validateRegister(user);
+        if (!(Boolean) response.get("valid")) {
             return ResponseEntity.badRequest().body(response);
         }
         user.setRole(1);
         user.setPassword(userService.hashPassword(user.getPassword()));
+
         Users savedUser = userService.save(user);
-        response.put("message", "Đăng ký thành công!");
+
+        response.clear();
+        response.put("message", "Đăng ký thành công");
         response.put("userId", savedUser.getUserId());
 
         return ResponseEntity.ok(response);

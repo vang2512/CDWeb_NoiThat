@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.TopSentimentProductDTO;
-import com.example.demo.entity.Review;
+import com.example.demo.model.Review;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

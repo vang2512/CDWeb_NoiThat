@@ -44,7 +44,7 @@ const OrderSuccess: React.FC = () => {
 
         <CheckCircle size={70} color="#22c55e" />
 
-        <h2>Thanh toán thành công</h2>
+        <h2>Đặt hàng thành công</h2>
         <p>Đơn hàng của bạn đã được xử lý thành công</p>
 
         <div className="success_info">

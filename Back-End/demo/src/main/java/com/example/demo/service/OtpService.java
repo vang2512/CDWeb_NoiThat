@@ -15,7 +15,8 @@ public class OtpService {
     public String generateOtp(String email) {
         String otp = String.format("%04d", new Random().nextInt(10000));
         otpStorage.put(email, otp);
-        expiryStorage.put(email, LocalDateTime.now().plusMinutes(1));
+        expiryStorage.put(email,
+                LocalDateTime.now().plusMinutes(5));
         return otp;
     }
 

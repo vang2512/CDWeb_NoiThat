@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ReviewResponse;
-import com.example.demo.entity.Product;
-import com.example.demo.entity.Review;
+import com.example.demo.model.Product;
+import com.example.demo.model.Review;
 import com.example.demo.repository.FoodRepository;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.service.FoodRecommendationService;

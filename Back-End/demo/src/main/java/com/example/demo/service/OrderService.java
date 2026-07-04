@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.OrderDTO;
 import com.example.demo.dto.OrderItemDTO;
-import com.example.demo.entity.*;
+import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -240,7 +240,6 @@ public class OrderService {
         }
 
         Order saved = orderRepo.save(order);
-        System.out.println("✅ Created Momo order with ID: " + saved.getId());
         return saved;
     }
 
@@ -266,6 +265,7 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         return new OrderDTO(
+                order.getUserId(),
                 order.getId(),
                 order.getTotalAmount(),
                 order.getPayment() != null ? order.getPayment().getMethod() : "Tiền mặt",
@@ -279,5 +279,4 @@ public class OrderService {
                 order.getShippingAddress()
         );
     }
-
 }

@@ -15,9 +15,10 @@ import {
     CalendarOutlined,
     CrownOutlined
 } from '@ant-design/icons';
-import axios from 'axios';
+import adminApi from "../../../api/Admin/Admin";
 import dayjs from 'dayjs';
 import './UsersAdmin.css';
+
 interface User {
     userId: number;
     email: string;
@@ -48,9 +49,6 @@ const Users = () => {
         role: 1
     });
 
-    // API Calls
-    const API_BASE = 'http://localhost:8080/api/admin/users';
-
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -58,7 +56,8 @@ const Users = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(API_BASE);
+            // Sử dụng adminApi thay vì axios trực tiếp
+            const response = await adminApi.getUsers();
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -70,28 +69,30 @@ const Users = () => {
     const handleDelete = async () => {
         if (!selectedUser) return;
         try {
-            await axios.delete(`${API_BASE}/${selectedUser.userId}`);
+            await adminApi.deleteUser(selectedUser.userId);
             fetchUsers();
             setIsDeleteModalOpen(false);
             setSelectedUser(null);
         } catch (error) {
             console.error('Error deleting user:', error);
+            alert('Xóa người dùng thất bại!');
         }
     };
 
     const handleSubmit = async () => {
         try {
             if (modalMode === 'add') {
-                await axios.post(API_BASE, formData);
+                await adminApi.createUser(formData);
             } else {
                 const { password, ...updateData } = formData;
-                await axios.put(`${API_BASE}/${selectedUser?.userId}`, updateData);
+                await adminApi.updateUser(selectedUser?.userId, updateData);
             }
             fetchUsers();
             setIsModalOpen(false);
             resetForm();
         } catch (error) {
             console.error('Error saving user:', error);
+            alert('Lưu người dùng thất bại!');
         }
     };
 
@@ -505,7 +506,6 @@ const Users = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

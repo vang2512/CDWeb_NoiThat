@@ -3,6 +3,7 @@ package com.example.demo.service;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
@@ -12,7 +13,7 @@ public class EmailService {
 
     private final String senderEmail = "nguyenvanvang2626@gmail.com";
     private final String senderPassword = "npcc gdpd irxl slak";
-
+    @Async
     public void sendOtpEmail(String recipient, String otp) {
 
         Properties props = new Properties();
@@ -67,7 +68,7 @@ public class EmailService {
 
                             // INFO
                             "<tr><td>" +
-                            "<p style='color:#555'>Mã có hiệu lực trong <b>1 phút</b></p>" +
+                            "<p style='color:#555'>Mã có hiệu lực trong <b>5 phút</b></p>" +
                             "<p style='font-size:12px;color:#aaa'>Nếu bạn không yêu cầu, hãy bỏ qua email này</p>" +
                             "</td></tr>" +
 

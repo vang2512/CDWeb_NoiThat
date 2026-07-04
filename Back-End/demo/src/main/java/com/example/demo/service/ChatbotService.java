@@ -1,13 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.LlmIntent;
-import com.example.demo.dto.QueryResult;
-import com.example.demo.entity.Category;
-import com.example.demo.entity.Product;
-import com.example.demo.entity.Order;
+import com.example.demo.model.Category;
+import com.example.demo.model.Product;
+import com.example.demo.model.Order;
 import com.example.demo.repository.FoodRepository;
 import com.example.demo.repository.OrderRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -34,24 +32,20 @@ public class ChatbotService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     // =====================================================
-    // 1. MAIN - XỬ LÝ TIN NHẮN (RAG)
+    // 1. MAIN - XỬ LÝ TIN NHẮN (CHỈ GỌI GEMINI 1 LẦN)
     // =====================================================
     public Map<String, Object> getReply(String message, int userId) {
         Map<String, Object> response = new HashMap<>();
 
-        // BƯỚC 1: KIỂM TRA INTENT - Xác định loại câu hỏi
-        LlmIntent intent = llmService.extractIntent(message);
+        LlmIntent intent = llmService.processUserMessage(message);
 
-        // BƯỚC 2: XỬ LÝ ĐƠN HÀNG
+        // ===== XỬ LÝ ĐƠN HÀNG =====
         if (Boolean.TRUE.equals(intent.getOrderQuery())) {
             return handleOrderQuery(message, userId, intent);
         }
 
-        // BƯỚC 3: KIỂM TRA CÂU HỎI CÓ LIÊN QUAN NỘI THẤT KHÔNG
+        // ===== KIỂM TRA SẢN PHẨM =====
         if (!Boolean.TRUE.equals(intent.getProductQuery())) {
             // Không liên quan nội thất → trả lời hướng dẫn
             response.put("reply", intent.getReply() != null
@@ -60,37 +54,41 @@ public class ChatbotService {
             return response;
         }
 
-        // BƯỚC 4: LIÊN QUAN NỘI THẤT → SINH SQL VÀ TRUY XUẤT
+        // ===== XỬ LÝ SẢN PHẨM VỚI SQL TỪ GEMINI =====
         try {
-            QueryResult queryResult = llmService.generateQuery(message);
+            String sql = intent.getSql();
 
-            if (queryResult.getSql() != null && !queryResult.getSql().isEmpty()
-                    && !queryResult.getSql().contains("1=0")) {
+            if (sql != null && !sql.isEmpty() && !sql.contains("1=0")) {
 
-                if (!isSafeSql(queryResult.getSql())) {
+                if (!isSafeSql(sql)) {
                     response.put("reply", "Xin lỗi, tôi không thể thực hiện truy vấn này.");
                     return response;
                 }
 
-                List<Product> products = executeSqlQuery(queryResult.getSql());
+                List<Product> products = executeSqlQuery(sql);
 
                 if (!products.isEmpty()) {
-                    response.put("reply", queryResult.getReplyIntro());
+                    // Dùng replyIntro từ Gemini
+                    response.put("reply", intent.getReplyIntro() != null
+                            ? intent.getReplyIntro()
+                            : "Dưới đây là các sản phẩm phù hợp:");
                     response.put("products", convertProducts(products));
 
-                    String summary = llmService.summarizeProducts(
-                            message,
-                            products,
-                            queryResult.getReplyIntro()
-                    );
-                    response.put("summary", summary);
+                    // Dùng summary đã được Gemini tạo sẵn
+                    if (intent.getSummary() != null && !intent.getSummary().isEmpty()) {
+                        response.put("summary", intent.getSummary());
+                    } else {
+                        // Fallback: tự tạo summary đơn giản
+                        response.put("summary", String.format("Tìm thấy %d sản phẩm phù hợp.", products.size()));
+                    }
 
                 } else {
-                    // Không tìm thấy sản phẩm → trả lời tự nhiên
                     response.put("reply", "Rất tiếc, hiện tại chúng mình chưa có sản phẩm phù hợp với yêu cầu '" + message + "'. Bạn có thể tham khảo các sản phẩm nội thất khác như bàn, ghế, sofa, tủ nhé!");
                 }
             } else {
-                response.put("reply", queryResult.getReplyIntro());
+                response.put("reply", intent.getReplyIntro() != null
+                        ? intent.getReplyIntro()
+                        : "Xin lỗi, tôi chưa tìm thấy sản phẩm phù hợp.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +99,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 2. XỬ LÝ ĐƠN HÀNG
+    // 2. XỬ LÝ ĐƠN HÀNG (GIỮ NGUYÊN)
     // =====================================================
     private Map<String, Object> handleOrderQuery(String message, int userId, LlmIntent intent) {
         Map<String, Object> response = new HashMap<>();
@@ -112,7 +110,7 @@ public class ChatbotService {
                 List<Order> orders = orderRepo.findByUserIdAndStatus(userId, "Đang giao");
                 response.put("reply", orders.isEmpty()
                         ? "Bạn không có đơn hàng nào đang giao."
-                        : intent.getReply());
+                        : intent.getReply() != null ? intent.getReply() : "Đây là các đơn hàng đang giao:");
                 response.put("orders", convertOrders(orders));
                 return response;
             }
@@ -122,7 +120,7 @@ public class ChatbotService {
                 List<Order> orders = orderRepo.findByUserIdAndStatus(userId, "Đang xử lý");
                 response.put("reply", orders.isEmpty()
                         ? "Bạn không có đơn hàng nào đang xử lý."
-                        : intent.getReply());
+                        : intent.getReply() != null ? intent.getReply() : "Đây là các đơn hàng đang xử lý:");
                 response.put("orders", convertOrders(orders));
                 return response;
             }
@@ -132,7 +130,7 @@ public class ChatbotService {
                 List<Order> orders = orderRepo.findByUserIdAndStatus(userId, "Đã giao");
                 response.put("reply", orders.isEmpty()
                         ? "Bạn chưa có đơn hàng nào đã giao."
-                        : intent.getReply());
+                        : intent.getReply() != null ? intent.getReply() : "Đây là các đơn hàng đã giao:");
                 response.put("orders", convertOrders(orders));
                 return response;
             }
@@ -144,7 +142,7 @@ public class ChatbotService {
                     List<Order> orders = orderRepo.findByUserIdAndDate(userId, date);
                     response.put("reply", orders.isEmpty()
                             ? "Không tìm thấy đơn hàng vào ngày " + intent.getDate()
-                            : intent.getReply());
+                            : intent.getReply() != null ? intent.getReply() : "Đây là đơn hàng ngày " + intent.getDate());
                     response.put("orders", convertOrders(orders));
                     return response;
                 } catch (Exception e) {
@@ -166,25 +164,10 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 3. KIỂM TRA ĐƠN HÀNG
-    // =====================================================
-    private boolean isOrderQuery(String message) {
-        String lowerMsg = message.toLowerCase();
-        return lowerMsg.contains("đơn hàng") ||
-                lowerMsg.contains("đặt hàng") ||
-                lowerMsg.contains("giao hàng") ||
-                lowerMsg.contains("vận chuyển") ||
-                lowerMsg.contains("đang giao") ||
-                lowerMsg.contains("đã nhận") ||
-                lowerMsg.contains("check đơn");
-    }
-
-    // =====================================================
-    // 4. VALIDATE SQL AN TOÀN
+    // 3. VALIDATE SQL AN TOÀN
     // =====================================================
     private boolean isSafeSql(String sql) {
         String sqlLower = sql.toLowerCase();
-
         if (!sqlLower.trim().startsWith("select")) {
             return false;
         }
@@ -203,7 +186,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 5. THỰC THI SQL
+    // 4. THỰC THI SQL
     // =====================================================
     private List<Product> executeSqlQuery(String sql) {
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
@@ -230,7 +213,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 6. CONVERT PRODUCT -> MAP
+    // 5. CONVERT PRODUCT -> MAP
     // =====================================================
     private List<Map<String, Object>> convertProducts(List<Product> products) {
         List<Map<String, Object>> result = new ArrayList<>();
@@ -252,7 +235,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 7. CONVERT ORDER -> MAP
+    // 6. CONVERT ORDER -> MAP
     // =====================================================
     private List<Map<String, Object>> convertOrders(List<Order> orders) {
         List<Map<String, Object>> result = new ArrayList<>();
@@ -269,7 +252,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 8. PARSE NGÀY
+    // 7. PARSE NGÀY
     // =====================================================
     private LocalDate parseFlexibleDate(String input) {
         List<String> patterns = List.of(
@@ -288,7 +271,7 @@ public class ChatbotService {
     }
 
     // =====================================================
-    // 9. HELPER
+    // 8. HELPER
     // =====================================================
     private boolean hasColumn(ResultSet rs, String columnName) {
         try {
