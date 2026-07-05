@@ -69,17 +69,22 @@ const Categories = () => {
 
     const handleSubmit = async () => {
         try {
-            if (modalMode === 'add') {
-                await adminApi.createCategory(formData);
+            const data = new FormData();
+
+            data.append("categoryName", formData.categoryName);
+            data.append("imgUrl", formData.img);
+
+            if (modalMode === "add") {
+                await adminApi.createCategory(data);
             } else {
-                await adminApi.updateCategory(selectedCategory?.id, formData);
+                await adminApi.updateCategory(selectedCategory!.id, data);
             }
+
             fetchCategories();
             setIsModalOpen(false);
             resetForm();
         } catch (error) {
-            console.error('Error saving category:', error);
-            alert('Lưu danh mục thất bại!');
+            console.error(error);
         }
     };
 
