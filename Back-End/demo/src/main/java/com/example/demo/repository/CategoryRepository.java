@@ -14,4 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     // Tìm danh mục theo tên (không phân biệt hoa thường, chưa xóa)
     List<Category> findByCategoryNameContainingIgnoreCaseAndIsDeletedFalse(String categoryName);
+
+    List<Category> findAll();
 }
