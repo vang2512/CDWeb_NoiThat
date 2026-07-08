@@ -135,10 +135,10 @@ const adminApi = {
         return axiosClient.get(`/admin/reviews/${id}`);
     },
 
-    toggleReviewVisibility(id, isHidden) {
-        return axiosClient.patch(`/admin/reviews/${id}/hide`, { isHidden });
-    },
 
+    toggleReviewVisibility(id) {
+        return axiosClient.put(`/admin/reviews/${id}/toggle`);
+    },
     deleteReview(id) {
         return axiosClient.delete(`/admin/reviews/${id}`);
     },

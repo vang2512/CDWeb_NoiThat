@@ -75,7 +75,7 @@ const Reviews = () => {
 
     const handleToggleHidden = async (review: Review) => {
         try {
-            await adminApi.toggleReviewVisibility(review.id, !review.isHidden);
+            await adminApi.toggleReviewVisibility(review.id);
             fetchReviews();
         } catch (error) {
             console.error('Error toggling review visibility:', error);
