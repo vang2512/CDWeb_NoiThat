@@ -133,13 +133,26 @@ const Vouchers = () => {
     };
 
     const handleToggleStatus = async (voucher: Voucher) => {
-        const newStatus = voucher.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+
+        const newStatus =
+            voucher.status === "ACTIVE"
+                ? "INACTIVE"
+                : "ACTIVE";
+
         try {
-            await adminApi.toggleVoucherStatus(voucher.id, newStatus);
+
+            await adminApi.updateVoucher(
+                voucher.id,
+                {
+                    ...voucher,
+                    status: newStatus
+                }
+            );
+
             fetchVouchers();
+
         } catch (error) {
-            console.error('Error toggling status:', error);
-            alert('Cập nhật trạng thái thất bại!');
+            console.error(error);
         }
     };
 

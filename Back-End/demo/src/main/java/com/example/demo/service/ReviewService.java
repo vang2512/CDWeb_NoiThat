@@ -40,4 +40,15 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    public boolean deleteReview(Integer id) {
+
+        if (!reviewRepository.existsById(id)) {
+            return false;
+        }
+
+        reviewRepository.deleteById(id);
+
+        return true;
+    }
+
 }

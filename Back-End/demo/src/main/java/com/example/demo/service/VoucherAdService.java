@@ -51,6 +51,9 @@ public class VoucherAdService {
         existingVoucher.setStartDate(updatedVoucher.getStartDate());
         existingVoucher.setEndDate(updatedVoucher.getEndDate());
 
+        // THÊM DÒNG NÀY
+        existingVoucher.setStatus(updatedVoucher.getStatus());
+
         return voucherRepository.save(existingVoucher);
     }
 

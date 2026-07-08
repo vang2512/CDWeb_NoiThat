@@ -105,4 +105,9 @@ public class CategoryAdController {
         long count = categoryRepository.findByIsDeletedFalse().size();
         return ResponseEntity.ok(count);
     }
+
+    @GetMapping("/all")
+    public List<Category> getAll() {
+        return categoryRepository.findAll();
+    }
 }

@@ -32,5 +32,16 @@ public class ReviewAdminController {
                 "message", "Toggle review visibility successfully"
         );
     }
+
+    @DeleteMapping("/{id}")
+    public Map<String, Object> deleteReview(@PathVariable Integer id) {
+
+        boolean success = reviewService.deleteReview(id);
+
+        return Map.of(
+                "success", success,
+                "message", "Delete review successfully"
+        );
+    }
 }
 

@@ -91,17 +91,36 @@ const adminApi = {
     getCategories() {
         return axiosClient.get("/admin/categories");
     },
+    getCategories() {
+        return axiosClient.get("/admin/categories/all");
+    },
 
     getCategoryById(id) {
         return axiosClient.get(`/admin/categories/${id}`);
     },
 
     createCategory(data) {
-        return axiosClient.post("/admin/categories", data);
+        return axiosClient.post(
+            "/admin/categories",
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        );
     },
 
     updateCategory(id, data) {
-        return axiosClient.put(`/admin/categories/${id}`, data);
+        return axiosClient.put(
+            `/admin/categories/${id}`,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        );
     },
 
     deleteCategory(id) {
@@ -116,10 +135,10 @@ const adminApi = {
         return axiosClient.get(`/admin/reviews/${id}`);
     },
 
-    toggleReviewVisibility(id, isHidden) {
-        return axiosClient.patch(`/admin/reviews/${id}/hide`, { isHidden });
-    },
 
+    toggleReviewVisibility(id) {
+        return axiosClient.put(`/admin/reviews/${id}/toggle`);
+    },
     deleteReview(id) {
         return axiosClient.delete(`/admin/reviews/${id}`);
     },
@@ -143,7 +162,7 @@ const adminApi = {
     deleteUser(id) {
         return axiosClient.delete(`/admin/users/${id}`);
     },
-     // ================= VOUCHERS =================
+    // ================= VOUCHERS =================
     getVouchers() {
         return axiosClient.get("/admin/vouchers");
     },
