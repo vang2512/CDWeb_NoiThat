@@ -1,0 +1,48 @@
+[33m5c0bf57[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mDvang[m[33m)[m fix commit
+[33m44546ce[m chỉnh sửa lại một số lớp bên be, fe, ai
+[33m3b5bc77[m[33m ([m[1;31morigin/Dvang[m[33m)[m Thêm xử lý cập nhật, xóa sản phẩm trang quản lý sản phẩm admin
+[33m99e4117[m Thêm chức năng xem thông tin chi tiết, thêm sản phẩm trang quản lý sản phẩm admin
+[33m57c06d6[m Merge pull request #16 from vang2512/Dvang
+[33m3c47bb4[m Cải thiện phần xử lý cho phần log, và sửa lại ui cho chatbot
+[33m0260a51[m Triển khai cơ bản trang quản lý log
+[33m7bc0c48[m Merge pull request #15 from vang2512/tuong
+[33m9edd471[m sua loi
+[33mfe4b84f[m admin
+[33m638fa17[m Merge pull request #14 from vang2512/Dvang
+[33m7d32a24[m Viết api cho trang tổng quan thống kê, và gọi qua bên frontend
+[33m13e366f[m Merge pull request #13 from vang2512/Dvang
+[33m58cad4b[m css responsive cho trang giỏ hàng, thông tin đơn hàng, thanh toán, địa chỉ cửa hàng, profile
+[33m56e49e7[m Merge pull request #12 from vang2512/tuong
+[33m70d783e[m quan li danh mục
+[33m3b009ce[m chinh sua giao dien
+[33mf122831[m quan li nguoi dung
+[33m056fcd0[m quan li san pham
+[33m44460a3[m Thêm css responsive cho các trang như đăng nhập, đăng ký, header, footer, trang chủ, chi tiết sản phẩm, đánh giá, chi tiết đơn hàng
+[33m547340d[m Merge pull request #11 from vang2512/Dvang
+[33mc6b80d7[m update fe, be, ai
+[33ma5402b8[m Merge pull request #10 from vang2512/Dvang
+[33m40d02ae[m thêm phần kiểm tra trước khi login và register
+[33ma627017[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #9 from vang2512/tuong
+[33m37ca092[m[33m ([m[1;31morigin/tuong[m[33m)[m Dashboard fronend
+[33mb2605d6[m chinh sua giao diẹn admin
+[33mc19aa46[m adminlayout
+[33m1996b01[m Merge pull request #8 from vang2512/Dangg
+[33madbaaba[m[33m ([m[1;31morigin/Dangg[m[33m)[m Commit
+[33md35f969[m Merge pull request #6 from vang2512/Vang
+[33m8176070[m Tạo các package như entity, controller, dto, service, repository, và triển khai các entity chi tiết cho dự án
+[33m9ba49c2[m Update README.md
+[33mabe8a1a[m Merge pull request #5 from vang2512/Vang
+[33m6502dce[m Khởi tạo dự án cho frontend và backend
+[33m74a9393[m Merge pull request #4 from vang2512/Vang
+[33m1f189e1[m update folder
+[33m3f91596[m Merge pull request #3 from vang2512/Vang
+[33ma0e3978[m fix: remove venv and add gitignore
+[33m92f2ebf[m add folder AL
+[33m4bf8439[m Merge pull request #2 from vang2512/Vang
+[33mc550a02[m add folder AL
+[33me1c7c07[m test commit
+[33md0abc2d[m Merge pull request #1 from vang2512/Vang
+[33m407e5e3[m update be
+[33m6d0e38a[m add full FE project
+[33m4ce9239[m update commit
+[33m20b331c[m first commit
